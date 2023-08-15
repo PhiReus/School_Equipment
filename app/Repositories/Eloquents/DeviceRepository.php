@@ -23,8 +23,5 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
         + Khai báo paginate() ở PostRepositoryInterface
         + Triển khai lại ở PostRepository
     */
-    public function paginate($request){
-        $result = $this->model->paginate();
-        return $result;
-    }
+    
 }

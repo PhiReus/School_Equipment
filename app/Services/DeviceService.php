@@ -15,8 +15,12 @@ class DeviceService implements DeviceServiceInterface
         $this->deviceRepository = $deviceRepository;
     }
 
-    /* Triển khai các phương thức trong PostServiceInterface */
-    public function all($request){
+    /* Triển khai các phương thức trong DeviceServiceInterface */
+    public function paginate($limit,$request=[])
+    {
+        return $this->groupRepository->paginate($request);
+    }
+    public function all($request=[]){
         return $this->deviceRepository->all($request);
     }
     public function find($id){
