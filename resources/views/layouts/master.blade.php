@@ -15,34 +15,20 @@
     <link rel="canonical" href="https://uselooper.com">
     <meta property="og:url" content="https://uselooper.com">
     <meta property="og:site_name" content="Looper - Bootstrap 4 Admin Theme">
-    <script type="application/ld+json">
-      {
-        "name": "Looper - Bootstrap 4 Admin Theme",
-        "description": "Responsive admin theme build on top of Bootstrap 4",
-        "author":
-        {
-          "@type": "Person",
-          "name": "Beni Arisandi"
-        },
-        "@type": "WebSite",
-        "url": "",
-        "headline": "Starter Template",
-        "@context": "http://schema.org"
-      }
-    </script><!-- End SEO tag -->
+   
     <!-- FAVICONS -->
-    <link rel="apple-touch-icon" sizes="144x144" href="assets/apple-touch-icon.png">
-    <link rel="shortcut icon" href="assets/favicon.ico">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{asset('asset/apple-touch-icon.png')}}">
+    <link rel="shortcut icon" href="{{asset('asset/favicon.ico')}}">
     <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
     <!-- GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
     <!-- BEGIN PLUGINS STYLES -->
-    <link rel="stylesheet" href="assets/vendor/open-iconic/font/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"><!-- END PLUGINS STYLES -->
+    <link rel="stylesheet" href="{{asset('asset/vendor/open-iconic/font/css/open-iconic-bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('asset/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}"><!-- END PLUGINS STYLES -->
     <!-- BEGIN THEME STYLES -->
-    <link rel="stylesheet" href="assets/stylesheets/theme.min.css" data-skin="default">
-    <link rel="stylesheet" href="assets/stylesheets/theme-dark.min.css" data-skin="dark">
-    <link rel="stylesheet" href="assets/stylesheets/custom.css">
+    <link rel="stylesheet" href="{{asset('asset/stylesheets/theme.min.css')}}">
+    <link rel="stylesheet" href="{{asset('asset/stylesheets/theme-dark.min.css')}}">
+    <link rel="stylesheet" href="{{asset('asset/stylesheets/custom.css')}}">
     <script>
       var skin = localStorage.getItem('skin') || 'default';
       var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
@@ -749,26 +735,15 @@
       </main><!-- /.app-main -->
     </div><!-- /.app -->
     <!-- BEGIN BASE JS -->
-    <script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/popper.js/umd/popper.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script> <!-- END BASE JS -->
+    <script src="{{asset('asset/vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('asset/vendor/popper.js/umd/popper.min.js')}}"></script>
+    <script src="{{asset('asset/vendor/bootstrap/js/bootstrap.min.js')}}"></script> <!-- END BASE JS -->
     <!-- BEGIN PLUGINS JS -->
-    <script src="assets/vendor/pace-progress/pace.min.js"></script>
-    <script src="assets/vendor/stacked-menu/js/stacked-menu.min.js"></script>
-    <script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script> <!-- END PLUGINS JS -->
+    <script src="{{asset('asset/vendor/pace-progress/pace.min.js')}}"></script>
+    <script src="{{asset('asset/vendor/stacked-menu/js/stacked-menu.min.js')}}"></script>
+    <script src="{{asset('asset/vendor/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script> <!-- END PLUGINS JS -->
     <!-- BEGIN THEME JS -->
-    <script src="assets/javascript/theme.min.js"></script> <!-- END THEME JS -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116692175-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
+    <script src="{{asset('asset/javascript/theme.min.js')}}"></script> <!-- END THEME JS -->
 
-      function gtag()
-      {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'UA-116692175-1');
-    </script>
   </body>
 </html>
