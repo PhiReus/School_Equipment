@@ -16,4 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('layouts/master');
 });
+<<<<<<< HEAD
 Route::resource('devices',\App\Http\Controllers\DeviceController::class);
+=======
+Route::resource('groups',\App\Http\Controllers\GroupController::class);
+>>>>>>> d4bcefefcc9cfda8785ce3308fe9e215aa10e321
