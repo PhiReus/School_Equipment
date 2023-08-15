@@ -39,6 +39,7 @@
         // add loading class to html immediately
         document.querySelector('html').classList.add('loading');
     </script><!-- END THEME STYLES -->
+     @yield('header_scripts')
 </head>
 
 <body>
@@ -80,7 +81,7 @@
     <script src="{{ asset('asset/vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script> <!-- END PLUGINS JS -->
     <!-- BEGIN THEME JS -->
     <script src="{{ asset('asset/javascript/theme.min.js') }}"></script> <!-- END THEME JS -->
-
+    @yield('footer_scripts')
 </body>
 
 </html>
