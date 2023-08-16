@@ -10,14 +10,15 @@ class RoomRepository extends EloquentRepository implements RoomRepositoryInterfa
     {
         return Room::class;
     }
-
-    public function search($request)
+    public function paginate($limit,$request=null)
     {
-        $search = $request->input('search');
-        if (!$search) {
-            return Room::get();
+        $query = $this->model->query(true);
+        if($request->search){
+            $query->where('name', 'LIKE', '%' . $request->search . '%');
         }
-            return Room::where('name', 'LIKE', '%' . $search . '%')->paginate(2);       
+        $query->orderBy('id','desc');
+        $items = $query->paginate($limit);
+        return $items;
     }
 
     public function trash()
