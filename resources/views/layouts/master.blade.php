@@ -60,11 +60,9 @@
             <div class="wrapper">
                 <!-- .page -->
                 <div class="page">
-
-
-                   @yield('content')
-
-
+                    <div class="page-inner">
+                        @yield('content')
+                    </div>
                 </div><!-- /.page -->
             </div><!-- /.wrapper -->
         </main><!-- /.app-main -->
