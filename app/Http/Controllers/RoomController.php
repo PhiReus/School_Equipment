@@ -22,7 +22,7 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
-        $rooms = $this->postSevice->paginate(2);
+        $rooms = $this->postSevice->paginate(20,$request);
         return view('rooms.index',compact('rooms'));
     }
 
@@ -86,12 +86,6 @@ class RoomController extends Controller
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
         
-    }
-
-    public function search(Request $request){
-        $rooms = $this->postSevice->search($request);
-        // dd($rooms);
-        return view('rooms.index', compact('rooms'));
     }
     public function trash(){
         $rooms = $this->postSevice->trash();

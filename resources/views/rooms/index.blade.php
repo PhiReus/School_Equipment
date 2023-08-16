@@ -40,8 +40,8 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-                        <form action="{{ route('rooms.search') }}" method="GET" id="form-search">
-                            @csrf
+                        <form action="{{ route('rooms.index') }}" method="GET" id="form-search">
+                    
                             <div class="row">
                                 <div class="col">
                                     <input name="search" class="form-control" type="text"

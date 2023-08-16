@@ -15,9 +15,9 @@ class RoomService implements RoomServiceInterface {
         return $this->roomRepository = $roomRepository;
     }
      /* Triển khai các phương thức trong GroupServiceInterface */
-    public function paginate($limit,$request=[])
+    public function paginate($limit,$request=null)
     {
-        return $this->roomRepository->paginate($limit);
+        return $this->roomRepository->paginate($limit,$request);
     }
     public function all($request=[])
     {
