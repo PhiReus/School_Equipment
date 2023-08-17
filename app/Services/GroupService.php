@@ -39,7 +39,6 @@ class GroupService implements GroupServiceInterface {
     {
         return $this->groupRepository->destroy($id);
     }
-
     public function forceDelete($id)
     {
         return $this->groupRepository->forceDelete($id);

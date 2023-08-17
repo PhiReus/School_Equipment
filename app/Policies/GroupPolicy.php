@@ -13,7 +13,7 @@ class GroupPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->hasPermission('Group_viewAny');
     }
 
     /**
@@ -21,7 +21,7 @@ class GroupPolicy
      */
     public function view(User $user, Group $group)
     {
-        //
+        return $user->hasPermission('Group_view');
     }
 
     /**
@@ -29,7 +29,7 @@ class GroupPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasPermission('Group_create');
     }
 
     /**
@@ -37,7 +37,7 @@ class GroupPolicy
      */
     public function update(User $user, Group $group)
     {
-        //
+        return $user->hasPermission('Group_update');
     }
 
     /**
@@ -45,7 +45,7 @@ class GroupPolicy
      */
     public function delete(User $user, Group $group)
     {
-        //
+        return $user->hasPermission('Group_delete');
     }
 
     /**

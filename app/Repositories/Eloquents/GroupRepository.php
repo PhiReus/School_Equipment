@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories\Eloquents;
 
 use App\Models\Group;
@@ -6,53 +7,31 @@ use App\Models\Role;
 use App\Repositories\Interfaces\GroupRepositoryInterface;
 use App\Repositories\Eloquents\EloquentRepository;
 
-class GroupRepository extends EloquentRepository implements GroupRepositoryInterface {
+class GroupRepository extends EloquentRepository implements GroupRepositoryInterface
+{
+    protected $roleRepository;
     public function getModel()
     {
         return Group::class;
     }
-
-    public function restore($id)
-    {
-        
+    public function __construct(RoleRepository $roleRepository) {
+        parent::__construct();
+        $this->roleRepository = $roleRepository;
     }
 
-    public function forceDelete($id)
+    public function all($request = null)
     {
-        $group = $this->model->withTrashed()->findOrFail($id);
-        if ($group) {
-            $group->roles()->detach(); // Xóa quan hệ với các bản ghi khác
-            return $group->delete(); // Thực hiện xóa cứng
+        $query = $this->model->select('*');
+        if ($request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%');
         }
-        return false;
-    }
-    public function detail($id)
-    {
-        $group = Group::find($id);
-        $userRoles = $group->roles->pluck('id','name')->toArray();
-        $roles = Role::all()->toArray();
-        $group_name = [];
-
-        //laays ten nhom quyen
-        foreach($roles as $role) {
-            $group_names[$role['group_name']][] = $role;
-        }
-        $params =
-            [
-                'group' => $group,
-                'useRoles' => $userRoles,
-                'roles' => $roles,
-                'group_names' => $group_names
-            ];
-            return $params;
-    }
-    public function save_roles($id,$request)
-    {
-        $group = Group::find($id);
-        $group->roles()->detach();
-        $group->roles()->attach($request->roles);
-        return true;
+        return $query->orderBy('id', 'DESC')->paginate(10);
     }
 
+    public function update($id, $data)
+    {
+        return $this->find($id)->update($data);
+    }
+    
 
 }
