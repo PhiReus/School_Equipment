@@ -16,10 +16,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('layouts/master');
 });
-Route::get('/devices/trash', [DeviceController::class, 'trash'])->name('devices.trash');
-Route::get('/restore/{id}', [DeviceController::class, 'restore'])->name('devices.restore');
-Route::delete('/forceDelete/{id}', [DeviceController::class, 'forceDelete'])->name('devices.forceDelete');
-Route::get('/search', [DeviceController::class, 'search'])->name('devices.search');
+
+//Device
+Route::prefix('devices')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\DeviceController::class, 'trash'])->name('devices.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\DeviceController::class, 'restore'])->name('devices.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceController::class, 'force_destroy'])->name('devices.forceDelete');
+});
 Route::resource('devices',\App\Http\Controllers\DeviceController::class);
 
+// Room
+Route::prefix('rooms')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\RoomController::class, 'trash'])->name('rooms.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\RoomController::class, 'restore'])->name('rooms.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\RoomController::class, 'force_destroy'])->name('rooms.force_destroy');
+});
+Route::resource('rooms',\App\Http\Controllers\RoomController::class);
+
+// Group
 Route::resource('groups',\App\Http\Controllers\GroupController::class);
