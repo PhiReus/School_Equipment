@@ -40,4 +40,5 @@ abstract class EloquentRepository implements RepositoryInterface {
     {
         return $this->model->findOrFail($id)->delete();
     }
+    
 }

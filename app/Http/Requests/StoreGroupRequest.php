@@ -11,7 +11,7 @@ class StoreGroupRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class StoreGroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|unique:groups',
+
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Bạn không được để trống !',
         ];
     }
 }

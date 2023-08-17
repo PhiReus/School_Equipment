@@ -40,16 +40,4 @@ class GroupService implements GroupServiceInterface {
         return $this->groupRepository->destroy($id);
     }
 
-    public function forceDelete($id)
-    {
-        return $this->groupRepository->forceDelete($id);
-    }
-    public function restore($id)
-    {
-        return $this->groupRepository->restore($id);
-    }
-    public function trash($request=[])
-    {
-        
-    }
 }
