@@ -24,6 +24,11 @@ use App\Repositories\Interfaces\RoomRepositoryInterface;
 use App\Services\RoomService;
 use App\Services\Interfaces\RoomServiceInterface;
 
+// Borrow
+use App\Services\Interfaces\BorrowServiceInterface;
+use App\Services\BorrowService;
+use App\Repositories\Interfaces\BorrowRepositoryInterface;
+use App\Repositories\Eloquents\BorrowRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -47,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(RoomServiceInterface::class, RoomService::class);
         $this->app->singleton(RoomRepositoryInterface::class, RoomRepository::class);
 
+        // Borrows
+        $this->app->singleton(BorrowServiceInterface::class, BorrowService::class);
+        $this->app->singleton(BorrowRepositoryInterface::class, BorrowRepository::class);
     }
 
     /**

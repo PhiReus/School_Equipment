@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('layouts/master');
 });
 
+
+
+
+
 //Device
 Route::prefix('devices')->group(function () {
     Route::get('/trash', [\App\Http\Controllers\DeviceController::class, 'trash'])->name('devices.trash');
@@ -35,3 +39,13 @@ Route::resource('rooms',\App\Http\Controllers\RoomController::class);
 
 // Group
 Route::resource('groups',\App\Http\Controllers\GroupController::class);
+
+
+
+// Borrow 
+Route::prefix('borrows')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\BorrowController::class, 'trash'])->name('borrows.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowController::class, 'force_destroy'])->name('borrows.forceDelete');
+});
+Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
