@@ -4,19 +4,30 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+
 // Group
 use App\Repositories\Eloquents\GroupRepository;
 use App\Repositories\Interfaces\GroupRepositoryInterface;
 use App\Services\GroupService;
 use App\Services\Interfaces\GroupServiceInterface;
 
+//User
+use App\Repositories\Eloquents\UserRepository;
+use App\Services\Interfaces\UserServiceInterface;
+use App\Services\UserService;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+
+//Role
+use App\Repositories\Eloquents\RoleRepository;
+use App\Repositories\Interfaces\RoleRepositoryInterface;
+use App\Services\RoleService;
+use App\Services\Interfaces\RoleServiceInterface;
 
 // Device
 use App\Services\Interfaces\DeviceServiceInterface;
 use App\Services\DeviceService;
 use App\Repositories\Interfaces\DeviceRepositoryInterface;
 use App\Repositories\Eloquents\DeviceRepository;
-
 
 // Room
 use App\Repositories\Eloquents\RoomRepository;
@@ -34,7 +45,15 @@ class AppServiceProvider extends ServiceProvider
      */ 
     public function register()
     {
-
+       
+        //User
+        $this->app->singleton(UserServiceInterface::class, UserService::class);
+        $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
+      
+        //Role
+        $this->app->singleton(RoleServiceInterface::class, RoleService::class);
+        $this->app->singleton(RoleRepositoryInterface::class, RoleRepository::class);
+      
         // Device
         $this->app->singleton(DeviceServiceInterface::class, DeviceService::class);
         $this->app->singleton(DeviceRepositoryInterface::class, DeviceRepository::class);
