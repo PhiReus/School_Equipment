@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\Interfaces\DeviceServiceInterface;
-
+use App\Http\Requests\StoreDeviceRequest;
+use App\Http\Requests\UpdateDeviceRequest;
 class DeviceController extends Controller
 {
     protected $deviceService;
@@ -18,7 +19,7 @@ class DeviceController extends Controller
      */
     public function index(Request $request)
     {
-        $items = $this->deviceService->all($request);
+        $items = $this->deviceService->paginate(2,$request);
 
         return view('devices.index', compact('items'));
     }
@@ -34,33 +35,20 @@ class DeviceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-{
-    try {
-        $data = [
-            'name' => $request->input('name'),
-            'quantity' => $request->input('quantity'),
-        ];
+    public function store(StoreDeviceRequest $request)
+    {
 
-        // Kiểm tra xem người dùng có tải lên hình ảnh không
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('images', 'public');
-        }
-
+        $data = $request->except(['_token', '_method']);
         $this->deviceService->store($data);
-
-        return redirect()->route('devices.index')->with('success', 'Tạo thiết bị thành công');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo thiết bị');
+        return redirect()->route('devices.index')->with('success', 'Thêm thiết bị thành công');
     }
-}
-
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $item = $this->deviceService->find($id);
+        return view('devices.show', compact('item'));
     }
 
     /**
@@ -69,38 +57,59 @@ class DeviceController extends Controller
     public function edit(string $id)
     {
         $item = $this->deviceService->find($id);
-
+        // dd($item);
         return view('devices.edit', compact('item'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateDeviceRequest $request, string $id)
     {
-        try {
-            $data = [
-                'name' => $request->input('name'),
-                'quantity' => $request->input('quantity'),
-            ];
-
-            // Kiểm tra xem người dùng có tải lên hình ảnh mới không
-            if ($request->hasFile('image')) {
-                $data['image'] = $request->file('image')->store('images', 'public');
-            }
-
-            $this->deviceService->update($id, $data);
-
-            return redirect()->route('devices.index')->with('success', 'Cập nhật thông tin thiết bị thành công');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi cập nhật thông tin thiết bị');
-        }
+        // dd(123);
+        $data = $request->except(['_token', '_method']);
+        $this->deviceService->update($id, $data);
+        return redirect()->route('devices.index')->with('success', 'Cập nhật thiết bị thành công');
     }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        try{
+        $this->deviceService->destroy($id);
+            return redirect()->route('devices.index')->with('success', 'Xóa thiết bị thành công');
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Xóa thất bại!');
+        }
     }
+
+
+    public function trash()
+    {
+        $items = $this->deviceService->trash();
+        return view('devices.trash', compact('items'));
+    }
+    public function restore($id)
+    {
+        try {
+            $items = $this->deviceService->restore($id);
+            return redirect()->route('devices.index')->with('success', 'Khôi phục thiết bị thành công');
+        } catch (\exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->route('devices.index')->with('error', 'Khôi phục không thành công!');
+        }
+    }
+    public function forceDelete($id)
+    {
+
+        try {
+            $items = $this->deviceService->forceDelete($id);
+            return redirect()->route('devices.index')->with('success', 'Xóa vĩnh viễn thành công');
+        } catch (\exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->route('devices.index')->with('error', 'Xóa không thành công!');
+        }
+}
+
 }

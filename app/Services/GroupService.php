@@ -48,7 +48,7 @@ class GroupService implements GroupServiceInterface {
     {
         return $this->groupRepository->restore($id);
     }
-    public function trash($request=[])
+    public function getTrashed($request=[])
     {
         
     }

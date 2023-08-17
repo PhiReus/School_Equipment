@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Pagination\Paginator;
 // Group
 use App\Repositories\Eloquents\GroupRepository;
 use App\Repositories\Interfaces\GroupRepositoryInterface;
@@ -41,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paginator::useBootstrapFive();
+        Paginator::useBootstrapFour();
     }
 }

@@ -16,9 +16,9 @@ class DeviceService implements DeviceServiceInterface
     }
 
     /* Triển khai các phương thức trong DeviceServiceInterface */
-    public function paginate($limit,$request=[])
+    public function paginate($limit,$request=null)
     {
-        return $this->groupRepository->paginate($request);
+        return $this->deviceRepository->paginate($limit,$request);
     }
     public function all($request=[]){
         return $this->deviceRepository->all($request);
@@ -34,5 +34,18 @@ class DeviceService implements DeviceServiceInterface
     }
     public function destroy($id){
         return $this->deviceRepository->destroy($id);
+    }
+    public function trash(){
+        return $this->deviceRepository->trash();
+    }
+    public function restore($id){
+        return $this->deviceRepository->restore($id);
+    }
+    public function forceDelete($id){
+        return $this->deviceRepository->forceDelete($id);
+    }
+
+    public function search($request=[]){
+        return $this->deviceRepository->search($request);
     }
 }

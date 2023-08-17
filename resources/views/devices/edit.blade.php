@@ -1,40 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Device</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-</head>
-<body class="container">
+@extends('layouts.master')
+@section('content')
+<!-- .page-title-bar -->
+<header class="page-title-bar">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">
+                <a href="{{route('devices.index')}}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Quản Lý Thiết Bị</a>
+            </li>
+        </ol>
+    </nav>
+    <h1 class="page-title"> Chỉnh Sửa thiết bị </h1>
+</header>
 
-<h1>Edit Device</h1>
+<div class="page-section">
+    <form method="post" action="{{route('devices.update',$item->id)}}" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <div class="card">
+            <div class="card-body">
+                <legend>Thông tin cơ bản</legend>
+               
+                <div class="form-group">
+                    <label for="tf1">Tên thiết bị</label> <input type="text" name="name" value="{{ $item->name }}" class="form-control" placeholder="Nhập tên kách hàng"> 
+                    <small class="form-text text-muted"></small>
+                    @if ($errors->any())
+                    <p style="color:red">{{ $errors->first('name') }}</p>
+                    @endif
+                </div>
+                <div class="form-group">
+                    <label for="tf1"> số lượng </label> <input type="text" name="quantity" value="{{ $item->quantity }}" class="form-control" placeholder="Nhập địa chỉ"> 
+                    <small class="form-text text-muted"></small>
+                    @if ($errors->any())
+                    <p style="color:red">{{ $errors->first('address') }}</p>
+                    @endif
+                </div>
+                <div class="form-group">
+    <label for="exampleInputPassword1" class="form-label">Ảnh</label>
+    <input type="file" class="form-control" name="image" id="imageInput" value="{{$item->image}}">
+    <img width="50px" height="50px" id="imagePreview" src="{{ $item->image }}" alt="">
+</div>
 
-<form action="{{ route('devices.update', ['device' => $item->id]) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
-    <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $item->name) }}">
-        @error('name')
-            <div class="text-danger">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="mb-3">
-        <label for="quantity" class="form-label">Quantity</label>
-        <input type="number" class="form-control" id="quantity" name="quantity" value="{{ old('quantity', $item->quantity) }}">
-        @error('quantity')
-            <div class="text-danger">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="mb-3">
-        <label for="image" class="form-label">Image</label>
-        <input type="file" class="form-control" id="image" name="image">
-        @error('image')
-            <div class="text-danger">{{ $message }}</div>
-        @enderror
-    </div>
-    <button type="submit" class="btn btn-primary">Update Device</button>
-</form>
+                    @if ($errors->any())
+                    <p style="color:red">{{ $errors->first('image') }}</p>
+                    @endif
+                </div>
+                <div class="form-actions">
+                    <a class="btn btn-secondary float-right" href="{{route('devices.index')}}">Hủy</a>
+                    <button class="btn btn-primary ml-auto" type="submit">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
-</body>
-</html>
+@endsection
+
+
+    
+
+   
+
