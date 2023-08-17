@@ -52,8 +52,5 @@ class RoomService implements RoomServiceInterface {
     {
         return $this->roomRepository->trash();
     }
-    public function search($request=[])
-    {
-        return $this->roomRepository->search($request);
-    }
+ 
 }
