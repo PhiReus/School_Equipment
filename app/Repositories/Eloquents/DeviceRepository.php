@@ -26,8 +26,11 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
     public function paginate($limit,$request=null)
     {
         $query = $this->model->query(true);
-        if($request->search){
-            $query->where('name', 'LIKE', '%' . $request->search . '%');
+        if($request->searchName){
+            $query->where('name', 'LIKE', '%' . $request->searchName . '%');
+        }
+        if($request->searchQuantity){
+            $query->where('quantity', 'LIKE', '%' . $request->searchQuantity . '%');
         }
         $query->orderBy('id','desc');
         $items = $query->paginate($limit);

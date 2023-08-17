@@ -30,25 +30,22 @@
       <div class="card-body">
          <div class="row mb-2">
             <div class="col">
-               <form action="" method="GET" id="form-search">
-                  <div class="input-group input-group-alt">
-                     <div class="input-group-prepend">
-                        <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#modalFilterColumns">Tìm nâng cao</button>
-                     </div>
-                     <div class="input-group has-clearable">
-                        <button type="button" class="close trigger-submit trigger-submit-delay" aria-label="Close">
-                        <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
-                        </button>
-                        <div class="input-group-prepend trigger-submit">
-                           <span class="input-group-text"><span class="fas fa-search"></span></span>
-                        </div>
-                        <input type="text" class="form-control" name="query" value="" placeholder="Tìm nhanh theo cú pháp (ma:Mã kết quả hoặc ten:Tên kết quả)">
-                     </div>
-                     <div class="input-group-append">
-                        <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch" type="button">Lưu bộ lọc</button>
-                     </div>
-                  </div>
-               </form>
+            <form action="{{ route('devices.index') }}" method="GET" id="form-search">
+
+<div class="row">
+    <div class="col">
+        <input name="searchName" class="form-control" type="text"
+            placeholder="Tìm theo tên..." />
+    </div>
+    <div class="col">
+        <input name="searchQuantity" class="form-control" type="text"
+            placeholder="Tìm theo số lượng..." />
+    </div>
+    <div class="col-lg-2">
+        <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
+    </div>
+</div>
+</form>
             </div>
          </div>
          @if (Session::has('success'))
@@ -63,9 +60,9 @@
                   <tr>
                      <th>STT</th>
                      <th>Tên </th>
-                     <th>số lượng</th>
-                     <th>ảnh</th>
-                     <th>Hành động</th>
+                     <th>Số lượng</th>
+                     <th>Ảnh</th>
+                     <th>Chức Năng</th>
                   </tr>
                </thead>
                <tbody>

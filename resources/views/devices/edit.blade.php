@@ -28,7 +28,7 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="tf1"> số lượng </label> <input type="text" name="quantity" value="{{ $item->quantity }}" class="form-control" placeholder="Nhập địa chỉ"> 
+                    <label for="tf1"> Số lượng </label> <input type="text" name="quantity" value="{{ $item->quantity }}" class="form-control" placeholder="Nhập địa chỉ"> 
                     <small class="form-text text-muted"></small>
                     @if ($errors->any())
                     <p style="color:red">{{ $errors->first('address') }}</p>
