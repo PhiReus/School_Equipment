@@ -41,7 +41,7 @@ Route::resource('users',\App\Http\Controllers\UserController::class);
 Route::prefix('devices')->group(function () {
     Route::get('/trash', [\App\Http\Controllers\DeviceController::class, 'trash'])->name('devices.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\DeviceController::class, 'restore'])->name('devices.restore');
-    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceController::class, 'force_destroy'])->name('devices.forceDelete');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceController::class, 'forceDelete'])->name('devices.forceDelete');
 });
 Route::resource('devices',\App\Http\Controllers\DeviceController::class);
 
@@ -52,4 +52,13 @@ Route::prefix('rooms')->group(function () {
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\RoomController::class, 'force_destroy'])->name('rooms.force_destroy');
 });
 Route::resource('rooms',\App\Http\Controllers\RoomController::class);
+
+
+// Borrow 
+Route::prefix('borrows')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\BorrowController::class, 'trash'])->name('borrows.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowController::class, 'forceDelete'])->name('borrows.forceDelete');
+});
+Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 
