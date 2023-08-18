@@ -23,40 +23,24 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         + Khai báo paginate() ở PostRepositoryInterface
         + Triển khai lại ở PostRepository
     */
-    public function paginate($limit,$request=null)
+    public function paginate($limit, $request = null)
     {
-        $query = $this->model->query(true);
-        if($request->searchName){
-            $query->where('name', 'LIKE', '%' . $request->searchName . '%');
+        $query = $this->model->with('user');
+        // Thay đổi từ 'user_id' thành 'user.name'
+        if ($request && $request->searchName) {
+         $query->whereHas('user', function ($query) use ($request) {
+        $query->where('name', 'LIKE', '%' . $request->searchName . '%');
+    });
+}
+
+        if ($request && $request->searchBorrow_date) {
+            $query->where('borrow_date', 'LIKE', '%' . $request->searchBorrow_date . '%');
         }
-        if($request->searchQuantity){
-            $query->where('quantity', 'LIKE', '%' . $request->searchQuantity . '%');
-        }
-        $query->orderBy('id','desc');
+        $query->orderBy('id', 'desc');
         $items = $query->paginate($limit);
+        // dd($items);
         return $items;
     }
-
-    public function store($data)
-    {
-        if( isset( $data['image']) && $data['image']->isValid() ){
-            $path = $data['image']->store('public/borrow');
-            $url = Storage::url($path);
-            $data['image'] = $url;
-        }
-        return $this->model->create($data);
-    }
-
-    public function update($id,$data)
-    {
-         if( isset( $data['image']) && $data['image']->isValid() ){
-            $path = $data['image']->store('public/borrow');
-            $url = Storage::url($path);
-            $data['image'] = $url;
-        }    
-        return $this->model->where('id',$id)->update($data);
-    }
-
     public function trash()
     {
         $result = $this->model->onlyTrashed()->get();
@@ -76,6 +60,10 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
             $result->forceDelete();
             return $result;
 
+    }
+    public function update($id, $data)
+    {
+        return $this->find($id)->update($data);
     }
     
 }

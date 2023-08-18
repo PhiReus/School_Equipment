@@ -11,7 +11,7 @@ class UpdateBorrowRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class UpdateBorrowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => 'required',
+            'borrow_date' => 'required',
+    ];
+    }
+    public function messages()
+    {
+        return [
+            'user_id.required' => 'Bạn không được để trống !',
+            'borrow_date.required' => 'Bạn không được để trống !',
         ];
     }
 }

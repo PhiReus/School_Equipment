@@ -46,7 +46,7 @@
                                     placeholder="Tìm theo tên..." />
                             </div>
                             <div class="col">
-                                <input name="searchQuantity" class="form-control" type="text"
+                                <input name="searchBorrow_date" class="form-control" type="text"
                                     placeholder="Tìm theo ngày mượn..." />
                             </div>
                             <div class="col-lg-2">
@@ -81,10 +81,10 @@
                         <tr>
                             <td>{{ ++$key }}</td>
                             <td>
-                                <a href="{{ route('borrows.edit', $item->id) }}" class="tile tile-img mr-1">
+                                <!-- <a href="{{ route('borrows.edit', $item->id) }}" class="tile tile-img mr-1">
                                     <img class="img-fluid" src="{{ asset($item->image) }}" alt="">
-                                </a>
-                                <a href="{{ route('borrows.edit', $item->id) }}">{{ $item->user_id }}</a>
+                                </a> -->
+                                <a href="{{ route('borrows.edit', $item->id) }}">{{ $item->user->name }}</a>
                             </td>
                             <td>{{ $item->borrow_date }}</td>
 

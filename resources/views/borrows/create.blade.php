@@ -17,20 +17,27 @@
         <div class="card">
             <div class="card-body">
                 <legend>Thông tin cơ bản</legend>
+
                 <div class="form-group">
-                    <label for="tf1">Người mượn <abbr name="Trường bắt buộc">*</abbr></label> <input name="name"
-                        type="text" class="form-control" id="" placeholder="Nhập tên thiết bị">
-                    <small id="" class="form-text text-muted"></small>
+                    <label for="exampleSelectGender">Người mượn<abbr name="Trường bắt buộc">*</abbr></label>
+                    <select class="form-control" name="user_id">
+                        <option value="">--Vui lòng chọn--</option>
+                        @foreach ($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select>
                     @if ($errors->any())
-                    <p style="color:red">{{ $errors->first('name') }}</p>
+                    <p style="color:red">{{ $errors->first('user_id') }}</p>
                     @endif
                 </div>
+
+
                 <div class="form-group">
-                    <label for="tf1">Ngày mượn<abbr name="Trường bắt buộc">*</abbr></label> <input name="quantity"
-                        type="text" class="form-control" id="" placeholder="Nhập ngày mượn">
+                    <label for="tf1">Ngày mượn<abbr name="Trường bắt buộc">*</abbr></label> <input name="borrow_date"
+                        type="date" class="form-control" id="" placeholder="Nhập ngày mượn">
                     <small id="" class="form-text text-muted"></small>
                     @if ($errors->any())
-                    <p style="color:red">{{ $errors->first('quantity') }}</p>
+                    <p style="color:red">{{ $errors->first('borrow_date') }}</p>
                     @endif
                 </div>
 

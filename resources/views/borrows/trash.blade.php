@@ -10,7 +10,7 @@
    </nav>
    <!-- <button type="button" class="btn btn-success btn-floated"><span class="fa fa-plus"></span></button> -->
    <div class="d-md-flex align-items-md-start">
-      <h1 class="page-title mr-sm-auto">Quản Lý Thiết Bị - Thùng Rác</h1>
+      <h1 class="page-title mr-sm-auto">Quản Lý Phiếu Mượn - Thùng Rác</h1>
       <div class="btn-toolbar">
       </div>
    </div>
@@ -39,7 +39,7 @@
     </div>
     <div class="col">
         <input name="searchQuantity" class="form-control" type="text"
-            placeholder="Tìm theo số lượng..." />
+            placeholder="Tìm theo ngày mượn..." />
     </div>
     <div class="col-lg-2">
         <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
@@ -60,8 +60,7 @@
                   <tr>
                      <th>STT</th>
                      <th>Tên </th>
-                     <th>Số lượng</th>
-                     <th>Ảnh</th>
+                     <th>Ngày mượn</th>
                      <th>Chức Năng</th>
                   </tr>
                </thead>
@@ -69,13 +68,8 @@
                   @foreach($items  as $key => $item)
                   <tr>
                      <td>{{++$key}}</td>
-                     <td>{{$item->name}}</td>
-                     <td>{{$item->quantity}}</td>
-                     <td>
-                        <a href="#" class="tile tile-img mr-1">
-                        <img class="img-fluid" src="{{ asset($item->image)}}" alt="">
-                        </a>
-                     </td>
+                     <td>{{$item->user->name}}</td>
+                     <td>{{$item->borrow_date}}</td>
                      <td>
                         <form action="{{ route('borrows.forceDelete',$item->id )}}" style="display:inline" method="post">
                                     <button onclick="return confirm('Xóa vĩnh viễn {{$item->name}} ?')" class="btn btn-sm btn-icon btn-secondary"><i class="far fa-trash-alt"></i></button>
