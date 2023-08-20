@@ -28,10 +28,10 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         $query = $this->model->with('user');
         // Thay đổi từ 'user_id' thành 'user.name'
         if ($request && $request->searchName) {
-         $query->whereHas('user', function ($query) use ($request) {
-        $query->where('name', 'LIKE', '%' . $request->searchName . '%');
-    });
-}
+            $query->whereHas('user', function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->searchName . '%');
+            });
+        }
 
         if ($request && $request->searchBorrow_date) {
             $query->where('borrow_date', 'LIKE', '%' . $request->searchBorrow_date . '%');
@@ -40,6 +40,32 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         $items = $query->paginate($limit);
         // dd($items);
         return $items;
+    }
+
+    public function store($data)
+    {
+        $devices = $data['devices'];
+        unset($data['devices']);
+
+        $borrow = $this->model->create($data);// Lưu phiếu mượn trước
+        $borrow_id = $borrow->id;
+
+        $newdata = [];
+        foreach ($devices['id'] as $key => $value) {
+            $newdata[] = [
+                'borrow_id' => $borrow_id,
+                'device_id' => $devices['id'][$key],
+                'room_id' => $devices['room_id'][$key],
+                'quantity' => $devices['quantity'][$key],
+                'return_date' => $devices['return_date'][$key],
+                'lecture_name' => $devices['lecture_name'][$key],
+                'lesson_name' => $devices['lesson_name'][$key],
+                'session' => $devices['session'][$key],
+                'lecture_number' => $devices['lecture_number'][$key]
+            ];
+        }
+        
+        return $this->model->devices()->createMany($newdata); // Lưu nhiều sản phẩm cho đơn hàng
     }
     public function trash()
     {

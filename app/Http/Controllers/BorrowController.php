@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Borrow;
 use App\Models\User;
 use App\Services\Interfaces\BorrowServiceInterface;
+use App\Services\Interfaces\DeviceServiceInterface;
 
 use App\Http\Requests\StoreBorrowRequest;
 use App\Http\Requests\UpdateBorrowRequest;
@@ -13,10 +14,12 @@ use App\Http\Requests\UpdateBorrowRequest;
 class BorrowController extends Controller
 {
     protected $borrowService;
+    protected $deviceService;
 
-    public function __construct(BorrowServiceInterface $borrowService)
+    public function __construct(BorrowServiceInterface $borrowService, DeviceServiceInterface $deviceService )
     {
         $this->borrowService = $borrowService;
+        $this->deviceService = $deviceService;
     }
     /**
      * Display a listing of the resource.
@@ -119,6 +122,18 @@ class BorrowController extends Controller
             Log::error($e->getMessage());
             return redirect()->route('borrows.trash')->with('error', 'Xóa không thành công!');
         }
-}
+    }
 
+    public function devices(Request $request)
+    {
+        $devices = $this->deviceService->paginate(2,$request);
+        $data = [];
+        foreach ($devices as $device){
+            $data[] = [
+                'id' => $device->id,
+                'text' => $device->name
+            ];
+        }
+        return response()->json($data);
+    }
 }

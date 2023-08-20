@@ -15,6 +15,10 @@
     <link rel="canonical" href="https://uselooper.com">
     <meta property="og:url" content="https://uselooper.com">
     <meta property="og:site_name" content="Looper - Bootstrap 4 Admin Theme">
+    
+    <!-- Select2 - ajax. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    
 
     <!-- FAVICONS -->
     <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('asset/apple-touch-icon.png') }}">
@@ -31,13 +35,13 @@
     <link rel="stylesheet" href="{{ asset('asset/stylesheets/theme-dark.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/stylesheets/custom.css') }}">
     <script>
-        var skin = localStorage.getItem('skin') || 'default';
-        var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
-        // Disable unused skin immediately
-        disabledSkinStylesheet.setAttribute('rel', '');
-        disabledSkinStylesheet.setAttribute('disabled', true);
-        // add loading class to html immediately
-        document.querySelector('html').classList.add('loading');
+        // var skin = localStorage.getItem('skin') || 'default';
+        // var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
+        // // Disable unused skin immediately
+        // disabledSkinStylesheet.setAttribute('rel', '');
+        // disabledSkinStylesheet.setAttribute('disabled', true);
+        // // add loading class to html immediately
+        // document.querySelector('html').classList.add('loading');
     </script><!-- END THEME STYLES -->
      @yield('header_scripts')
 </head>
@@ -71,6 +75,7 @@
     @include('includes.footer')
     <!-- BEGIN BASE JS -->
     <script src="{{ asset('asset/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script src="{{ asset('asset/vendor/popper.js/umd/popper.min.js') }}"></script>
     <script src="{{ asset('asset/vendor/bootstrap/js/bootstrap.min.js') }}"></script> <!-- END BASE JS -->
     <!-- BEGIN PLUGINS JS -->
