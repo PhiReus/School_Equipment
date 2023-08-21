@@ -12,6 +12,9 @@ class Device extends Model
     protected $table ='devices';
     use HasFactory,SoftDeletes;
     protected $fillable = ['id', 'name', 'quantity','image'];
-    
 
+    public function borrows()
+    {
+        return $this->belongsToMany(Borrow::class,'borrow_devices','device_id','borrow_id');
+    }
 }

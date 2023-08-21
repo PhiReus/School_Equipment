@@ -17,4 +17,8 @@ class Borrow extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function devices()
+    {
+        return $this->belongsToMany(Device::class,'borrow_devices','borrow_id','device_id');
+    }
 }
