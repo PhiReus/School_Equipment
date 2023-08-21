@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('layouts/master');
+// Route::get('/history', function () {
+//     return view('users.history');
 // });
 
 //Group
@@ -29,7 +29,7 @@ Route::resource('groups',\App\Http\Controllers\GroupController::class);
 
 //User
 Route::prefix('users')->group(function () {
-    Route::get('/export', [UserController::class, 'export'])->name('users.export');
+    Route::get('/history/{id}', [UserController::class, 'history'])->name('users.borrow_history');
     Route::get('/trash', [UserController::class, 'trash'])->name('users.trash');
     Route::get('/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
     Route::delete('/force_destroy/{id}', [UserController::class, 'force_destroy'])->name('users.force_destroy');
@@ -54,7 +54,7 @@ Route::prefix('rooms')->group(function () {
 Route::resource('rooms',\App\Http\Controllers\RoomController::class);
 
 
-// Borrow 
+// Borrow
 Route::prefix('borrows')->group(function () {
     Route::get('/trash', [\App\Http\Controllers\BorrowController::class, 'trash'])->name('borrows.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');

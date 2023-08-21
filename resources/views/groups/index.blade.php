@@ -8,35 +8,18 @@
                 </li>
             </ol>
         </nav>
-        <!-- <button type="button" class="btn btn-success btn-floated"><span class="fa fa-plus"></span></button> -->
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Quản Lý Quyền</h1>
             <div class="btn-toolbar">
-                {{-- @if (Auth::user()->hasPermission('Customer_create')) --}}
                 <a href="{{ route('groups.create') }}" class="btn btn-primary mr-2">
                     <i class="fa-solid fa fa-plus"></i>
                     <span class="ml-1">Thêm Mới</span>
                 </a>
-                {{-- <a href="{{route('customers.export')}}" class="btn btn-primary">
-                <i class="fas fa-file"></i>
-                <span class="ml-1">Xuất file excel</span>
-            </a> --}}
-                {{-- @endif --}}
             </div>
         </div>
     </header>
     <div class="page-section">
         <div class="card card-fluid">
-            {{-- <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active " href="{{ route('customers.index') }}">Tất Cả</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('customers.trash') }}">Thùng Rác</a>
-                    </li>
-                </ul>
-            </div> --}}
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
@@ -52,11 +35,8 @@
                                         type="submit">Tìm Kiếm</button>
                                 </div>
                             </div>
-                            <!-- modalFilterColumns  -->
-                            {{-- @include('admin.customers.modals.modalFilterColumns') --}}
+
                         </form>
-                        <!-- modalFilterColumns  -->
-                        {{-- @include('admin.customers.modals.modalSaveSearch') --}}
                     </div>
                 </div>
                 @if (session('success'))

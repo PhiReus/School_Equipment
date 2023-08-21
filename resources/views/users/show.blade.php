@@ -9,71 +9,108 @@
             </ol>
         </nav>
         <div class="d-md-flex align-items-md-start">
-            <h1 class="page-title mr-sm-auto">Quản lý giáo viên</h1>
+            <h1 class="page-title mr-sm-auto">Xem thông tin chi tiết giáo viên : {{ $item->name }}</h1>
         </div>
     </header>
     <div class="page-section">
         <div class="card card-fluid">
             <div class="card-body">
-                <div class="row mb-2">
-                    <div class="col">
-                        <form action="" method="GET" id="form-search">
-                            <div class="input-group input-group-alt">
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-secondary" type="button" data-toggle="modal"
-                                        data-target="#modalFilterColumns">Tìm nâng cao</button>
-                                </div>
-                                <div class="input-group has-clearable">
-                                    <button type="button" class="close trigger-submit trigger-submit-delay"
-                                        aria-label="Close">
-                                        <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
-                                    </button>
-                                    <div class="input-group-prepend trigger-submit">
-                                        <span class="input-group-text"><span class="fas fa-search"></span></span>
-                                    </div>
-                                    <input type="text" class="form-control" name="query" value=""
-                                        placeholder="Tìm nhanh theo cú pháp (ma:Mã kết quả hoặc ten:Tên kết quả)">
-                                </div>
-                                <div class="input-group-append">
-                                    <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
-                                        type="button">Lưu bộ lọc</button>
+                <div class="table-responsive">
+                    <div class="page-section">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card card-fluid">
+                                    <h6 class="card-header"> Chi tiết </h6>
+                                    <nav class="nav nav-tabs flex-column border-0">
+                                        <a href="{{ route('users.show',$item->id) }}" class="nav-link active">Chi tiết giáo viên</a>
+                                        <a href="{{ route('users.borrow_history',$item->id) }}" class="nav-link">Lịch sử mượn</a>
+                                    </nav>
                                 </div>
                             </div>
-                        </form>
+                            <div class="col-lg-8">
+                                <div class="card card-fluid">
+                                    <h6 class="card-header"> Hồ sơ công khai </h6>
+                                    <div class="card-body">
+                                        <div class="media mb-3">
+                                            <div class="user-avatar user-avatar-xl fileinput-button">
+                                                <div class="fileinput-button-label"> Thay đổi hình ảnh </div><img
+                                                    src="{{ $item->image }}" alt=""> <input id="fileupload-avatar"
+                                                    type="file" name="avatar">
+                                            </div>
+                                            <div class="media-body pl-3">
+                                                <div id="progress-avatar" class="progress progress-xs fade">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                                        role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form method="post">
+                                            <div class="form-row">
+                                                <label for="input01" class="col-md-3">Tên giáo viên :</label>
 
+                                                <div class="col-md-9 mb-3">
+                                                    <div class="custom-file">
+                                                        <p>{{ $item->name }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <label for="input02" class="col-md-3">E-mail :</label>
+                                                <div class="col-md-9 mb-3">
+                                                    <p>{{ $item->email }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <label for="input03" class="col-md-3">Số điện thoại :</label>
+                                                <div class="col-md-9 mb-3">
+                                                    <p>{{ $item->phone }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <label for="input04" class="col-md-3">Địa chỉ :</label>
+                                                <div class="col-md-9 mb-3">
+                                                    <p>{{ $item->address }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <label for="input04" class="col-md-3">Mật khẩu :</label>
+                                                <div class="col-md-9 mb-3">
+                                                    <p>{{ $item->password }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <label for="input04" class="col-md-3">Giới tính :</label>
+                                                <div class="col-md-9 mb-3">
+                                                    <p>{{ $item->gender }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <label for="input04" class="col-md-3">Ngày sinh :</label>
+                                                <div class="col-md-9 mb-3">
+                                                    <p>{{ $item->birthday }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <label for="input04" class="col-md-3">Chức vụ :</label>
+                                                <div class="col-md-9 mb-3">
+                                                    <p>{{ $item->group->name }}</p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="form-actions">
+
+                                                <button class="btn btn-dark" onclick="window.history.back()">
+                                                    <i class="fa fa-arrow-left mr-2"></i> Back
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên</th>
-                                <th>Mật khẩu</th>
-                                <th>Giới tính</th>
-                                <th>Ngày sinh</th>
-                                <th>Chức vụ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->password }}</td>
-                                <td>{{ $item->gender }}</td>
-                                <td>{{ $item->birthday }}</td>
-                                <td>{{ $item->group->name }}</td>
-
-                            </tr>
-                        </tbody><!-- /tbody -->
-                    </table><!-- /.table -->
-                    <button class="btn btn-dark" onclick="window.history.back()">
-                        <i class="fa fa-arrow-left mr-2"></i> Back
-                    </button>
-                </div>
-                <!-- /.table-responsive -->
-                <!-- .pagination -->
-            </div><!-- /.card-body -->
+            </div>
         </div>
     </div>
 @endsection

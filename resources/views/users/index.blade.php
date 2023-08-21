@@ -8,20 +8,13 @@
                 </li>
             </ol>
         </nav>
-        <!-- <button type="button" class="btn btn-success btn-floated"><span class="fa fa-plus"></span></button> -->
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Quản Lý Giáo Viên</h1>
             <div class="btn-toolbar">
-                {{-- @if (Auth::user()->hasPermission('Customer_create')) --}}
                 <a href="{{ route('users.create') }}" class="btn btn-primary mr-2">
                     <i class="fa-solid fa fa-plus"></i>
                     <span class="ml-1">Thêm Mới</span>
                 </a>
-                {{-- <a href="{{route('customers.export')}}" class="btn btn-primary">
-                <i class="fas fa-file"></i>
-                <span class="ml-1">Xuất file excel</span>
-            </a> --}}
-                {{-- @endif --}}
             </div>
         </div>
     </header>
