@@ -37,10 +37,10 @@
             <!-- .top-bar-item -->
             <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
                 <!-- .nav -->
-                @include('includes.dropdown')
+                {{-- @include('includes.dropdown') --}}
                 <!-- /.nav -->
                 <!-- .btn-account -->
-                @include('includes.profile')
+                @include('includes.profileHeader')
                 <!-- /.btn-account -->
             </div><!-- /.top-bar-item -->
         </div><!-- /.top-bar-list -->

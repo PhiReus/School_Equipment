@@ -10,6 +10,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\Interfaces\GroupServiceInterface;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -23,6 +25,9 @@ class UserController extends Controller
     }
     public function index(Request $request)
     {
+        if(!Auth::user()->hasPermission('User_viewAny')){
+            abort(403);
+        }
         $items = $this->userService->all($request);
         $param =
             [
@@ -77,7 +82,6 @@ class UserController extends Controller
     public function show($id)
     {
         $item = $this->userService->find($id);
-        // dd($item);
         return view('users.show', compact('item'));
     }
     public function trash()

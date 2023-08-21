@@ -46,7 +46,9 @@
                 </div>
                 <div class="form-actions">
                     <a class="btn btn-secondary float-right" href="{{route('devices.index')}}">Hủy</a>
-                    <button class="btn btn-primary ml-auto" type="submit">Cập nhật</button>
+                    @if(Auth::check())
+                        <button class="btn btn-primary ml-auto" type="submit">Cập nhật</button>
+                    @endif
                 </div>
             </div>
         </div>

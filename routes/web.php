@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DeviceController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,7 +25,9 @@ Route::prefix('groups')->group(function () {
     Route::get('/show/{id}', [GroupController::class, 'show'])->name('groups.show');
     Route::put('/saveRoles/{id}', [GroupController::class, 'saveRoles'])->name('groups.saveRoles');
 });
-Route::resource('groups',\App\Http\Controllers\GroupController::class);
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('groups',\App\Http\Controllers\GroupController::class);
+});
 
 
 //User
@@ -34,7 +37,9 @@ Route::prefix('users')->group(function () {
     Route::get('/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
     Route::delete('/force_destroy/{id}', [UserController::class, 'force_destroy'])->name('users.force_destroy');
 });
-Route::resource('users',\App\Http\Controllers\UserController::class);
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('users',\App\Http\Controllers\UserController::class);
+});
 
 
 //Device
@@ -43,7 +48,9 @@ Route::prefix('devices')->group(function () {
     Route::get('/restore/{id}', [\App\Http\Controllers\DeviceController::class, 'restore'])->name('devices.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceController::class, 'force_destroy'])->name('devices.forceDelete');
 });
-Route::resource('devices',\App\Http\Controllers\DeviceController::class);
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('devices',\App\Http\Controllers\DeviceController::class);
+});
 
 // Room
 Route::prefix('rooms')->group(function () {
@@ -51,5 +58,16 @@ Route::prefix('rooms')->group(function () {
     Route::get('/restore/{id}', [\App\Http\Controllers\RoomController::class, 'restore'])->name('rooms.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\RoomController::class, 'force_destroy'])->name('rooms.force_destroy');
 });
-Route::resource('rooms',\App\Http\Controllers\RoomController::class);
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('rooms',\App\Http\Controllers\RoomController::class);
+});
+
+
+// Login-Logout
+Route::get('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+Route::post('/checkLogin', [\App\Http\Controllers\AuthController::class, 'postLogin'])->name('checkLogin');
+Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+Route::get('/forgot_password', [\App\Http\Controllers\AuthController::class, 'forgot_password'])->name('forgot_password');
+Route::post('/post_forgot_password', [\App\Http\Controllers\AuthController::class, 'post_forgot_password'])->name('post_forgot_password');
+
 

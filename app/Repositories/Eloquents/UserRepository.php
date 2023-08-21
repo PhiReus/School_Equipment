@@ -7,6 +7,10 @@ use App\Models\User;
 use App\Repositories\Eloquents\EloquentRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+
+
 
 class UserRepository extends EloquentRepository implements UserRepositoryInterface
 {
@@ -67,5 +71,23 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
     public function restore($id)
     {
         return User::withTrashed()->find($id)->restore();
+    }
+
+    public function login(){
+        // dd(Auth::check());
+         return Auth::check();
+        
+    }
+    public function postLogin($dataUser){
+        
+        $dataUser = $dataUser->only('email', 'password');
+        return Auth::attempt($dataUser);
+        
+    }
+    public function logout(){
+        return Auth::logout();
+    }
+    public function getInfoUser(){
+        return  Auth::user();
     }
 }
