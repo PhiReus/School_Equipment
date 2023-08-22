@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Group::class, 'group_id', 'id');
     }
+
+    public function borrows()
+    {
+        return $this->hasMany(Borrow::class);
+    }
 }

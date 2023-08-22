@@ -25,8 +25,31 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col">
-                            <form action="{{ route('groups.index') }}" method="GET" id="form-search">
 
+    <header class="page-title-bar">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">
+                    <a href="#"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang Chủ</a>
+                </li>
+            </ol>
+        </nav>
+        <div class="d-md-flex align-items-md-start">
+            <h1 class="page-title mr-sm-auto">Quản Lý Quyền</h1>
+            <div class="btn-toolbar">
+                <a href="{{ route('groups.create') }}" class="btn btn-primary mr-2">
+                    <i class="fa-solid fa fa-plus"></i>
+                    <span class="ml-1">Thêm Mới</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="page-section">
+        <div class="card card-fluid">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col">
+                        <form action="{{ route('groups.index') }}" method="GET" id="form-search">
                                 <div class="row">
                                     <div class="col">
                                         <input name="search" class="form-control" type="text"
@@ -39,6 +62,15 @@
                                 </div>
                             </form>
                         </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                @if (session('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
                     </div>
                     @if (session('success'))
                         <div class="alert alert-success" role="alert">

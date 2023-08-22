@@ -17,8 +17,8 @@ use App\Http\Controllers\ForgotPasswordController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('layouts/master');
+// Route::get('/history', function () {
+//     return view('users.history');
 // });
 
 //Group
@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 //User
 Route::prefix('users')->group(function () {
-    Route::get('/export', [UserController::class, 'export'])->name('users.export');
+    Route::get('/history/{id}', [UserController::class, 'history'])->name('users.borrow_history');
     Route::get('/trash', [UserController::class, 'trash'])->name('users.trash');
     Route::get('/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
     Route::delete('/force_destroy/{id}', [UserController::class, 'force_destroy'])->name('users.force_destroy');
@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::prefix('devices')->group(function () {
     Route::get('/trash', [\App\Http\Controllers\DeviceController::class, 'trash'])->name('devices.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\DeviceController::class, 'restore'])->name('devices.restore');
-    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceController::class, 'force_destroy'])->name('devices.forceDelete');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceController::class, 'forceDelete'])->name('devices.forceDelete');
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('devices',\App\Http\Controllers\DeviceController::class);
@@ -71,6 +71,17 @@ Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->
 Route::get('/forgot_password', [\App\Http\Controllers\AuthController::class, 'forgot_password'])->name('forgot_password');
 Route::post('/post_forgot_password', [\App\Http\Controllers\AuthController::class, 'post_forgot_password'])->name('post_forgot_password');
 
+
 //Forgot Password
 Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+
+// Borrow
+Route::prefix('borrows')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\BorrowController::class, 'trash'])->name('borrows.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowController::class, 'forceDelete'])->name('borrows.forceDelete');
+});
+Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
+

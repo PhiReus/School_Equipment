@@ -8,7 +8,6 @@
                 </li>
             </ol>
         </nav>
-        <!-- <button type="button" class="btn btn-success btn-floated"><span class="fa fa-plus"></span></button> -->
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Quản Lý Giáo Viên</h1>
             <div class="btn-toolbar">
@@ -18,6 +17,10 @@
                         <span class="ml-1">Thêm Mới</span>
                     </a>
                 @endif
+                <a href="{{ route('users.create') }}" class="btn btn-primary mr-2">
+                    <i class="fa-solid fa fa-plus"></i>
+                    <span class="ml-1">Thêm Mới</span>
+                </a>
             </div>
         </div>
     </header>
