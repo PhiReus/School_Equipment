@@ -17,9 +17,9 @@ use App\Http\Controllers\ForgotPasswordController;
 |
 */
 
-// Route::get('/history', function () {
-//     return view('users.history');
-// });
+Route::get('/', function () {
+    return view('includes.Login');
+});
 
 //Group
 Route::prefix('groups')->group(function () {
