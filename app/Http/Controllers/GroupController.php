@@ -96,7 +96,7 @@ class GroupController extends Controller
     {
         try {
             $this->groupService->destroy($id);
-            return redirect()->route('group.index')->with('success', 'Xóa thành công!');
+            return redirect()->route('groups.index')->with('success', 'Xóa thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }

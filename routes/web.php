@@ -85,3 +85,11 @@ Route::prefix('borrows')->group(function () {
 });
 Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 
+// DeviceType
+Route::prefix('devicetypes')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\DeviceTypeController::class, 'trash'])->name('devicetypes.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\DeviceTypeController::class, 'restore'])->name('devicetypes.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceTypeController::class, 'forceDelete'])->name('devicetypes.forceDelete');
+});
+Route::resource('devicetypes',\App\Http\Controllers\DeviceTypeController::class);
+

@@ -50,15 +50,14 @@
                 <div class="row mb-2">
                     <div class="col">
                         <form action="{{ route('groups.index') }}" method="GET" id="form-search">
-                                <div class="row">
-                                    <div class="col">
-                                        <input name="search" class="form-control" type="text"
-                                            placeholder="Tìm theo tên..." />
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
-                                            type="submit">Tìm Kiếm</button>
-                                    </div>
+                            <div class="row">
+                                <div class="col">
+                                    <input name="search" class="form-control" type="text"
+                                        placeholder="Tìm theo tên..." />
+                                </div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
+                                        type="submit">Tìm Kiếm</button>
                                 </div>
                             </form>
                         </div>
@@ -72,6 +71,24 @@
                     <div class="alert alert-success" role="alert">
                         {{ session('success') }}
                     </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
+                    </div>
+                @endif
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên</th>
+                                <th>Nhân Sự</th>
+                                <th>Chức Năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($items as $key => $item)
                     @if (session('success'))
                         <div class="alert alert-success" role="alert">
                             {{ session('success') }}

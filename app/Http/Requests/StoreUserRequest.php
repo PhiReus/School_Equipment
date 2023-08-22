@@ -47,6 +47,8 @@ class StoreUserRequest extends FormRequest
             'gender.required' => 'Bạn không được để trống !',
             'birthday.required' => 'Bạn không được để trống !',
             'group_id.required' => 'Bạn không được để trống !',
+            'email.unique' => 'Tên email đã tồn tại !',
+
         ];
     }
 }

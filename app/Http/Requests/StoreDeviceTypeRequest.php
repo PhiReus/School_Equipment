@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRoomRequest extends FormRequest
+class StoreDeviceTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,17 +21,19 @@ class StoreRoomRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|unique:rooms',
+        return
+        [
+            'name' => 'required|unique:device_types',
         ];
     }
 
     public function messages()
     {
-        return  [
-                'name.required' => 'Bạn không được để trống',
-                'name.unique' => 'Tên lớp đã tồn tại !',
+        return
+        [
+            'name.required' => 'Bạn không được để trống',
+            'name.unique' => 'Tên loại thiết bị đã tồn tại !',
 
-            ];
+        ];
     }
 }

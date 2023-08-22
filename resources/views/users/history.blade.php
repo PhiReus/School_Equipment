@@ -3,7 +3,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const collapseButtons = document.querySelectorAll('.collapse-button');
-
             collapseButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const targetId = button.getAttribute('data-target');
