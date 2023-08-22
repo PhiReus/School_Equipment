@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,7 +22,7 @@ class UserSeeder extends Seeder
         $user->image = 'image';
         $user->gender = 'Man';
         $user->birthday = '1999-02-20';
-        $user->password = bcrypt('123456');
+        $user->password = Hash::make('123456');
         $user->group_id = 1;
         $user->save();
     }

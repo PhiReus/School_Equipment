@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Models\User;
@@ -32,7 +34,9 @@ class GroupController extends Controller
      */
     public function index(Request $request)
     {
-        // var_dump(123);
+        if(!Auth::user()->hasPermission('Group_viewAny')){
+            abort(403);
+        }
         $users = User::get();
         $items = $this->groupService->all($request);
         $params =

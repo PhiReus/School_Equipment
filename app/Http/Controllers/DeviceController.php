@@ -9,6 +9,8 @@ use App\Http\Requests\UpdateDeviceRequest;
 use App\Models\DeviceType;
 use App\Services\Interfaces\DeviceTypeServiceInterface;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+
 
 class DeviceController extends Controller
 {
@@ -25,14 +27,13 @@ class DeviceController extends Controller
      */
     public function index(Request $request)
     {
+        if(!Auth::user()->hasPermission('Device_viewAny')){
+            abort(403);
+        }
         $items = $this->deviceService->paginate(2,$request);
         $devicetypes = $this->deviceTypeService->all($request);
         return view('devices.index', compact('items','devicetypes'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $devicetypes = DeviceType::get();

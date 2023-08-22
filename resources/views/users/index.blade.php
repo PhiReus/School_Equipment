@@ -11,6 +11,12 @@
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Quản Lý Giáo Viên</h1>
             <div class="btn-toolbar">
+                @if (Auth::user()->hasPermission('User_create'))
+                    <a href="{{ route('users.create') }}" class="btn btn-primary mr-2">
+                        <i class="fa-solid fa fa-plus"></i>
+                        <span class="ml-1">Thêm Mới</span>
+                    </a>
+                @endif
                 <a href="{{ route('users.create') }}" class="btn btn-primary mr-2">
                     <i class="fa-solid fa fa-plus"></i>
                     <span class="ml-1">Thêm Mới</span>
@@ -75,7 +81,9 @@
                                 <th>E-mail</th>
                                 <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
-                                <th>Chức năng</th>
+                                @if (Auth::check())
+                                    <th>Chức năng</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -91,21 +99,29 @@
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->address }}</td>
                                     <td>{{ $item->phone }}</td>
-                                    <td>
-                                        <span class="sr-only">Edit</span></a> <a
-                                            href="{{ route('users.edit', $item->id) }}"
-                                            class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span
-                                                class="sr-only">Remove</span></a>
-
-                                        <form action="{{ route('users.destroy', $item->id) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Bạn có muốn xóa không ?')"
-                                                class="btn btn-sm btn-icon btn-secondary"><i class="far fa-trash-alt"></i>
-                                            </button>
-                                        </form>
-                                    </td>
+                                    @if (Auth::check())
+                                        <td>
+                                            @if (Auth::user()->hasPermission('User_update'))
+                                                <span class="sr-only">Edit</span></a> <a
+                                                    href="{{ route('users.edit', $item->id) }}"
+                                                    class="btn btn-sm btn-icon btn-secondary"><i
+                                                        class="fa fa-pencil-alt"></i> <span
+                                                        class="sr-only">Remove</span></a>
+                                            @endif
+                                            @if (Auth::user()->hasPermission('User_delete'))
+                                                <form action="{{ route('users.destroy', $item->id) }}" method="POST"
+                                                    class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        onclick="return confirm('Bạn có muốn xóa không ?')"
+                                                        class="btn btn-sm btn-icon btn-secondary"><i
+                                                            class="far fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

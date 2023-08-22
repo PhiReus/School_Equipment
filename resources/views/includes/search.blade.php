@@ -6,7 +6,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><span class="oi oi-magnifying-glass"></span></span>
             </div><input type="text" class="form-control" data-toggle="dropdown"
-                aria-label="Search" placeholder="Search"> <!-- .dropdown-menu -->
+                aria-label="Search" placeholder="Tìm Kiếm"> <!-- .dropdown-menu -->
             <div class="dropdown-menu dropdown-menu-rich dropdown-menu-xl ml-n4 mw-100">
                 <div class="dropdown-arrow ml-3"></div><!-- .dropdown-scroll -->
                 <div class="dropdown-scroll perfect-scrollbar h-auto" style="max-height: 360px">
