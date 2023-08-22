@@ -4,14 +4,14 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">
-                    <a href="#"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang Chủ</a>
+                    <a href="{{ route('devicetypes.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang Chủ</a>
                 </li>
             </ol>
         </nav>
         <div class="d-md-flex align-items-md-start">
-            <h1 class="page-title mr-sm-auto">Quản Lý Quyền</h1>
+            <h1 class="page-title mr-sm-auto">Quản Lý Loại Thiết Bị</h1>
             <div class="btn-toolbar">
-                <a href="{{ route('groups.create') }}" class="btn btn-primary mr-2">
+                <a href="{{ route('devicetypes.create') }}" class="btn btn-primary mr-2">
                     <i class="fa-solid fa fa-plus"></i>
                     <span class="ml-1">Thêm Mới</span>
                 </a>
@@ -20,14 +20,24 @@
     </header>
     <div class="page-section">
         <div class="card card-fluid">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active " href="{{ route('devicetypes.index') }}">Tất Cả</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('devicetypes.trash') }}">Thùng Rác</a>
+                    </li>
+                </ul>
+            </div>
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-                        <form action="{{ route('groups.index') }}" method="GET" id="form-search">
+                        <form action="{{ route('devicetypes.index') }}" method="GET" id="form-search">
 
                             <div class="row">
                                 <div class="col">
-                                    <input name="search" class="form-control" type="text"
+                                    <input name="searchname" class="form-control" type="text"
                                         placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col-lg-2">
@@ -35,7 +45,6 @@
                                         type="submit">Tìm Kiếm</button>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -53,53 +62,40 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>STT</th>
-                                <th>Tên</th>
-                                <th>Nhân Sự</th>
-                                <th>Chức Năng</th>
+                                <th> STT </th>
+                                <th> Tên loại thiết bị </th>
+                                <th> Chức năng </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($items as $key => $item)
+                            @foreach ($items as $item)
                                 <tr>
-                                    <td>{{ ++$key }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>Hiện có {{ count($item->users) }} người</td>
-                                    </td>
-                                    <td>
+                                    <td class="align-middle"> {{ $item->id }} </td>
+                                    <td class="align-middle"> {{ $item->name }} </td>
 
-                                        <span class="sr-only">Edit</span></a> <a
-                                            href="{{ route('groups.edit', $item->id) }}"
-                                            class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span
-                                                class="sr-only">Remove</span></a>
-                                        <form action="{{ route('groups.destroy', $item->id) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Bạn có muốn xóa không ?')"
+                                    <td>
+                                        <form action="{{ route('devicetypes.destroy', $item->id) }}" style="display:inline"
+                                            method="post">
+                                            <button onclick="return confirm('Xóa {{ $item->name }} ?')"
                                                 class="btn btn-sm btn-icon btn-secondary"><i
                                                     class="far fa-trash-alt"></i></button>
-                                            <a class="btn btn-sm btn-icon btn-secondary" href="{{ route('groups.show', $item->id) }}">
-                                                <i class="fa-solid fa-user-tie"></i></a>
-
+                                            @csrf
+                                            @method('delete')
                                         </form>
-
+                                        <span class="sr-only">Edit</span></a> <a href="{{ route('devicetypes.edit', $item->id) }}"
+                                            class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span
+                                                class="sr-only">Remove</span></a>
                                     </td>
-
                                 </tr>
                             @endforeach
-                        </tbody><!-- /tbody -->
-                    </table><!-- /.table -->
+                        </tbody>
+                    </table>
 
                     <div style="float:right">
                         {{ $items->links() }}
                     </div>
-
                 </div>
-                <!-- /.table-responsive -->
-                <!-- .pagination -->
-
-            </div><!-- /.card-body -->
+            </div>
         </div>
     </div>
 @endsection

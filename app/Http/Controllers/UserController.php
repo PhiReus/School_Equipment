@@ -40,11 +40,9 @@ class UserController extends Controller
     {
 
         $groups = Group::get();
-        $items = User::get();
         $params =
             [
                 'groups' => $groups,
-                'items' => $items,
             ];
         return view('users.create', $params);
     }

@@ -48,7 +48,7 @@
                                     <input name="searchphone" class="form-control" type="text"
                                         placeholder="Tìm theo phone..." />
                                 </div>
-                                <div class="col-lg-1">
+                                <div class="col-lg-2">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
                                         type="submit">Tìm Kiếm</button>
                                 </div>
@@ -70,7 +70,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Tên</th>
                                 <th>E-mail</th>
                                 <th>Địa chỉ</th>

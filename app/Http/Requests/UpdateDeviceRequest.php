@@ -22,8 +22,9 @@ class UpdateDeviceRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'name' => 'required|unique:users',
+                'name' => 'required',
                 'quantity' => 'required',
+                'device_type_id' => 'required',
         ];
     }
     public function messages()
@@ -31,6 +32,7 @@ class UpdateDeviceRequest extends FormRequest
         return [
             'name.required' => 'Bạn không được để trống !',
             'quantity.required' => 'Bạn không được để trống !',
+            'device_type_id.required' => 'Bạn không được để trống !',
         ];
     }
 }
