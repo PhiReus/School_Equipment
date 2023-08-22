@@ -70,9 +70,9 @@
                         <thead>
                             <tr>
                                 <th> # </th>
-                                <th> Tên Lớp Học </th>
+                                <th> Tên lớp học </th>
                                 @if (Auth::check())
-                                    <th> Chức Năng </th>
+                                    <th> Chức năng </th>
                                 @endif
                             </tr>
                         </thead>

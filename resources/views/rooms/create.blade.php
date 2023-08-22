@@ -19,7 +19,7 @@
             <div class="card-body">
                 <legend>Thông tin cơ bản</legend>
                 <div class="form-group">
-                    <label for="tf1">Tên Lớp Học<abbr name="Trường bắt buộc">*</abbr></label> <input name="name" type="text" class="form-control" id="" placeholder="Nhập tên lớp học">
+                    <label for="tf1">Tên lớp học<abbr name="Trường bắt buộc">*</abbr></label> <input name="name" type="text" class="form-control" id="" placeholder="Nhập tên lớp học">
                     <small id="" class="form-text text-muted"></small>
                     @if ($errors->any())
                     <p style="color:red">{{ $errors->first('name') }}</p>

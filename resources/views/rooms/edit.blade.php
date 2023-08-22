@@ -23,7 +23,7 @@
                     @csrf
                     @method('PUT') -->
                 <div class="form-group">
-                    <label for="tf1">Tên Lớp Học</label> <input type="text" name="name" value="{{ $room->name }}" class="form-control" placeholder="Nhập tên lớp học"> 
+                    <label for="tf1">Tên lớp học</label> <input type="text" name="name" value="{{ $room->name }}" class="form-control" placeholder="Nhập tên lớp học"> 
                     <small class="form-text text-muted"></small>
                     @if ($errors->any())
                     <p style="color:red">{{ $errors->first('name') }}</p>

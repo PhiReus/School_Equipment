@@ -23,15 +23,15 @@ class AuthController extends Controller
     {
         $checkUser = $this->userService->login();
         if ($checkUser) {
-            return redirect()->route('rooms.index');
+            return redirect()->route('users.index');
         } else {
-            return view('includes.login');
+            return view('includes.Login');
         }
     }
 
     public function postLogin(LoginValidateRequest $request)
     {
-        
+        // dd($request);
         $dataUser = $this->userService->postLogin($request);
         if ($dataUser) {
             return redirect()->route('users.index')->with('success', 'Đăng nhập thành công!');
@@ -39,9 +39,12 @@ class AuthController extends Controller
             return redirect()->route('login')->with('error', 'Tài khoản hoặc mật khẩu không đúng!');
         }
     }
-    public function logout()
+    public function logout(Request $request)
     {
         $this->userService->logout();
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
         return redirect()->route('login')->with('success', 'Đăng xuất thành công!');
     }
 }

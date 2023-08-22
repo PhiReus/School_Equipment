@@ -1,4 +1,4 @@
-@extends('layout.blank')
+@extends('layouts.form')
 @section('content')
     <form class="auth-form" method="post" action="{{ route('checkLogin') }}">
 
@@ -40,13 +40,13 @@
         <!-- .form-group -->
         <div class="form-group text-center">
             <div class="custom-control custom-control-inline custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="remember-me"> <label class="custom-control-label"
-                    for="remember-me">Ghi nhớ mật khẩu</label>
+                <input type="checkbox" class="custom-control-input" id="remember" name="remember"> <label class="custom-control-label"
+                    for="remember">Ghi nhớ mật khẩu</label>
             </div>
         </div><!-- /.form-group -->
         <!-- recovery links -->
         <div class="text-center pt-3">
-            <a href="auth-recovery-password.html" class="link">Quên mật khẩu</a>
+            <a href="{{route('password.request')}}" class="link">Quên mật khẩu</a>
         </div><!-- /recovery links -->
     </form>
 @endsection

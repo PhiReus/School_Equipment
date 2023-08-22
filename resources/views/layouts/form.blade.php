@@ -86,8 +86,7 @@
         @yield('content')
         <!-- /.auth-form -->
         <!-- copyright -->
-        <footer class="auth-footer"> © 2018 All Rights Reserved. <a href="#">Privacy</a> and <a
-                href="#">Terms</a>
+        <footer class="auth-footer"> © 2023 School. 
         </footer>
     </main><!-- /.auth -->
     <!-- BEGIN BASE JS -->
