@@ -22,8 +22,10 @@
                                 <div class="card card-fluid">
                                     <h6 class="card-header"> Chi tiết </h6>
                                     <nav class="nav nav-tabs flex-column border-0">
-                                        <a href="{{ route('users.show',$item->id) }}" class="nav-link active">Chi tiết giáo viên</a>
-                                        <a href="{{ route('users.borrow_history',$item->id) }}" class="nav-link">Lịch sử mượn</a>
+                                        <a href="{{ route('users.show', $item->id) }}" class="nav-link active">Chi tiết giáo
+                                            viên</a>
+                                        <a href="{{ route('users.borrow_history', $item->id) }}" class="nav-link">Lịch sử
+                                            mượn</a>
                                     </nav>
                                 </div>
                             </div>
@@ -99,9 +101,9 @@
                                             <hr>
                                             <div class="form-actions">
 
-                                                <button class="btn btn-dark" onclick="window.history.back()">
+                                                <a class="btn btn-dark" href="{{ route('users.index') }}">
                                                     <i class="fa fa-arrow-left mr-2"></i> Back
-                                                </button>
+                                                </a>
                                             </div>
                                         </form>
                                     </div>
