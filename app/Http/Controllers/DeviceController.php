@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Services\Interfaces\DeviceServiceInterface;
 use App\Http\Requests\StoreDeviceRequest;
 use App\Http\Requests\UpdateDeviceRequest;
+use Illuminate\Support\Facades\Auth;
+
 class DeviceController extends Controller
 {
     protected $deviceService;
@@ -19,6 +21,9 @@ class DeviceController extends Controller
      */
     public function index(Request $request)
     {
+        if(!Auth::user()->hasPermission('Device_viewAny')){
+            abort(403);
+        }
         $items = $this->deviceService->paginate(2,$request);
 
         return view('devices.index', compact('items'));

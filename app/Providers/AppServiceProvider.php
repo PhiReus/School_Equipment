@@ -71,6 +71,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(RoomServiceInterface::class, RoomService::class);
         $this->app->singleton(RoomRepositoryInterface::class, RoomRepository::class);
 
+        
         // Borrows
         $this->app->singleton(BorrowServiceInterface::class, BorrowService::class);
         $this->app->singleton(BorrowRepositoryInterface::class, BorrowRepository::class);
