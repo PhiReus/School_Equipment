@@ -41,6 +41,12 @@ use App\Services\BorrowService;
 use App\Repositories\Interfaces\BorrowRepositoryInterface;
 use App\Repositories\Eloquents\BorrowRepository;
 
+// BorrowDevice
+use App\Services\Interfaces\BorrowDeviceServiceInterface;
+use App\Services\BorrowDeviceService;
+use App\Repositories\Interfaces\BorrowDeviceRepositoryInterface;
+use App\Repositories\Eloquents\BorrowDeviceRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -74,6 +80,10 @@ class AppServiceProvider extends ServiceProvider
         // Borrows
         $this->app->singleton(BorrowServiceInterface::class, BorrowService::class);
         $this->app->singleton(BorrowRepositoryInterface::class, BorrowRepository::class);
+
+         // BorrowsDevice
+         $this->app->singleton(BorrowDeviceServiceInterface::class, BorrowDeviceService::class);
+         $this->app->singleton(BorrowDeviceRepositoryInterface::class, BorrowDeviceRepository::class);
     }
 
     /**

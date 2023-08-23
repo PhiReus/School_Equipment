@@ -11,14 +11,18 @@ class Borrow extends Model
     use HasFactory;
     protected $table ='borrows';
     use HasFactory,SoftDeletes;
-    protected $fillable = ['id', 'user_id', 'borrow_date','created_at','updated_at','deleted_at'];
+    protected $fillable = ['id', 'user_id', 'borrow_date','created_at','updated_at','deleted_at','borrow_note'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+    public function the_devices()
+    {
+        return $this->hasMany(BorrowDevice::class, 'borrow_id', 'id');
+    }
     public function devices()
     {
-        return $this->hasMany(Device::class);
+        return $this->belongsToMany(Device::class, 'borrow_devices', 'borrow_id', 'device_id');
     }
 }

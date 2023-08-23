@@ -5,8 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Borrow;
 use App\Models\User;
+use App\Models\Room;
+use App\Models\Device;
+use App\Models\BorrowDevice;
+use Illuminate\Support\Facades\DB;
+
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
+
+use App\Services\Interfaces\RoomServiceInterface;
+use App\Services\Interfaces\UserServiceInterface;
+
 
 use App\Http\Requests\StoreBorrowRequest;
 use App\Http\Requests\UpdateBorrowRequest;
@@ -15,29 +24,36 @@ class BorrowController extends Controller
 {
     protected $borrowService;
     protected $deviceService;
+    protected $roomService;
+    protected $userService;
 
-    public function __construct(BorrowServiceInterface $borrowService, DeviceServiceInterface $deviceService )
+    public function __construct(BorrowServiceInterface $borrowService, DeviceServiceInterface $deviceService, RoomServiceInterface $roomService, UserServiceInterface $userService)
     {
         $this->borrowService = $borrowService;
         $this->deviceService = $deviceService;
+        $this->roomService = $roomService;
+        $this->userService = $userService;
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $items = $this->borrowService->paginate(2,$request);
-        $users = User::get();
-        return view('borrows.index', compact('items','users'));
+        $items = $this->borrowService->paginate(10,$request);
+        // $users = $this->userService->all($request);
+        return view('borrows.index', compact('items'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $users = User::all();
-        return view('borrows.create', compact('users'));
+        // dd($this->userService->get());
+        $users = $this->userService->all($request);
+        $rooms = $this->roomService->all($request);
+
+        return view('borrows.create', compact('users', 'rooms'));
     }
     
 
@@ -55,21 +71,45 @@ class BorrowController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($borrow)
-    {
-        $users = User::get();
+    public function show(Request $request, string $id)
+{
+    // dd($id);
+    // dd($user->user_id);
+
+    $item2 = BorrowDevice::where('borrow_id', $id)->get();
+    
+        // dd($item2);
+    
+    
+    return view('borrows.show', compact('item2'));
+        // dd($item);
+        // $rooms = $this->roomService->all($request);
+        // $devices = $this->deviceService->all($request);
+        // $users = $this->userService->all($request);
+        // return view('borrows.show', compact('item','users','devices'));
         
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
-        $items = $this->borrowService->find($id);
-        // dd($item);
-        $users = User::all();
-        return view('borrows.edit', compact('items','users',));
+        // dd(1);
+        $item = $this->borrowService->find($id);
+        // $device_ids = [];
+        // foreach ($item->the_devices as $device) {
+        //     array_push($device_ids, $device->device_id);
+        // }
+        $device_ids = $item->the_devices->pluck('device_id')->toArray();
+        $device_ids = json_encode($device_ids);
+        // dd($device_ids);
+        $users = $this->userService->all($request);
+        $rooms = $this->roomService->all();
+
+        return view('borrows.edit', compact('item','users','rooms','device_ids'));
+
+        
     }
 
     /**
@@ -79,7 +119,7 @@ class BorrowController extends Controller
     {
         // dd(123);
         $data = $request->except(['_token', '_method']);
-        $this->borrowService->update($id, $data);
+        $this->borrowService->update( $data, $id);
         return redirect()->route('borrows.index')->with('success', 'Cập nhật thành công');
     }
 
@@ -88,18 +128,29 @@ class BorrowController extends Controller
      */
     public function destroy(string $id)
     {
-        try{
+        try {
+            // Lấy thông tin phiếu mượn trước khi xóa
+            $borrow = $this->borrowService->find($id);
+            
+            // Xóa bản ghi trong bảng borrow_devices
             $this->borrowService->destroy($id);
-                return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
-            }catch (\Exception $e) {
-                return redirect()->back()->with('error', 'Xóa thất bại!');
+    
+            // Cập nhật lại số lượng thiết bị trong bảng devices
+            foreach ($borrow->the_devices as $device) {
+                $this->deviceService->updateQuantity($device->device_id, $device->quantity);
             }
+    
+            return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Xóa thất bại!');
+        }
     }
+    
 
-    public function trash()
+    public function trash(Request $request)
     {
         $items = $this->borrowService->trash();
-        $users = User::get();
+        $users = $this->userService->all($request);
         return view('borrows.trash', compact('items','users'));
     }
     public function restore($id)

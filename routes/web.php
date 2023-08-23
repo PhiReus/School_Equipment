@@ -63,3 +63,11 @@ Route::prefix('borrows')->group(function () {
 });
 Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 
+
+// BorrowDevice
+Route::prefix('borrowdevices')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\BorrowDevicesController::class, 'trash'])->name('borrowdevices.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\BorrowDevicesController::class, 'restore'])->name('borrowdevices.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowDevicesController::class, 'forceDelete'])->name('borrowdevices.forceDelete');
+});
+Route::resource('borrowdevices',\App\Http\Controllers\BorrowDevicesController::class);

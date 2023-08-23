@@ -20,10 +20,11 @@
 
                 <div class="form-group">
                     <label for="exampleSelectGender">Người mượn<abbr name="Trường bắt buộc">*</abbr></label>
-                    <select class="form-control" name="user_id">
+                    <select class="form-control" id="user_id" name="user_id">
                         <option value="">--Vui lòng chọn--</option>
                         @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}</option>
                         @endforeach
                     </select>
                     @if ($errors->any())
@@ -34,13 +35,23 @@
 
                 <div class="form-group">
                     <label for="tf1">Ngày mượn<abbr name="Trường bắt buộc">*</abbr></label> <input name="borrow_date"
-                        type="date" class="form-control" id="" placeholder="Nhập ngày mượn">
+                        type="date" class="form-control" id="" placeholder="Nhập ngày mượn"
+                        value="{{ old('borrow_date') }}">
                     <small id="" class="form-text text-muted"></small>
                     @if ($errors->any())
                     <p style="color:red">{{ $errors->first('borrow_date') }}</p>
                     @endif
                 </div>
 
+                <div class="form-group">
+                    <label for="tf1">Ghi chú</label>
+                    <input name="borrow_note" type="text" class="form-control" id="" placeholder="Nhập ghi chú"
+                        value="{{ old('borrow_note') }}">
+                    <small id="" class="form-text text-muted"></small>
+                    @if ($errors->has('borrow_note'))
+                    <p style="color:red">{{ $errors->first('borrow_note') }}</p>
+                    @endif
+                </div>
 
             </div>
         </div>
@@ -78,7 +89,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="device_list">
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -99,6 +110,7 @@
 <script>
 $(document).ready(function() {
     var device_ids = [];
+    $('#user_id').select2({});
     $('#devices').select2({
         ajax: {
             url: "{{ route('borrows.devices') }}",
@@ -121,7 +133,7 @@ $(document).ready(function() {
         minimumInputLength: 1
     });
 
-    function remove_device(){
+    function remove_device() {
         alert(1)
     }
     var device_template = `
@@ -133,16 +145,15 @@ $(document).ready(function() {
             <td width="120">
                 <select name="devices[session][]" class="form-control">
                     <option value="Sáng">Sáng</option>
-                    <option value="Sáng">Sáng</option>
-                    <option value="Sáng">Sáng</option>
+                    <option value="Chiều">Chiều</option>
                 </select>
             </td>
             <td width="100"> <input name="devices[lecture_name][]" type="text" class="form-control input-sm"> </td>
             <td>
                 <select name="devices[room_id][]" class="form-control">
-                    <option value="">Chọn lớp</option>
-                    <option value="1">10C</option>
-                    <option value="2">A11</option>
+                    <?php foreach ($rooms as $room): ?>
+                        <option value="<?php echo $room->id; ?>"><?php echo $room->name; ?></option>
+                    <?php endforeach; ?>
                 </select>
             </td>
             <td width="100">
@@ -164,38 +175,36 @@ $(document).ready(function() {
 
     $('#addToDanhSach').on('click', function() {
         var device_id = $('#devices').val();
-        if(device_id){
-            if( device_ids.indexOf(device_id) >= 0 ){
+        if (device_id) {
+            if (device_ids.indexOf(device_id) >= 0) {
                 alert('Thiết bị này đã có trong danh sách');
                 return false;
             }
 
             var device_name = $('#devices option:selected').text();
             var device_item = device_template;
-            device_item = device_item.replace('DEVICE_STT',device_id);
-            device_item = device_item.replaceAll('DEVICE_ID',device_id);
-            device_item = device_item.replace('DEVICE_NAME',device_name);
+            device_item = device_item.replace('DEVICE_STT', device_id);
+            device_item = device_item.replaceAll('DEVICE_ID', device_id);
+            device_item = device_item.replace('DEVICE_NAME', device_name);
+
+            // Appending the device_item to the device_list tbody
             $('#device_list').append(device_item);
+
+            // Pushing device_id to the device_ids array
             device_ids.push(device_id);
 
-            $('#devices').val('');
-            $('#devices').trigger('change')
-        }else{
+            // Resetting the devices select2
+            $('#devices').val('').trigger('change');
+        } else {
             alert('Vui lòng lựa chọn thiết bị');
         }
-        
-        
     });
 
-    $('body').on('click','.remove-device', function() {
+    $('body').on('click', '.remove-device', function() {
         let device_id = $(this).data('id');
         device_ids = device_ids.filter(item => item !== device_id)
         $(this).closest('tr').remove();
     });
-
-    
-
-
 });
 </script>
 @endsection

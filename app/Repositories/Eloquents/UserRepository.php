@@ -14,6 +14,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
     {
         return User::class;
     }
+   
     public function all($request = null)
     {
         $query = $this->model->select('*');
