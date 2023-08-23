@@ -52,5 +52,20 @@ class UserService implements UserServiceInterface {
     {
         return $this->userRepository->trash();
     }
-
+    public function login()
+    {
+        return $this->userRepository->login();
+    }
+    public function postLogin($request){
+        return $this->userRepository->postLogin($request);
+    }
+    public function logout(){
+        return $this->userRepository->logout();
+    }
+    public function getInfoUser(){
+        return $this->userRepository->getInfoUser();
+    }
+    public function forgotPassword($request){
+        return $this->userRepository->forgotPassword($request);
+    }
 }

@@ -22,14 +22,16 @@ class StoreRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|unique:rooms',
         ];
     }
-    
+
     public function messages()
     {
         return  [
-                'name.required' => 'Bạn không được để trống',       
+                'name.required' => 'Bạn không được để trống',
+                'name.unique' => 'Tên lớp đã tồn tại !',
+
             ];
     }
 }

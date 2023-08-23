@@ -6,30 +6,38 @@ use Illuminate\Http\Request;
 use App\Services\Interfaces\DeviceServiceInterface;
 use App\Http\Requests\StoreDeviceRequest;
 use App\Http\Requests\UpdateDeviceRequest;
+use App\Models\DeviceType;
+use App\Services\Interfaces\DeviceTypeServiceInterface;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+
+
 class DeviceController extends Controller
 {
     protected $deviceService;
+    protected $deviceTypeService;
 
-    public function __construct(DeviceServiceInterface $deviceService)
+    public function __construct(DeviceServiceInterface $deviceService,DeviceTypeServiceInterface $deviceTypeService)
     {
         $this->deviceService = $deviceService;
+        $this->deviceTypeService = $deviceTypeService;
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        if(!Auth::user()->hasPermission('Device_viewAny')){
+            abort(403);
+        }
         $items = $this->deviceService->paginate(2,$request);
-
-        return view('devices.index', compact('items'));
+        $devicetypes = $this->deviceTypeService->all($request);
+        return view('devices.index', compact('items','devicetypes'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('devices.create');
+        $devicetypes = DeviceType::get();
+        return view('devices.create',compact('devicetypes'));
     }
 
     /**
@@ -57,8 +65,10 @@ class DeviceController extends Controller
     public function edit(string $id)
     {
         $item = $this->deviceService->find($id);
+        $devicetypes = DeviceType::get();
+
         // dd($item);
-        return view('devices.edit', compact('item'));
+        return view('devices.edit', compact('item','devicetypes'));
     }
 
     /**
@@ -93,7 +103,7 @@ class DeviceController extends Controller
     public function restore($id)
     {
         try {
-            $items = $this->deviceService->restore($id);
+            $this->deviceService->restore($id);
             return redirect()->route('devices.index')->with('success', 'Khôi phục thiết bị thành công');
         } catch (\exception $e) {
             Log::error($e->getMessage());
@@ -104,7 +114,7 @@ class DeviceController extends Controller
     {
 
         try {
-            $items = $this->deviceService->forceDelete($id);
+            $this->deviceService->forceDelete($id);
             return redirect()->route('devices.index')->with('success', 'Xóa vĩnh viễn thành công');
         } catch (\exception $e) {
             Log::error($e->getMessage());

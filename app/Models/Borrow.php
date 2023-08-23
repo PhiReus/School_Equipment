@@ -17,12 +17,14 @@ class Borrow extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function the_devices()
     {
         return $this->hasMany(BorrowDevice::class, 'borrow_id', 'id');
     }
+   
     public function devices()
     {
-        return $this->belongsToMany(Device::class, 'borrow_devices', 'borrow_id', 'device_id');
+        return $this->belongsToMany(Device::class,'borrow_devices','borrow_id','device_id');
     }
 }

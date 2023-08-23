@@ -23,5 +23,15 @@ class RoleSeeder extends Seeder
                 ]);
             }
         }
+        // $groups = ['DeviceType'];
+        // $actions = ['viewAny', 'view', 'create', 'update', 'delete', 'restore', 'forceDelete', 'trash'];
+        // foreach ($groups as $group) {
+        //     foreach ($actions as $action) {
+        //         DB::table('roles')->insert([
+        //             'name' => $group . '_' . $action,
+        //             'group_name' => $group,
+        //         ]);
+        //     }
+        // }
     }
 }

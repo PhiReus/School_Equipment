@@ -4,24 +4,20 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">
-                    <a href="{{ route('rooms.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang Chủ</a>
+                    <a href="{{ route('rooms.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang
+                        Chủ</a>
                 </li>
             </ol>
         </nav>
-        <!-- <button type="button" class="btn btn-success btn-floated"><span class="fa fa-plus"></span></button> -->
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Quản Lý Lớp Học</h1>
             <div class="btn-toolbar">
-                {{-- @if (Auth::user()->hasPermission('Customer_create')) --}}
-                <a href="{{ route('rooms.create') }}" class="btn btn-primary mr-2">
-                    <i class="fa-solid fa fa-plus"></i>
-                    <span class="ml-1">Thêm Mới</span>
-                </a>
-                <a href="{{ route('rooms.index') }}" class="btn btn-primary">
-                    <i class="fas fa-file"></i>
-                    <span class="ml-1">Xuất file excel</span>
-                </a>
-                {{-- @endif --}}
+                @if (Auth::user()->hasPermission('Room_create'))
+                    <a href="{{ route('rooms.create') }}" class="btn btn-primary mr-2">
+                        <i class="fa-solid fa fa-plus"></i>
+                        <span class="ml-1">Thêm Mới</span>
+                    </a>
+                @endif
             </div>
         </div>
     </header>
@@ -41,7 +37,7 @@
                 <div class="row mb-2">
                     <div class="col">
                         <form action="{{ route('rooms.index') }}" method="GET" id="form-search">
-                    
+
                             <div class="row">
                                 <div class="col">
                                     <input name="search" class="form-control" type="text"
@@ -52,11 +48,7 @@
                                         type="submit">Tìm Kiếm</button>
                                 </div>
                             </div>
-                            <!-- modalFilterColumns  -->
-                            {{-- @include('admin.customers.modals.modalFilterColumns') --}}
                         </form>
-                        <!-- modalFilterColumns  -->
-                        {{-- @include('admin.customers.modals.modalSaveSearch') --}}
                     </div>
                 </div>
                 @if (session('success'))
@@ -74,8 +66,10 @@
                         <thead>
                             <tr>
                                 <th> # </th>
-                                <th> Tên Lớp Học </th>
-                                <th> Chức Năng </th>
+                                <th> Tên lớp học </th>
+                                @if (Auth::check())
+                                    <th> Chức năng </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -83,25 +77,28 @@
                                 <tr>
                                     <td class="align-middle"> {{ $room->id }} </td>
                                     <td class="align-middle"> {{ $room->name }} </td>
+                                    @if (Auth::check())
+                                        <td>
+                                            @if (Auth::user()->hasPermission('Room_update'))
+                                                <form action="{{ route('rooms.destroy', $room->id) }}"
+                                                    style="display:inline" method="post">
+                                                    <button onclick="return confirm('Xóa {{ $room->name }} ?')"
+                                                        class="btn btn-sm btn-icon btn-secondary"><i
+                                                            class="far fa-trash-alt"></i></button>
+                                                    @csrf
+                                                    @method('delete')
+                                                </form>
+                                            @endif
 
-                                    <td>
-                                        {{-- @if (Auth::user()->hasPermission('room_delete')) --}}
-                                        <form action="{{ route('rooms.destroy', $room->id) }}" style="display:inline"
-                                            method="post">
-                                            <button onclick="return confirm('Xóa {{ $room->name }} ?')"
-                                                class="btn btn-sm btn-icon btn-secondary"><i
-                                                    class="far fa-trash-alt"></i></button>
-                                            @csrf
-                                            @method('delete')
-                                        </form>
-                                        {{-- @endif --}}
-
-                                        {{-- @if (Auth::user()->hasPermission('room_update')) --}}
-                                        <span class="sr-only">Edit</span></a> <a href="{{ route('rooms.edit', $room->id) }}"
-                                            class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span
-                                                class="sr-only">Remove</span></a>
-                                        {{-- @endif --}}
-                                    </td>
+                                            @if (Auth::user()->hasPermission('Room_delete'))
+                                                <span class="sr-only">Edit</span></a> <a
+                                                    href="{{ route('rooms.edit', $room->id) }}"
+                                                    class="btn btn-sm btn-icon btn-secondary"><i
+                                                        class="fa fa-pencil-alt"></i> <span
+                                                        class="sr-only">Remove</span></a>
+                                            @endif
+                                        </td>
+                                    @endif
                                 </tr><!-- /tr -->
                             @endforeach
                         </tbody><!-- /tbody -->

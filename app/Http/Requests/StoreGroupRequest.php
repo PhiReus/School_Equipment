@@ -30,6 +30,8 @@ class StoreGroupRequest extends FormRequest
     {
         return [
             'name.required' => 'Bạn không được để trống !',
+            'name.unique' => 'Tên nhóm nhân viên đã tồn tại !',
+
         ];
     }
 }

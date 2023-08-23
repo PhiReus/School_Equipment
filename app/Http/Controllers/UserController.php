@@ -7,22 +7,34 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\User;
+use App\Services\Interfaces\BorrowServiceInterface;
+use App\Services\Interfaces\DeviceServiceInterface;
 use Illuminate\Support\Facades\DB;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\Interfaces\GroupServiceInterface;
+use Illuminate\Support\Facades\Auth;
+use Redirect;
+
 
 class UserController extends Controller
 {
     protected $userService;
     protected $groupService;
+    protected $borrowService;
+    protected $deviceService;
 
-    public function __construct(UserServiceInterface $userService, GroupServiceInterface $groupService)
+    public function __construct(UserServiceInterface $userService, GroupServiceInterface $groupService, BorrowServiceInterface $borrowService, DeviceServiceInterface $deviceService,)
     {
         $this->groupService = $groupService;
         $this->userService = $userService;
+        $this->borrowService = $borrowService;
+        $this->deviceService = $deviceService;
     }
     public function index(Request $request)
     {
+        if (!Auth::user()->hasPermission('User_viewAny')) {
+            abort(403);
+        }
         $items = $this->userService->all($request);
         $param =
             [
@@ -34,11 +46,9 @@ class UserController extends Controller
     {
 
         $groups = Group::get();
-        $items = User::get();
         $params =
             [
                 'groups' => $groups,
-                'items' => $items,
             ];
         return view('users.create', $params);
     }
@@ -77,7 +87,6 @@ class UserController extends Controller
     public function show($id)
     {
         $item = $this->userService->find($id);
-        // dd($item);
         return view('users.show', compact('item'));
     }
     public function trash()
@@ -102,5 +111,35 @@ class UserController extends Controller
         } catch (err) {
             return redirect()->route('users.trash')->with('success', 'Xóa thất bại!');
         }
+    }
+    public function history(Request $request, $id)
+    {
+        $user = $this->userService->find($id);
+        $queryBuilder = DB::table('borrows AS b')
+            ->select(
+                'b.id AS borrow_id',
+                'bd.id AS borrow_device_id',
+                'bd.quantity',
+                'bd.return_date',
+                'bd.lecture_name',
+                'bd.lesson_name',
+                'bd.session',
+                'bd.image_first',
+                'bd.image_last',
+                'bd.status',
+                'd.name AS device_name',
+                'r.name AS room_name',
+                'u.name AS user_name',
+                'bd.borrow_date'
+            )
+            ->join('borrow_devices AS bd', 'b.id', '=', 'bd.borrow_id')
+            ->join('devices AS d', 'bd.device_id', '=', 'd.id')
+            ->join('rooms AS r', 'bd.room_id', '=', 'r.id')
+            ->join('users AS u', 'b.user_id', '=', 'u.id')
+            ->where('u.id', $id)
+            ->withTrashed();
+        $history = $queryBuilder->paginate(3);
+        // dd($history);
+        return view('users.history', compact('user', 'history'));
     }
 }

@@ -7,6 +7,13 @@ use App\Models\User;
 use App\Repositories\Eloquents\EloquentRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
+
 
 class UserRepository extends EloquentRepository implements UserRepositoryInterface
 {
@@ -35,28 +42,33 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
     }
     public function store($data)
     {
-        if( isset( $data['image']) && $data['image']->isValid() ){
+        if (isset($data['image']) && $data['image']->isValid()) {
             $path = $data['image']->store('public/users');
             $url = Storage::url($path);
             $data['image'] = $url;
         }
-        if( isset( $data['password'])) {
-            $data['password']=bcrypt($data['password']);
+        if (isset($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
         };
         return $this->model->create($data);
     }
-    public function update($id,$data)
+    public function update($id, $data)
     {
-         if( isset( $data['image']) && $data['image']->isValid() ){
+        if (isset($data['image']) && $data['image']->isValid()) {
             $path = $data['image']->store('public/users');
             $url = Storage::url($path);
             $data['image'] = $url;
         }
-        if( isset( $data['password'])) {
-            $data['password']=bcrypt($data['password']);
-        };
-        return $this->model->where('id',$id)->update($data);
+
+        if (isset($data['password']) && !empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']); // Loại bỏ trường password khỏi mảng data
+        }
+
+        return $this->model->where('id', $id)->update($data);
     }
+
     public function trash()
     {
         return $this->model->onlyTrashed()->get();
@@ -68,5 +80,49 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
     public function restore($id)
     {
         return User::withTrashed()->find($id)->restore();
+    }
+
+    public function login()
+    {
+        // dd(Auth::check());
+        return Auth::check();
+    }
+    public function postLogin($request)
+    {
+
+        $dataUser = $request->only('email', 'password');
+        $remember = $request->has('remember');
+        return Auth::attempt($dataUser, $remember);
+    }
+    public function logout()
+    {
+        return Auth::logout();
+    }
+    public function getInfoUser()
+    {
+        return  Auth::user();
+    }
+
+    public function forgotPassword($request)
+    {
+        $user = $this->model->where('email', $request->email)->first(); // Tìm người dùng dựa trên địa chỉ email yêu cầu
+
+        if ($user) {
+            $pass = Str::random(6);
+            $user->password = bcrypt($pass);
+            $user->save();
+
+            $data = [
+                'name' => $user->name,
+                'pass' => $pass,
+                'email' => $user->email,
+            ];
+
+            return  Mail::send('includes.SendMail', compact('data'), function ($email) use ($user) {
+                $email->from($user->email, 'Quan tri vien'); // Địa chỉ email và tên người gửi là email của người dùng
+                $email->subject('Forgot Password');
+                $email->to($user->email, $user->name);
+            });
+        }
     }
 }

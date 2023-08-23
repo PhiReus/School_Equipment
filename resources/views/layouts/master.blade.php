@@ -53,10 +53,10 @@
       <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
       <![endif]-->
         <!-- .app-header -->
-        @include('includes.header')
+        @include('includes.Header')
         <!-- /.app-header -->
         <!-- .app-aside -->
-        @include('includes.sidebar')
+        @include('includes.Sidebar')
        <!-- /.app-aside -->
         <!-- .app-main -->
         <main class="app-main">
@@ -72,7 +72,7 @@
         </main><!-- /.app-main -->
     </div><!-- /.app -->
 
-    @include('includes.footer')
+    @include('includes.Footer')
     <!-- BEGIN BASE JS -->
     <script src="{{ asset('asset/vendor/jquery/jquery.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>

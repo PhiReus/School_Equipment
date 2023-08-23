@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories\Eloquents;
 
 use App\Models\Borrow;
@@ -8,6 +9,7 @@ use App\Repositories\Interfaces\BorrowRepositoryInterface;
 use App\Repositories\Eloquents\EloquentRepository;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+
 class BorrowRepository extends EloquentRepository implements BorrowRepositoryInterface
 {
     public function getModel()
@@ -15,17 +17,7 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         return Borrow::class;
     }
 
-    /*
-    - Do PostRepository đã kế thừa EloquentRepository nên không cần triển khai
-    các phương thức trừu tượng của PostRepositoryInterface
-    - Có thể ghi đè phương thức ở đây
-    - Nếu muốn thêm phương thức mới cần:
-        + Khai báo thêm ở PostRepositoryInterface
-        + Triển khai lại ở đây
-    - Ví dụ: paginate() không có sẵn trong RepositoryInterface, để thêm chúng ta thêm:
-        + Khai báo paginate() ở PostRepositoryInterface
-        + Triển khai lại ở PostRepository
-    */
+
     public function paginate($limit, $request = null)
     {
         $subquery = $this->model
@@ -110,10 +102,9 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     {
         // try {
 
-            $result = $this->model->onlyTrashed()->find($id);
-            $result->forceDelete();
-            return $result;
-
+        $result = $this->model->onlyTrashed()->find($id);
+        $result->forceDelete();
+        return $result;
     }
     public function update($data, $id)
     {
@@ -186,8 +177,11 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         $device->quantity += $quantityChange;
         $device->save();
     }
-
   
-    
+    public function all($request = null)
+    {
+        $query = $this->model->select('*');
+        return $query->orderBy('id', 'DESC')->paginate(2);
+    }
 }
 

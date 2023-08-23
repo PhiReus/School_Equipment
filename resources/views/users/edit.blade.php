@@ -39,13 +39,14 @@
                     </div>
                     <div class="form-group">
                         <label for="tf1">Mật khẩu<abbr name="Trường bắt buộc">*</abbr></label>
-                        <input name="password" type="text" value="{{ old('password', $item->password) }}"
-                            class="form-control" id="" placeholder="Nhập mật khẩu">
+
+                            <input name="password" type="password" class="form-control" id="" placeholder="Nhập mật khẩu">
                         <small id="" class="form-text text-muted"></small>
                         @if ($errors->any())
                             <p style="color:red">{{ $errors->first('password') }}</p>
                         @endif
                     </div>
+
                     <div class="form-group">
                         <label for="tf1">Địa chỉ<abbr name="Trường bắt buộc">*</abbr></label>
                         <input name="address" type="text" value="{{ old('address', $item->address) }}"

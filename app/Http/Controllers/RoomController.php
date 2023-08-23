@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateRoomRequest;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\RoomServiceInterface;
 use App\Models\Room;
+use Illuminate\Support\Facades\Auth;
+
 
 
 
@@ -22,6 +24,9 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
+        if(!Auth::user()->hasPermission('Room_viewAny')){
+            abort(403);
+        }
         $rooms = $this->postSevice->paginate(20,$request);
         return view('rooms.index',compact('rooms'));
     }

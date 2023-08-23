@@ -1,7 +1,5 @@
-
 @extends('layouts.master')
 @section('content')
- @include('sweetalert::alert')
     <div class="page-header">
         <h3 class="page-title">Cấp quyền cho: {{ $group->name }}</h3>
         <nav aria-label="breadcrumb">
@@ -18,35 +16,35 @@
                 @method('PUT')
                 <div class="card">
                     <div class="card-header">
-                        <label  class="btn btn-success">
+                        <label class="btn btn-success">
                             <input id='checkAll' type="checkbox">
                             Chọn tất cả
                         </label>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @foreach( $all_roles as $group_name => $roles )
+                            @foreach ($all_roles as $group_name => $roles)
                                 <div class="col-lg-6 mb-3">
                                     <ul class="list-group">
                                         <li class="list-group-item active text-uppercase">
-                                            <input type="checkbox" class="checker" value="{{ $group_name }}" >
-                                          {{ trans($group_name) }}
+                                            <input type="checkbox" class="checker" value="{{ $group_name }}">
+                                            {{ trans($group_name) }}
                                         </li>
-                                        @foreach( $roles as $key => $role )
-                                        <?php
-                                            if($key < 0) continue;
-                                        ?>
-                                        <li class="list-group-item">
-                                            <input type="checkbox"
-                                                @checked(in_array($role->id, $active_roles)) name="roles[]"
-                                                class="ml-0 form-check-input check-role {{ $role->group_name }}"
-                                                value="{{ $role->id }}"
-                                            >
+                                        @foreach ($roles as $key => $role)
+                                            <?php
+                                            if ($key < 0) {
+                                                continue;
+                                            }
+                                            ?>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" @checked(in_array($role->id, $active_roles)) name="roles[]"
+                                                    class="ml-0 form-check-input check-role {{ $role->group_name }}"
+                                                    value="{{ $role->id }}">
 
-                                            <span class="ml-4">
-                                               {{ trans($role->name ) }}
-                                            </span>
-                                        </li>
+                                                <span class="ml-4">
+                                                    {{ trans($role->name) }}
+                                                </span>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -54,8 +52,8 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <input type="submit" class="btn btn-info" value="Cấp quyền" >
-                        <a href="{{route('groups.index')}}" class="btn btn-light">Quay lại</a>
+                        <input type="submit" class="btn btn-info" value="Cấp quyền">
+                        <a href="{{ route('groups.index') }}" class="btn btn-light">Quay lại</a>
                     </div>
                 </div>
             </form>
@@ -74,4 +72,3 @@
         })
     </script>
 @endsection
-

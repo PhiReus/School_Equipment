@@ -32,6 +32,4 @@ class GroupRepository extends EloquentRepository implements GroupRepositoryInter
     {
         return $this->find($id)->update($data);
     }
-    
-
 }

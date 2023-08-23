@@ -41,11 +41,19 @@ use App\Services\BorrowService;
 use App\Repositories\Interfaces\BorrowRepositoryInterface;
 use App\Repositories\Eloquents\BorrowRepository;
 
+
 // BorrowDevice
 use App\Services\Interfaces\BorrowDeviceServiceInterface;
 use App\Services\BorrowDeviceService;
 use App\Repositories\Interfaces\BorrowDeviceRepositoryInterface;
 use App\Repositories\Eloquents\BorrowDeviceRepository;
+
+// DeviceType
+use App\Services\Interfaces\DeviceTypeServiceInterface;
+use App\Services\DeviceTypeService;
+use App\Repositories\Interfaces\DeviceTypeRepositoryInterface;
+use App\Repositories\Eloquents\DeviceTypeRepository;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -53,22 +61,22 @@ class AppServiceProvider extends ServiceProvider
      * Register any application services.
      *
      * @return void
-     */ 
+     */
     public function register()
     {
-       
+
         //User
         $this->app->singleton(UserServiceInterface::class, UserService::class);
         $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
-      
+
         //Role
         $this->app->singleton(RoleServiceInterface::class, RoleService::class);
         $this->app->singleton(RoleRepositoryInterface::class, RoleRepository::class);
-      
+
         // Device
         $this->app->singleton(DeviceServiceInterface::class, DeviceService::class);
         $this->app->singleton(DeviceRepositoryInterface::class, DeviceRepository::class);
-        
+
         // Group
         $this->app->singleton(GroupServiceInterface::class, GroupService::class);
         $this->app->singleton(GroupRepositoryInterface::class, GroupRepository::class);
@@ -77,13 +85,19 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(RoomServiceInterface::class, RoomService::class);
         $this->app->singleton(RoomRepositoryInterface::class, RoomRepository::class);
 
+        
         // Borrows
         $this->app->singleton(BorrowServiceInterface::class, BorrowService::class);
         $this->app->singleton(BorrowRepositoryInterface::class, BorrowRepository::class);
 
+
          // BorrowsDevice
          $this->app->singleton(BorrowDeviceServiceInterface::class, BorrowDeviceService::class);
          $this->app->singleton(BorrowDeviceRepositoryInterface::class, BorrowDeviceRepository::class);
+
+         // DeviceType
+         $this->app->singleton(DeviceTypeServiceInterface::class, DeviceTypeService::class);
+         $this->app->singleton(DeviceTypeRepositoryInterface::class, DeviceTypeRepository::class);
     }
 
     /**
