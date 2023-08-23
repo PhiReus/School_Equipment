@@ -14,6 +14,10 @@ class DeviceService implements DeviceServiceInterface
     {
         $this->deviceRepository = $deviceRepository;
     }
+    public function updateQuantity($deviceId, $quantityChange)
+    {
+        return $this->deviceRepository->updateQuantity($deviceId, $quantityChange);
+    }
 
     /* Triển khai các phương thức trong DeviceServiceInterface */
     public function paginate($limit,$request=null)

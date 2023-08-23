@@ -82,8 +82,19 @@ Route::prefix('borrows')->group(function () {
     Route::get('/trash', [\App\Http\Controllers\BorrowController::class, 'trash'])->name('borrows.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowController::class, 'forceDelete'])->name('borrows.forceDelete');
+    Route::get('/devices', [\App\Http\Controllers\BorrowController::class, 'devices'])->name('borrows.devices');
 });
 Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
+
+
+
+// BorrowDevice
+Route::prefix('borrowdevices')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\BorrowDevicesController::class, 'trash'])->name('borrowdevices.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\BorrowDevicesController::class, 'restore'])->name('borrowdevices.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowDevicesController::class, 'forceDelete'])->name('borrowdevices.forceDelete');
+});
+Route::resource('borrowdevices',\App\Http\Controllers\BorrowDevicesController::class);
 
 // DeviceType
 Route::prefix('devicetypes')->group(function () {
@@ -92,4 +103,5 @@ Route::prefix('devicetypes')->group(function () {
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceTypeController::class, 'forceDelete'])->name('devicetypes.forceDelete');
 });
 Route::resource('devicetypes',\App\Http\Controllers\DeviceTypeController::class);
+
 

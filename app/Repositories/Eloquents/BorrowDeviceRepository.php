@@ -1,15 +1,15 @@
 <?php
 namespace App\Repositories\Eloquents;
 
-use App\Models\Device;
-use App\Repositories\Interfaces\DeviceRepositoryInterface;
+use App\Models\BorrowDevice;
+use App\Repositories\Interfaces\BorrowDeviceRepositoryInterface;
 use App\Repositories\Eloquents\EloquentRepository;
 use Illuminate\Support\Facades\Storage;
-class DeviceRepository extends EloquentRepository implements DeviceRepositoryInterface
+class BorrowDeviceRepository extends EloquentRepository implements  BorrowDeviceRepositoryInterface
 {
     public function getModel()
     {
-        return Device::class;
+        return BorrowDevice::class;
     }
 
     /*
@@ -23,20 +23,17 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
         + Khai báo paginate() ở PostRepositoryInterface
         + Triển khai lại ở PostRepository
     */
-
-    public function updateQuantity($deviceId, $quantityChange)
-    {
-        $device = $this->model->findOrFail($deviceId);
-        $device->quantity += $quantityChange;
-        $device->save();
-    }
-
-
     public function paginate($limit,$request=null)
     {
-        $query = $this->model->query(true);
-        if($request->searchName){
-            $query->where('name', 'LIKE', '%' . $request->searchName . '%');
+        $query = $this->model->with('device');
+        // Thay đổi từ 'user_id' thành 'user.name'
+        if ($request && $request->searchName) {
+            $query->whereHas('device', function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->searchName . '%');
+            });
+        }
+        if($request->searchSession){
+            $query->where('session', 'LIKE', '%' . $request->searchSession . '%');
         }
         if($request->searchQuantity){
             $query->where('quantity', 'LIKE', '%' . $request->searchQuantity . '%');
@@ -46,25 +43,25 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
         return $items;
     }
 
-    public function store($data)
-    {
-        if( isset( $data['image']) && $data['image']->isValid() ){
-            $path = $data['image']->store('public/devices');
-            $url = Storage::url($path);
-            $data['image'] = $url;
-        }
-        return $this->model->create($data);
-    }
+    // public function store($data)
+    // {
+    //     if( isset( $data['image']) && $data['image']->isValid() ){
+    //         $path = $data['image']->store('public/devices');
+    //         $url = Storage::url($path);
+    //         $data['image'] = $url;
+    //     }
+    //     return $this->model->create($data);
+    // }
 
-    public function update($id,$data)
-    {
-         if( isset( $data['image']) && $data['image']->isValid() ){
-            $path = $data['image']->store('public/devices');
-            $url = Storage::url($path);
-            $data['image'] = $url;
-        }    
-        return $this->model->where('id',$id)->update($data);
-    }
+    // public function update($id,$data)
+    // {
+    //      if( isset( $data['image']) && $data['image']->isValid() ){
+    //         $path = $data['image']->store('public/devices');
+    //         $url = Storage::url($path);
+    //         $data['image'] = $url;
+    //     }    
+    //     return $this->model->where('id',$id)->update($data);
+    // }
 
     public function trash()
     {
@@ -79,7 +76,6 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
 
     public function forceDelete($id)
     {
-        // try {
 
             $result = $this->model->onlyTrashed()->find($id);
             $result->forceDelete();
