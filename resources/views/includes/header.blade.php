@@ -32,7 +32,7 @@
                             class="hamburger-inner"></span></span></button> <!-- /toggle menu -->
             </div><!-- /.top-bar-item -->
             <!-- .top-bar-item -->
-            @include('includes.Search')
+            {{-- @include('includes.Search') --}}
             <!-- /.top-bar-item -->
             <!-- .top-bar-item -->
             <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
