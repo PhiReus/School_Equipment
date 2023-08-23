@@ -17,10 +17,6 @@
                         <span class="ml-1">Thêm Mới</span>
                     </a>
                 @endif
-                <a href="{{ route('users.create') }}" class="btn btn-primary mr-2">
-                    <i class="fa-solid fa fa-plus"></i>
-                    <span class="ml-1">Thêm Mới</span>
-                </a>
             </div>
         </div>
     </header>

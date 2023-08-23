@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\Interfaces\GroupServiceInterface;
 use Illuminate\Support\Facades\Auth;
+use Redirect;
 
 
 class UserController extends Controller
@@ -31,7 +32,7 @@ class UserController extends Controller
     }
     public function index(Request $request)
     {
-        if(!Auth::user()->hasPermission('User_viewAny')){
+        if (!Auth::user()->hasPermission('User_viewAny')) {
             abort(403);
         }
         $items = $this->userService->all($request);
@@ -135,7 +136,8 @@ class UserController extends Controller
             ->join('devices AS d', 'bd.device_id', '=', 'd.id')
             ->join('rooms AS r', 'bd.room_id', '=', 'r.id')
             ->join('users AS u', 'b.user_id', '=', 'u.id')
-            ->where('u.id', $id);
+            ->where('u.id', $id)
+            ->withTrashed();
         $history = $queryBuilder->paginate(3);
         // dd($history);
         return view('users.history', compact('user', 'history'));

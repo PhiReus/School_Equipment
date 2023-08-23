@@ -96,19 +96,17 @@
                                                                 <td>{{ $index + 1 }}</td>
                                                                 <td>{{ $subItem->return_date }}</td>
                                                                 <td>{{ $subItem->device_name }}</td>
-                                                                <td>{{ $subItem->image_first }}</td>
-                                                                <td>{{ $subItem->image_last }}</td>
-                                                                {{-- <td>
-                                                                    <img class="img-fluid" src="{{ asset($item->image_first) }}" alt="">
+                                                                <td>
+                                                                    <img class="tile tile-img mr-1" src="{{ asset($item->image_first) }}" alt="">
                                                                 </td>
                                                                 <td>
-                                                                    <img class="img-fluid" src="{{ asset($item->image_last) }}" alt="">
-                                                                </td> --}}
+                                                                    <img class="tile tile-img mr-1" src="{{ asset($item->image_last) }}" alt="">
+                                                                </td>
                                                                 <td>
                                                                     <span class="sr-only">Edit</span></a> <a href="#"
-                                                                    class="btn btn-sm btn-icon btn-secondary"> <i
-                                                                        class="fa-regular fa-eye"></i>
-                                                                    <span class="sr-only">Remove</span></a>
+                                                                        class="btn btn-sm btn-icon btn-secondary"> <i
+                                                                            class="fa-regular fa-eye"></i>
+                                                                        <span class="sr-only">Remove</span></a>
                                                                 </td>
 
                                                             </tr>
