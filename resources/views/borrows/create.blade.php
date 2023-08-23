@@ -44,14 +44,40 @@
                 </div>
 
                 <div class="form-group">
+    <label for="tf1">Tình trạng<abbr name="Trường bắt buộc">*</abbr></label>
+    <select name="status" class="form-control">
+        <option value="Chưa trả" {{ old('status') == 'Chưa trả' ? 'selected' : '' }}>Chưa trả</option>
+        <option value="Đã trả" {{ old('status') == 'Đã trả' ? 'selected' : '' }}>Đã trả</option>
+    </select>
+    <small id="" class="form-text text-muted"></small>
+    @if ($errors->any())
+    <p style="color:red">{{ $errors->first('status') }}</p>
+    @endif
+</div>
+
+<div class="form-group">
+    <label for="tf1">Xét duyệt<abbr name="Trường bắt buộc">*</abbr></label>
+    <select name="approved" class="form-control">
+        <option value="Chưa xét duyệt" {{ old('approved') == 'Chưa xét duyệt' ? 'selected' : '' }}>Chưa xét duyệt</option>
+        <option value="Đã xét duyệt" {{ old('approved') == 'Đã xét duyệt' ? 'selected' : '' }}>Đã xét duyệt</option>
+        <option value="Từ chối" {{ old('approved') == 'Từ chối' ? 'selected' : '' }}>Từ chối</option>
+    </select>
+    <small id="" class="form-text text-muted"></small>
+    @if ($errors->any())
+    <p style="color:red">{{ $errors->first('approved') }}</p>
+    @endif
+</div>
+
+                <div class="form-group">
                     <label for="tf1">Ghi chú</label>
-                    <input name="borrow_note" type="text" class="form-control" id="" placeholder="Nhập ghi chú"
-                        value="{{ old('borrow_note') }}">
+                    <textarea name="borrow_note" class="form-control" id="" rows="3"
+                        placeholder="Nhập ghi chú">{{ old('borrow_note') }}</textarea>
                     <small id="" class="form-text text-muted"></small>
                     @if ($errors->has('borrow_note'))
                     <p style="color:red">{{ $errors->first('borrow_note') }}</p>
                     @endif
                 </div>
+
 
             </div>
         </div>
@@ -205,6 +231,6 @@ $(document).ready(function() {
         device_ids = device_ids.filter(item => item !== device_id)
         $(this).closest('tr').remove();
     });
-});
+    });
 </script>
 @endsection

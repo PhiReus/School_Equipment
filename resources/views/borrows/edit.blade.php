@@ -21,42 +21,79 @@
             <div class="card-body">
                 <legend>Thông tin cơ bản</legend>
 
-                <div class="form-group">
-                    <label for="tf1">Người mượn </label>
-                    <select class="form-control" id="user_id" name="user_id">
-                        <option value="">--Vui lòng chọn--</option>
-                        @foreach ($users as $user)
-                        <option value="{{ $user->id }}" {{ $item->user_id == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }}</option>
-                        @endforeach
-                    </select>
-                    @if ($errors->has('user_id'))
-                    <p style="color:red">{{ $errors->first('user_id') }}</p>
-                    @endif
-
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="tf1">Người mượn </label>
+                            <select class="form-control" id="user_id" name="user_id">
+                                <option value="">--Vui lòng chọn--</option>
+                                @foreach ($users as $user)
+                                <option value="{{ $user->id }}" {{ $item->user_id == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('user_id'))
+                            <p style="color:red">{{ $errors->first('user_id') }}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="tf1">Ngày mượn</label>
+                            <input type="date" name="borrow_date" value="{{ $item->borrow_date }}" class="form-control"
+                                placeholder="Nhập ngày mượn">
+                            @if ($errors->has('borrow_date'))
+                            <p style="color:red">{{ $errors->first('borrow_date') }}</p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="tf1">Ngày mượn</label>
-                    <input type="date" name="borrow_date" value="{{ $item->borrow_date }}" class="form-control"
-                        placeholder="Nhập ngày mượn">
-                    @if ($errors->has('borrow_date'))
-                    <p style="color:red">{{ $errors->first('borrow_date') }}</p>
-                    @endif
+
+
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="tf1">Tình trạng</label>
+                            <select name="status" class="form-control">
+                                <option value="Chưa trả" {{ $item->status == 'Chưa trả' ? 'selected' : '' }}>Chưa trả
+                                </option>
+                                <option value="Đã trả" {{ $item->status == 'Đã trả' ? 'selected' : '' }}>Đã trả</option>
+                            </select>
+                            @if ($errors->has('status'))
+                            <p style="color:red">{{ $errors->first('status') }}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="tf1">Xét duyệt</label>
+                            <select name="approved" class="form-control">
+                                <option value="Chưa xét duyệt"
+                                    {{ $item->approved == 'Chưa xét duyệt' ? 'selected' : '' }}>Chưa
+                                    xét duyệt</option>
+                                <option value="Đã xét duyệt" {{ $item->approved == 'Đã xét duyệt' ? 'selected' : '' }}>
+                                    Đã xét
+                                    duyệt</option>
+                                <option value="Từ chối" {{ $item->approved == 'Từ chối' ? 'selected' : '' }}>Từ chối
+                                </option>
+                            </select>
+                            @if ($errors->has('approved'))
+                            <p style="color:red">{{ $errors->first('approved') }}</p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="tf1">Ghi chú </label>
-                    <input type="text" name="borrow_note" value="{{ $item->borrow_note }}" class="form-control"
-                        placeholder="Nhập ghi chú">
+                    <label for="tf1">Ghi chú</label>
+                    <textarea name="borrow_note" class="form-control"
+                        placeholder="Nhập ghi chú">{{ $item->borrow_note }}</textarea>
                     @if ($errors->has('borrow_note'))
                     <p style="color:red">{{ $errors->first('borrow_note') }}</p>
                     @endif
                 </div>
 
-                <div class="form-actions">
-                    <a class="btn btn-secondary float-right" href="{{route('borrows.index')}}">Hủy</a>
-                    <button class="btn btn-primary ml-auto" type="submit">Cập nhật</button>
-                </div>
             </div>
         </div>
 

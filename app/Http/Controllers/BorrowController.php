@@ -39,9 +39,9 @@ class BorrowController extends Controller
      */
     public function index(Request $request)
     {
-        $items = $this->borrowService->paginate(10,$request);
+        $items = $this->borrowService->paginate(21,$request);
         // $users = $this->userService->all($request);
-        return view('borrows.index', compact('items'));
+        return view('borrows.index', compact('items','request'));
     }
 
     /**
@@ -62,6 +62,7 @@ class BorrowController extends Controller
      */
     public function store(StoreBorrowRequest $request)
     {
+
         // dd(2);
         $data = $request->except(['_token', '_method']);
         $this->borrowService->store($data);
@@ -129,40 +130,55 @@ class BorrowController extends Controller
     public function destroy(string $id)
     {
         try {
-            // Lấy thông tin phiếu mượn trước khi xóa
             $borrow = $this->borrowService->find($id);
             
-            // Xóa bản ghi trong bảng borrow_devices
-            $this->borrowService->destroy($id);
-    
-            // Cập nhật lại số lượng thiết bị trong bảng devices
-            foreach ($borrow->the_devices as $device) {
-                $this->deviceService->updateQuantity($device->device_id, $device->quantity);
+            // Check if the borrow is not approved before deleting
+            if ($borrow->approved !== 'Đã xét duyệt') {
+                // Delete the record and related devices
+                $this->borrowService->destroy($id);
+                
+                // Update device quantities
+                foreach ($borrow->the_devices as $device) {
+                    $this->deviceService->updateQuantity($device->device_id, $device->quantity);
+                }
+                
+                return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
+            } else {
+                return redirect()->back()->with('error', 'Phiếu đã xét duyệt, không thể xóa!');
             }
-    
-            return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
     }
     
+    
 
     public function trash(Request $request)
     {
-        $items = $this->borrowService->trash();
+        $items = $this->borrowService->trash($request);
         $users = $this->userService->all($request);
-        return view('borrows.trash', compact('items','users'));
+        return view('borrows.trash', compact('items', 'users', 'request'));
     }
+    
     public function restore($id)
     {
         try {
-            $items = $this->borrowService->restore($id);
+            // Khôi phục bản ghi mượn
+            $this->borrowService->restore($id);
+    
+            // Lấy các thiết bị liên quan đến bản ghi mượn đã khôi phục
+            $borrow = $this->borrowService->find($id);
+            foreach ($borrow->the_devices as $device) {
+                $this->deviceService->updateQuantity($device->device_id, -$device->quantity);
+            }
+    
             return redirect()->route('borrows.trash')->with('success', 'Khôi phục thành công');
-        } catch (\exception $e) {
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
             return redirect()->route('borrows.trash')->with('error', 'Khôi phục không thành công!');
         }
     }
+    
     public function forceDelete($id)
     {
 

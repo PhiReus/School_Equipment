@@ -23,24 +23,32 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         $subquery = $this->model
             ->select('user_id')
             ->groupBy('user_id');
+        $query = $this->model->query (true);
     
         if ($request && $request->searchName) {
             $subquery->whereHas('user', function ($query) use ($request) {
                 $query->where('name', 'LIKE', '%' . $request->searchName . '%');
             });
-        }
-    
-        if ($request && $request->searchBorrow_date) {
-            $subquery->where('borrow_date', 'LIKE', '%' . $request->searchBorrow_date . '%');
-        }
-    
-        $userIds = $subquery->pluck('user_id');
+            $userIds = $subquery->pluck('user_id');
     
         $query = $this->model->whereIn('user_id', $userIds)
             ->with(['user' => function ($query) {
                 $query->select('id', 'name');
             }])
             ->orderBy('id', 'desc');
+        }
+    
+        if ($request && $request->searchBorrow_date) {
+            $query->where('borrow_date', 'LIKE', '%' . $request->searchBorrow_date . '%');
+        }
+        if ($request && $request->searchStatus) {
+            $query->where('status', 'LIKE', '%' . $request->searchStatus . '%');
+        }
+        if ($request && $request->searchApproved) {
+            $query->where('approved', 'LIKE', '%' . $request->searchApproved . '%');
+        }
+    
+        
     
         $items = $query->paginate($limit);
     
@@ -52,10 +60,13 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
    
     public function store($data)
     {
+        
         $userData = [
             'user_id' => $data['user_id'],
             'borrow_date' => $data['borrow_date'],
-            'borrow_note' => $data['borrow_note']
+            'borrow_note' => $data['borrow_note'],
+            'status' => $data['status'],
+            'approved' => $data['approved']
 
         ];
     
@@ -86,12 +97,24 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     
         return $borrow;
     }
-    
-    public function trash()
+    public function trash($request = null)
     {
-        $result = $this->model->onlyTrashed()->get();
-        return $result;
+        $query = $this->model->onlyTrashed()->with(['user:id,name']);
+    
+        if ($request->searchBorrow_date) {
+            $query->where('borrow_date', 'like', '%' . $request->searchBorrow_date . '%');
+        }
+    
+        if ($request->searchName) {
+            $query->whereHas('user', function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->searchName . '%');
+            });
+        }
+    
+        return $query->orderBy('id', 'DESC')->paginate(2);
     }
+    
+    
     public function restore($id)
     {
         $result = $this->model->withTrashed()->find($id)->restore();
@@ -111,7 +134,9 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         $userData = [
             'user_id' => $data['user_id'],
             'borrow_date' => $data['borrow_date'],
-            'borrow_note' => $data['borrow_note']
+            'borrow_note' => $data['borrow_note'],
+            'status' => $data['status'],
+            'approved' => $data['approved']
         ];
     
         $borrow = $this->model->findOrFail($id);
@@ -181,7 +206,6 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     public function all($request = null)
     {
         $query = $this->model->select('*');
-        return $query->orderBy('id', 'DESC')->paginate(2);
+        return $query->orderBy('id', 'DESC')->paginate(21);
     }
 }
-
