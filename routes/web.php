@@ -71,7 +71,6 @@ Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->
 Route::get('/forgot_password', [\App\Http\Controllers\AuthController::class, 'forgot_password'])->name('forgot_password');
 Route::post('/post_forgot_password', [\App\Http\Controllers\AuthController::class, 'post_forgot_password'])->name('post_forgot_password');
 
-
 //Forgot Password
 Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');

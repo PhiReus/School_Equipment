@@ -33,7 +33,7 @@
                 <ul class="menu">
                     <!-- .menu-item -->
                     <li class="menu-item">
-                        <a href="{{ route('users.index') }}" class="menu-link"><span class="oi oi-home"></span>
+                        <a href="{{ route('users.index') }}" class="menu-link"><span class="menu-icon fas fa-home"></span>
                             <span class="menu-text">Trang chủ</span></a>
                     </li><!-- /.menu-item -->
                     <!-- .menu-item -->
@@ -43,7 +43,7 @@
                     <!-- .menu-item -->
                     @if (Auth::user()->hasPermission('User_viewAny'))
                         <li class="menu-item has-child">
-                            <a href="#" class="menu-link"><span class="oi oi-people"></span>
+                            <a href="#" class="menu-link"><span class="menu-icon"><i class="fas fa-users"></i></span>
                                 <span class="menu-text">Giáo Viên</span></a> <!-- child menu -->
                             <ul class="menu">
                                 <li class="menu-item">
@@ -55,7 +55,7 @@
                     <!-- .menu-item -->
                     @if (Auth::user()->hasPermission('Device_viewAny'))
                         <li class="menu-item has-child">
-                            <a href="#" class="menu-link"><span class="oi oi-laptop"></span> <span
+                            <a href="#" class="menu-link"><span class="menu-icon oi oi-browser"></span> <span
                                     class="menu-text">Thiết Bị</span> </a>
                             <!-- child menu -->
                             <ul class="menu">
@@ -68,7 +68,7 @@
                     <!-- .menu-item -->
                     @if (Auth::user()->hasPermission('Room_viewAny'))
                         <li class="menu-item has-child">
-                            <a href="#" class="menu-link"><i class="fa-solid fa-door-closed"></i> <span
+                            <a href="#" class="menu-link"><span class="menu-icon oi oi-aperture"></span> <span
                                     class="menu-text">Lớp Học</span> </a>
                             <!-- child menu -->
                             <ul class="menu">
@@ -80,7 +80,7 @@
                     @endif
                     @if (Auth::user()->hasPermission('Group_viewAny'))
                         <li class="menu-item has-child">
-                            <a href="#" class="menu-link"><span class="oi oi-person"></span>
+                            <a href="#" class="menu-link"><span class="menu-icon oi oi-person"></span>
                                 <span class="menu-text">Quyền Quản Trị</span></a> <!-- child menu -->
                             <ul class="menu">
                                 <li class="menu-item">
