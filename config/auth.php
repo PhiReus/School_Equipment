@@ -111,5 +111,9 @@ return [
     */
 
     'password_timeout' => 10800,
+    'remember'  => [
+        'expire' => 120, // Thời gian tồn tại của remember token, tính theo phút
+        'path' => '/', // Đường dẫn mà remember token có thể được sử dụng
+    ],
 
 ];
