@@ -17,10 +17,6 @@
                         <i class="fa-solid fa fa-plus"></i>
                         <span class="ml-1">Thêm Mới</span>
                     </a>
-                    <a href="{{ route('rooms.index') }}" class="btn btn-primary">
-                        <i class="fas fa-file"></i>
-                        <span class="ml-1">Xuất file excel</span>
-                    </a>
                 @endif
             </div>
         </div>

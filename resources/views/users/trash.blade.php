@@ -8,7 +8,6 @@
                 </li>
             </ol>
         </nav>
-        <!-- <button type="button" class="btn btn-success btn-floated"><span class="fa fa-plus"></span></button> -->
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Quản Lý Giáo Viên - Thùng Rác</h1>
             <div class="btn-toolbar">
@@ -42,11 +41,7 @@
                                         type="submit">Tìm Kiếm</button>
                                 </div>
                             </div>
-                            <!-- modalFilterColumns  -->
-                            {{-- @include('admin.customers.modals.modalFilterColumns') --}}
                         </form>
-                        <!-- modalFilterColumns  -->
-                        {{-- @include('admin.customers.modals.modalSaveSearch') --}}
                     </div>
                 </div>
                 @if (session('success'))
@@ -103,17 +98,15 @@
                                             <span class="sr-only"></span></a>
                                         {{-- @endif --}}
                                     </td>
-                                </tr><!-- /tr -->
+                                </tr>
                             @endforeach
-                        </tbody><!-- /tbody -->
-                    </table><!-- /.table -->
+                        </tbody>
+                    </table>
                     {{-- <div style="float:right">
                     {{ $customers->links() }}
                 </div> --}}
                 </div>
-                <!-- /.table-responsive -->
-                <!-- .pagination -->
-            </div><!-- /.card-body -->
+            </div>
         </div>
     </div>
 @endsection
