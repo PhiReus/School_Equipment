@@ -5,9 +5,8 @@
         <header class="aside-header d-block d-md-none">
             <!-- .btn-account -->
             <button class="btn-account" type="button" data-toggle="collapse" data-target="#dropdown-aside"><span
-                    class="user-avatar user-avatar-lg"><img src="assets/images/avatars/profile.jpg" alt=""></span> <span
-                    class="account-icon"><span class="fa fa-caret-down fa-lg"></span></span> <span
-
+                    class="user-avatar user-avatar-lg"><img src="assets/images/avatars/profile.jpg" alt=""></span>
+                <span class="account-icon"><span class="fa fa-caret-down fa-lg"></span></span> <span
                     class="account-summary"><span class="account-name">Beni Arisandi</span> <span
                         class="account-description">Marketing Manager</span></span></button>
             <!-- /.btn-account -->
@@ -33,7 +32,8 @@
                 <ul class="menu">
                     <!-- .menu-item -->
                     <li class="menu-item">
-                        <a href="{{ route('users.index') }}" class="menu-link"><span class="menu-icon fas fa-home"></span>
+                        <a href="{{ route('users.index') }}" class="menu-link"><span
+                                class="menu-icon fas fa-home"></span>
                             <span class="menu-text">Trang chủ</span></a>
                     </li><!-- /.menu-item -->
                     <!-- .menu-item -->
@@ -43,7 +43,8 @@
                     <!-- .menu-item -->
                     @if (Auth::user()->hasPermission('User_viewAny'))
                         <li class="menu-item has-child">
-                            <a href="#" class="menu-link"><span class="menu-icon"><i class="fas fa-users"></i></span>
+                            <a href="#" class="menu-link"><span class="menu-icon"><i
+                                        class="fas fa-users"></i></span>
                                 <span class="menu-text">Giáo Viên</span></a> <!-- child menu -->
                             <ul class="menu">
                                 <li class="menu-item">
@@ -65,6 +66,15 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
+                    <li class="menu-item has-child">
+                        <a href="#" class="menu-link"> <span class="menu-icon"><i class="fas fa-balance-scale"></i></span>
+                            <span class="menu-text">Loại Thiết Bị</span></a> <!-- child menu -->
+                        <ul class="menu">
+                            <li class="menu-item">
+                                <a href="{{ route('devicetypes.index') }}" class="menu-link">Danh Sách Loại</a>
+                            </li>
+                        </ul><!-- /child menu -->
+                    </li>
                     <!-- .menu-item -->
                     @if (Auth::user()->hasPermission('Room_viewAny'))
                         <li class="menu-item has-child">
@@ -78,6 +88,15 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
+                    <li class="menu-item has-child">
+                        <a href="#" class="menu-link"> <span class="menu-icon"><i class="fas fa-book"></i></span>
+                            <span class="menu-text">Phiếu Mượn</span></a> <!-- child menu -->
+                        <ul class="menu">
+                            <li class="menu-item">
+                                <a href="{{ route('borrows.index') }}" class="menu-link">Danh Sách Phiếu</a>
+                            </li>
+                        </ul><!-- /child menu -->
+                    </li>
                     @if (Auth::user()->hasPermission('Group_viewAny'))
                         <li class="menu-item has-child">
                             <a href="#" class="menu-link"><span class="menu-icon oi oi-person"></span>
@@ -89,6 +108,8 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
+                    
+                    
                 </ul><!-- /.menu -->
             </nav><!-- /.stacked-menu -->
         </div><!-- /.aside-menu -->
