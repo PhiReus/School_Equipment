@@ -53,17 +53,5 @@ class DeviceService implements DeviceServiceInterface
         return $this->deviceRepository->search($request);
     }
 
-    public function checkAvailableQuantity($deviceId, $quantity)
-{
-    // Lấy thông tin của thiết bị từ repository
-    $device = $this->deviceRepository->find($deviceId);
-
-    // Kiểm tra xem số lượng còn lại của thiết bị có đủ để mượn không
-    if ($device->quantity >= $quantity) {
-        return true; // Số lượng đủ
-    } else {
-        return false; // Số lượng không đủ
-    }
-}
 
 }

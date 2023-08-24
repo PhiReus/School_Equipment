@@ -63,6 +63,8 @@
                             <th>STT</th>
                             <th>Tên </th>
                             <th>Ngày mượn</th>
+                            <th>Tình trạng</th>
+                            <th>Xét duyệt</th>
                             <th>Chức Năng</th>
                         </tr>
                     </thead>
@@ -72,6 +74,8 @@
                             <td>{{++$key}}</td>
                             <td>{{$item->user->name}}</td>
                             <td>{{$item->borrow_date}}</td>
+                            <td>{{ $item->status }}</td>
+                            <td>{{ $item->approved }}</td>
                             <td>
                                 <form action="{{ route('borrows.forceDelete',$item->id )}}" style="display:inline"
                                     method="post">

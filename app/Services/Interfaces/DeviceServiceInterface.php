@@ -8,5 +8,4 @@ interface DeviceServiceInterface extends ServiceInterface{
     public function restore($id);
     public function forceDelete($id);
     public function updateQuantity($deviceId, $quantityChange);
-    public function checkAvailableQuantity($deviceId, $quantity);
 }

@@ -48,4 +48,7 @@ class BorrowService implements BorrowServiceInterface
     public function search($request=[]){
         return $this->borrowRepository->search($request);
     }
+    public function updateApproved($id, $approved){
+        return $this->borrowRepository->updateApproved($id, $approved);
+    }
 }

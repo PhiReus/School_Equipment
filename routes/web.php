@@ -82,6 +82,7 @@ Route::prefix('borrows')->group(function () {
     Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowController::class, 'forceDelete'])->name('borrows.forceDelete');
     Route::get('/devices', [\App\Http\Controllers\BorrowController::class, 'devices'])->name('borrows.devices');
+    Route::put('/{id}/update-approved', [\App\Http\Controllers\BorrowController::class, 'updateApproved'])->name('borrows.update-approved');
 });
 Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 
@@ -102,5 +103,6 @@ Route::prefix('devicetypes')->group(function () {
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceTypeController::class, 'forceDelete'])->name('devicetypes.forceDelete');
 });
 Route::resource('devicetypes',\App\Http\Controllers\DeviceTypeController::class);
+// Thêm route sau vào web.php
 
 

@@ -5,5 +5,6 @@ interface BorrowRepositoryInterface extends RepositoryInterface{
     function trash($request);
     function restore($id);
     function forceDelete($id);
+    public function updateApproved($id, $approved);
     
 }

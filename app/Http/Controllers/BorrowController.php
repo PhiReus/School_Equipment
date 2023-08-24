@@ -9,6 +9,7 @@ use App\Models\Room;
 use App\Models\Device;
 use App\Models\BorrowDevice;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
@@ -75,19 +76,13 @@ class BorrowController extends Controller
     public function show(Request $request, string $id)
 {
     // dd($id);
-    // dd($user->user_id);
-
-    $item2 = BorrowDevice::where('borrow_id', $id)->get();
-    
-        // dd($item2);
-    
-    
-    return view('borrows.show', compact('item2'));
-        // dd($item);
-        // $rooms = $this->roomService->all($request);
-        // $devices = $this->deviceService->all($request);
-        // $users = $this->userService->all($request);
-        // return view('borrows.show', compact('item','users','devices'));
+   
+        $item = $this->borrowService->find($id);
+        
+        $user = $item->user;
+        $devices = $item->devices;
+        $borrow_device = $item->the_devices;
+    return view('borrows.show', compact('item','user','devices','borrow_device'));
         
     }
 
@@ -118,10 +113,11 @@ class BorrowController extends Controller
      */
     public function update(UpdateBorrowRequest $request, string $id)
     {
-        // dd(123);
         $data = $request->except(['_token', '_method']);
         $this->borrowService->update( $data, $id);
         return redirect()->route('borrows.index')->with('success', 'Cập nhật thành công');
+
+        
     }
 
     /**
@@ -132,24 +128,20 @@ class BorrowController extends Controller
         try {
             $borrow = $this->borrowService->find($id);
             
-            // Check if the borrow is not approved before deleting
-            if ($borrow->approved !== 'Đã xét duyệt') {
-                // Delete the record and related devices
-                $this->borrowService->destroy($id);
-                
-                // Update device quantities
-                foreach ($borrow->the_devices as $device) {
-                    $this->deviceService->updateQuantity($device->device_id, $device->quantity);
-                }
-                
-                return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
-            } else {
-                return redirect()->back()->with('error', 'Phiếu đã xét duyệt, không thể xóa!');
+            // Delete the record and related devices
+            $this->borrowService->destroy($id);
+            
+            // Update device quantities
+            foreach ($borrow->the_devices as $device) {
+                $this->deviceService->updateQuantity($device->device_id, $device->quantity);
             }
+            
+            return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
     }
+    
     
     
 
@@ -203,4 +195,13 @@ class BorrowController extends Controller
         }
         return response()->json($data);
     }
+
+    public function updateApproved(Request $request, string $id)
+    {
+        $approved = $request->input('approved'); // Lấy dữ liệu từ form
+        $this->borrowService->updateApproved($id, $approved); // Gọi phương thức từ service để xử lý
+
+        return redirect()->back()->with('success', 'Cập nhật thành công');
+    }
+
 }

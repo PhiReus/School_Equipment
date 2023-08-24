@@ -109,24 +109,16 @@
                         <tr>
                             <td>{{ ++$key }}</td>
                             <td>
-                                <!-- <a href="{{ route('borrows.edit', $item->id) }}" class="tile tile-img mr-1">
-                                    <img class="img-fluid" src="{{ asset($item->image) }}" alt="">
-                                </a> -->
-                                <a href="#">{{ $item->user->name }}</a>
+                                <a href="{{ route('borrows.show',$item->id) }}">
+                                    {{ $item->user->name }}
+                                </a>
                             </td>
-                            <td>{{ $item->borrow_date }}</td>
+                            <td>{{ date('d/m/Y', strtotime($item->borrow_date)) }}</td>
                             <td>{{ $item->status }}</td>
                             <td>{{ $item->approved }}</td>
 
                             <td>
-                                <form action="{{ route('borrows.destroy',$item->id )}}" style="display:inline"
-                                    method="post">
-                                    <button onclick="return confirm('Xóa {{$item->name}} ?')"
-                                        class="btn btn-sm btn-icon btn-secondary"><i
-                                            class="far fa-trash-alt"></i></button>
-                                    @csrf
-                                    @method('delete')
-                                </form>
+
                                 <span class="sr-only">Edit</span></a> <a href="{{route('borrows.edit',$item->id)}}"
                                     class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span
                                         class="sr-only">Remove</span></a>
@@ -135,7 +127,17 @@
                                     <i class="fa-solid fa-eye"></i></a>
 
                                 </a>
-
+                                @if ($item->approved !== 'Đã xét duyệt')
+                                <form action="{{ route('borrows.destroy', $item->id) }}" style="display:inline"
+                                    method="post">
+                                    <button onclick="return confirm('Xóa {{ $item->name }} ?')"
+                                        class="btn btn-sm btn-icon btn-secondary">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                    @csrf
+                                    @method('delete')
+                                </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

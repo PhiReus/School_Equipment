@@ -31,11 +31,11 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
             });
             $userIds = $subquery->pluck('user_id');
     
-        $query = $this->model->whereIn('user_id', $userIds)
-            ->with(['user' => function ($query) {
-                $query->select('id', 'name');
-            }])
-            ->orderBy('id', 'desc');
+            $query = $this->model->whereIn('user_id', $userIds)
+                ->with(['user' => function ($query) {
+                    $query->select('id', 'name');
+                }])
+                ->orderBy('id', 'desc');
         }
     
         if ($request && $request->searchBorrow_date) {
@@ -49,7 +49,7 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         }
     
         
-    
+        $query->orderBy('id','desc');
         $items = $query->paginate($limit);
     
         return $items;
@@ -111,7 +111,7 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
             });
         }
     
-        return $query->orderBy('id', 'DESC')->paginate(2);
+        return $query->orderBy('id', 'DESC')->paginate(11);
     }
     
     
@@ -123,7 +123,6 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
 
     public function forceDelete($id)
     {
-        // try {
 
         $result = $this->model->onlyTrashed()->find($id);
         $result->forceDelete();
@@ -208,4 +207,10 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         $query = $this->model->select('*');
         return $query->orderBy('id', 'DESC')->paginate(21);
     }
+    public function updateApproved($id, $approved){
+        $borrow = $this->model->findOrFail($id);
+        $borrow->approved = $approved;
+        $borrow->save();
+    }
+    
 }
