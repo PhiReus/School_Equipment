@@ -60,9 +60,9 @@
                                 <div class="col">
                                     <select name="searchStatus" class="form-control">
                                         <option value="">Tìm theo trạng thái...</option>
-                                        <option value="2" {{ request('searchStatus') == '2' ? 'selected' : '' }}>Đã trả
+                                        <option value="1" {{ request('searchStatus') == '1' ? 'selected' : '' }}>Đã trả
                                         </option>
-                                        <option value="1" {{ request('searchStatus') == '1' ? 'selected' : '' }}>Chưa
+                                        <option value="0" {{ request('searchStatus') == '0' ? 'selected' : '' }}>Chưa
                                             trả</option>
                                     </select>
                                 </div>
