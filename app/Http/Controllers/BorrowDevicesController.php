@@ -36,7 +36,6 @@ class BorrowDevicesController extends Controller
             1 => 'chưa trả',
             2=> 'Đã trả'
         ];
-
         return view('borrowdevices.index', compact('items','request','changeStatus'));
     }
 

@@ -4,7 +4,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item active">
-                <a href="{{route('borrows.index')}}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang Chủ</a>
+                <a href="{{ route('borrows.index') }}"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang
+                    Chủ</a>
             </li>
         </ol>
     </nav>
@@ -12,7 +13,7 @@
     <div class="d-md-flex align-items-md-start">
         <h1 class="page-title mr-sm-auto">Quản Lý Phiếu Mượn</h1>
         <div class="btn-toolbar">
-            <a href="{{route('borrows.create')}}" class="btn btn-primary mr-2">
+            <a href="{{ route('borrows.create') }}" class="btn btn-primary mr-2">
                 <i class="fa-solid fa fa-plus"></i>
                 <span class="ml-1">Thêm Mới</span>
             </a>
@@ -25,10 +26,10 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active " href="{{route('borrows.index')}}">Tất Cả</a>
+                    <a class="nav-link active " href="{{ route('borrows.index') }}">Tất Cả</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('borrows.trash')}}">Thùng Rác</a>
+                    <a class="nav-link" href="{{ route('borrows.trash') }}">Thùng Rác</a>
                 </li>
             </ul>
         </div>
@@ -39,22 +40,21 @@
 
                         <div class="row">
                             <div class="col">
-
-                                <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
-                                    placeholder="Tìm theo tên..." />
+                                <input name="searchName" value="{{request('searchName')}}" class="form-control"
+                                    type="text" placeholder="Tìm theo tên..." />
                             </div>
                             <div class="col">
-                                <input name="searchBorrow_date" value="{{request('searchBorrow_date')}}" class="form-control" type="text"
-                                    placeholder="Tìm theo ngày mượn..." />
+                                <input name="searchBorrow_date" value="{{request('searchBorrow_date')}}"
+                                    class="form-control" type="text" placeholder="Tìm theo ngày mượn..." />
                             </div>
                             <div class="col">
                                 <select name="searchStatus" class="form-control">
                                     <option value="">Tìm theo tình trạng...</option>
-                                    <option value="1"
-                                        {{ $request->input('searchStatus') === '1' ? 'selected' : '' }}>Đã trả
+                                    <option value="1" {{ $request->input('searchStatus') === '1' ? 'selected' : '' }}>Đã
+                                        trả
                                     </option>
-                                    <option value="0"
-                                        {{ $request->input('searchStatus') === '0' ? 'selected' : '' }}>Chưa trả
+                                    <option value="0" {{ $request->input('searchStatus') === '0' ? 'selected' : '' }}>
+                                        Chưa trả
                                     </option>
                                 </select>
                             </div>
@@ -62,14 +62,13 @@
                             <div class="col">
                                 <select name="searchApproved" class="form-control">
                                     <option value="">Tìm theo trạng thái...</option>
-                                    <option value="0"
-                                        {{ $request->input('searchApproved') === '0' ? 'selected' : '' }}>
+                                    <option value="0" {{ $request->input('searchApproved') === '0' ? 'selected' : '' }}>
                                         Chưa xét duyệt</option>
-                                    <option value="1"
-                                        {{ $request->input('searchApproved') === '1' ? 'selected' : '' }}>Đã
+                                    <option value="1" {{ $request->input('searchApproved') === '1' ? 'selected' : '' }}>
+                                        Đã
                                         xét duyệt</option>
-                                    <option value="2"
-                                        {{ $request->input('searchApproved') === '2' ? 'selected' : '' }}>Từ chối
+                                    <option value="2" {{ $request->input('searchApproved') === '2' ? 'selected' : '' }}>
+                                        Từ chối
                                     </option>
                                 </select>
                             </div>
@@ -82,88 +81,87 @@
 
                 </div>
             </div>
-            @if (session('success'))
-            <div class="alert alert-success" role="alert">
-                {{ session('success') }}
-            </div>
-            @endif
-            @if (session('error'))
-            <div class="alert alert-danger" role="alert">
-                {{ session('error') }}
-            </div>
-            @endif
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Người dùng</th>
-                            <th>Ngày mượn</th>
-                            <th>Tình trạng</th>
-                            <th>Xét duyệt</th>
-                            <th>Chức năng</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($items as $key => $item)
-                        <?php
+        </div>
+        @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+        @endif
+        @if (session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+        </div>
+        @endif
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Người dùng</th>
+                        <th>Ngày mượn</th>
+                        <th>Tình trạng</th>
+                        <th>Xét duyệt</th>
+                        <th>Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($items as $key => $item)
+                    <?php
                         $tong_muon = $item->the_devices()->count();
                         $tong_tra = $item->the_devices()->where('status',1)->count();
                         ?>
-                        <tr>
-                            <td>{{ ++$key }}</td>
-                            <td>
-                                <a href="{{ route('borrows.show',$item->id) }}">
-                                    {{ $item->user->name }}
-                                </a>
-                            </td>
-                            <td>{{ date('d/m/Y', strtotime($item->borrow_date)) }}</td>
-                            <td>{{ $item->status ? 'Đã trả' : 'Chưa trả'  }}  ({{ $tong_tra.'/'.$tong_muon }})</td>
-                            <td>
-                                @if($item->approved ==2)
-                                Từ chối
-                                @else
-                                {{ $item->approved ? 'Đã duyệt' : 'Chưa duyệt'  }}
-                                @endif
-                            </td>
+                    <tr>
+                        <td>{{ ++$key }}</td>
+                        <td>
+                            <a href="{{ route('borrows.show',$item->id) }}">
+                                {{ $item->user->name }}
+                            </a>
+                        </td>
+                        <td>{{ date('d/m/Y', strtotime($item->borrow_date)) }}</td>
+                        <td>{{ $item->status ? 'Đã trả' : 'Chưa trả'  }} ({{ $tong_tra.'/'.$tong_muon }})</td>
+                        <td>
+                            @if($item->approved ==2)
+                            Từ chối
+                            @else
+                            {{ $item->approved ? 'Đã duyệt' : 'Chưa duyệt'  }}
+                            @endif
+                        </td>
 
-                            <td>
+                        <td>
+                            <span class="sr-only">Edit</span>
 
-                                <span class="sr-only">Edit</span>
-                                
-                                @if ($item->approved != 1)
-                                <a href="{{route('borrows.edit',$item->id)}}" class="btn btn-sm btn-icon btn-secondary">
-                                    <i class="fa fa-pencil-alt"></i> 
-                                    <span class="sr-only">Remove</span>
-                                </a>
-                                @endif
+                            @if ($item->approved != 1)
+                            <a href="{{ route('borrows.edit', $item->id) }}" class="btn btn-sm btn-icon btn-secondary">
+                                <i class="fa fa-pencil-alt"></i>
+                                <span class="sr-only">Remove</span>
+                            </a>
+                            @endif
 
-                                <a class="btn btn-sm btn-icon btn-secondary" href="{{ route('borrows.show',$item->id) }}">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
+                            <a class="btn btn-sm btn-icon btn-secondary" href="{{ route('borrows.show', $item->id) }}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
 
-                                </a>
-                                @if ($item->approved != 1)
-                                <form action="{{ route('borrows.destroy', $item->id) }}" style="display:inline"
-                                    method="post">
-                                    <button onclick="return confirm('Xóa {{ $item->name }} ?')"
-                                        class="btn btn-sm btn-icon btn-secondary">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button>
-                                    @csrf
-                                    @method('delete')
-                                </form>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                            </a>
+                            @if ($item->approved != 1)
+                            <form action="{{ route('borrows.destroy', $item->id) }}" style="display:inline"
+                                method="post">
+                                <button onclick="return confirm('Xóa {{ $item->name }} ?')"
+                                    class="btn btn-sm btn-icon btn-secondary">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+                                @csrf
+                                @method('delete')
+                            </form>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-                <div style="float:right">
-                    {{ $items->appends(request()->query())->links() }}
-                </div>
-
+            <div style="float:right">
+                {{ $items->appends(request()->query())->links() }}
             </div>
 
-            @endsection
+        </div>
+        @endsection
