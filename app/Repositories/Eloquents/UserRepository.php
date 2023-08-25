@@ -21,7 +21,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
     {
         return User::class;
     }
-   
+
     public function all($request = null)
     {
         $query = $this->model->select('*');
@@ -38,7 +38,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
         if ($request->id) {
             $query->where('id', $request->id);
         }
-        return $query->orderBy('id', 'DESC')->paginate(10);
+        return $query->orderBy('id', 'DESC')->paginate(5);
     }
     public function store($data)
     {
@@ -69,10 +69,16 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
         return $this->model->where('id', $id)->update($data);
     }
 
-    public function trash()
+    public function trash($request = null)
     {
-        return $this->model->onlyTrashed()->get();
+        $query = $this->model->onlyTrashed();
+
+        if ($request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+        return $query->orderBy('id', 'DESC')->paginate(3);
     }
+
     public function forceDelete($id)
     {
         return $this->model->onlyTrashed()->find($id)->forceDelete();

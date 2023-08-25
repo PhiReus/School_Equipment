@@ -48,9 +48,9 @@ class UserService implements UserServiceInterface {
     {
         return $this->userRepository->restore($id);
     }
-    public function trash()
+    public function trash($request)
     {
-        return $this->userRepository->trash();
+        return $this->userRepository->trash($request);
     }
     public function login()
     {

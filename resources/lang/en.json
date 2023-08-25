@@ -1,5 +1,5 @@
 {
-    "User": "Người Dùng",
+    "User" :"Người Dùng",
    "User_viewAny": "[Người Dùng]  Xem Danh Sách",
    "User_view": "[Người Dùng]  Xem Chi Tiết",
    "User_create": "[Người Dùng]  Thêm",
@@ -62,5 +62,14 @@
    "Role_restore": "[Quyền hạn]  Khôi phục",
    "Role_trash": "[Quyền hạn]  Xem Thùng Rác",
    "Role_forceDelete": "[Quyền hạn]  Xóa Vĩnh Viễn",
+   "DeviceType": "Loại thiết bị",
+   "DeviceType_viewAny": "[Loại thiết bị]  Xem Danh Sách",
+   "DeviceType_view": "[Loại thiết bị]  Xem Chi Tiết",
+   "DeviceType_create": "[Loại thiết bị]  Thêm",
+   "DeviceType_update": "[Loại thiết bị]  Sửa",
+   "DeviceType_delete": "[Loại thiết bị]  Xóa",
+   "DeviceType_restore": "[Loại thiết bị]  Khôi phục",
+   "DeviceType_trash": "[Loại thiết bị]  Xem Thùng Rác",
+   "DeviceType_forceDelete": "[Loại thiết bị]  Xóa Vĩnh Viễn",
    "CheckAll": "Chọn Tất Cả"
 }

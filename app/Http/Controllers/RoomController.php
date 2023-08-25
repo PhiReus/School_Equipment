@@ -27,7 +27,7 @@ class RoomController extends Controller
         if(!Auth::user()->hasPermission('Room_viewAny')){
             abort(403);
         }
-        $rooms = $this->postSevice->paginate(20,$request);
+        $rooms = $this->postSevice->paginate(6,$request);
         return view('rooms.index',compact('rooms'));
     }
 
@@ -55,7 +55,7 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        
+
 
     }
 
@@ -90,12 +90,12 @@ class RoomController extends Controller
         }catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
-        
+
     }
-    public function trash(){
-        $rooms = $this->postSevice->trash();
-        return view('rooms.trash',compact('rooms'));
-       
+    public function trash(Request $request){
+        $rooms = $this->postSevice->trash($request);
+        return view('rooms.trash',compact('rooms','request'));
+
     }
 
     public function restore($id){
@@ -116,5 +116,5 @@ class RoomController extends Controller
             return redirect()->route('rooms.trash')->with('error', 'Xóa không thành công!');
         }
     }
-    
+
 }

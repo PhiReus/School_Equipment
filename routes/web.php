@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('groups',\App\Http\Controllers\GroupController::class);
 });
 
+Route::get('/export-pdf/{id}', [\App\Http\Controllers\PDFController::class, 'exportPDF'])->name('export_PDF');
+
 
 //User
 Route::prefix('users')->group(function () {
@@ -86,6 +88,8 @@ Route::prefix('borrows')->group(function () {
 });
 Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 
+//Export PDF
+Route::get('/export-pdf', [\App\Http\Controllers\PdfController::class, 'exportPDF'])->name('borrowdevices.exportPDF');
 
 
 // BorrowDevice

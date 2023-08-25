@@ -36,19 +36,18 @@
                 <div class="row mb-2">
                     <div class="col">
                         <form action="{{ route('users.index') }}" method="GET" id="form-search">
-
                             <div class="row">
                                 <div class="col">
                                     <input name="searchname" class="form-control" type="text"
-                                        placeholder="Tìm theo tên..." />
+                                        placeholder="Tìm theo tên..." value="{{ request('searchname') }}" />
                                 </div>
                                 <div class="col">
                                     <input name="searchemail" class="form-control" type="text"
-                                        placeholder="Tìm theo E-mail..." />
+                                        placeholder="Tìm theo E-mail..." value="{{ request('searchemail') }}" />
                                 </div>
                                 <div class="col">
                                     <input name="searchphone" class="form-control" type="text"
-                                        placeholder="Tìm theo phone..." />
+                                        placeholder="Tìm theo số điện thoại..." value="{{ request('searchphone') }}" />
                                 </div>
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
@@ -56,6 +55,7 @@
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
                 @if (session('success'))
@@ -124,7 +124,7 @@
                     </table>
 
                     <div style="float:right">
-                        {{ $items->links() }}
+                        {{ $items->appends(request()->query())->links() }}
                     </div>
                 </div>
             </div>
