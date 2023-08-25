@@ -53,11 +53,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $previousDate = null;
-                            @endphp
                             @foreach ($history as $index => $item)
-                                @if ($previousDate !== $item->borrow_date)
+                                @if (isset($item->borrow_date))
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $item->borrow_date }}</td>
@@ -71,9 +68,6 @@
                                                         class="fa fa-angle-right"></i></span></button>
                                         </td>
                                     </tr>
-                                    @php
-                                        $previousDate = $item->borrow_date;
-                                    @endphp
                                 @endif
                                 <tr class="row-details bg-light collapse" id="details-cid{{ $item->borrow_device_id }}">
                                     <td colspan="6">
@@ -91,19 +85,23 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($history as $index => $subItem)
-                                                        @if ($subItem->borrow_id === $item->borrow_id && $subItem->borrow_date === $item->borrow_date)
+                                                        @if ($subItem->borrow_id === $item->borrow_id)
                                                             <tr>
                                                                 <td>{{ $index + 1 }}</td>
                                                                 <td>{{ $subItem->return_date }}</td>
                                                                 <td>{{ $subItem->device_name }}</td>
                                                                 <td>
-                                                                    <img class="tile tile-img mr-1" src="{{ asset($item->image_first) }}" alt="">
+                                                                    <img class="tile tile-img mr-1"
+                                                                        src="{{ asset($item->image_first) }}"
+                                                                        alt="">
                                                                 </td>
                                                                 <td>
-                                                                    <img class="tile tile-img mr-1" src="{{ asset($item->image_last) }}" alt="">
+                                                                    <img class="tile tile-img mr-1"
+                                                                        src="{{ asset($item->image_last) }}"
+                                                                        alt="">
                                                                 </td>
                                                                 <td>
-                                                                    <span class="sr-only">Edit</span></a> <a href="#"
+                                                                    <span class="sr-only">Edit</span></a> <a href="{{ route('borrows.show',$subItem->borrow_id) }}"
                                                                         class="btn btn-sm btn-icon btn-secondary"> <i
                                                                             class="fa-regular fa-eye"></i>
                                                                         <span class="sr-only">Remove</span></a>
