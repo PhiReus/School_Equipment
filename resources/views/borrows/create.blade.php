@@ -55,9 +55,9 @@
                         <div class="form-group">
                             <label for="tf1">Tình trạng<abbr name="Trường bắt buộc">*</abbr></label>
                             <select name="status" class="form-control">
-                                <option value="Chưa trả" {{ old('status') == 'Chưa trả' ? 'selected' : '' }}>Chưa trả
+                                <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Chưa trả
                                 </option>
-                                <option value="Đã trả" {{ old('status') == 'Đã trả' ? 'selected' : '' }}>Đã trả</option>
+                                <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Đã trả</option>
                             </select>
                             <small id="" class="form-text text-muted"></small>
                             @if ($errors->any())
@@ -69,13 +69,13 @@
                         <div class="form-group">
                             <label for="tf1">Xét duyệt<abbr name="Trường bắt buộc">*</abbr></label>
                             <select name="approved" class="form-control">
-                                <option value="Chưa xét duyệt"
-                                    {{ old('approved') == 'Chưa xét duyệt' ? 'selected' : '' }}>Chưa
+                                <option value="0"
+                                    {{ old('approved') == '0' ? 'selected' : '' }}>Chưa
                                     xét duyệt</option>
-                                <option value="Đã xét duyệt" {{ old('approved') == 'Đã xét duyệt' ? 'selected' : '' }}>
+                                <option value="1" {{ old('approved') == '1' ? 'selected' : '' }}>
                                     Đã xét
                                     duyệt</option>
-                                <option value="Từ chối" {{ old('approved') == 'Từ chối' ? 'selected' : '' }}>Từ chối
+                                <option value="2" {{ old('approved') == '2' ? 'selected' : '' }}>Từ chối
                                 </option>
                             </select>
                             <small id="" class="form-text text-muted"></small>

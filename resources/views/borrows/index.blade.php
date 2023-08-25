@@ -114,20 +114,26 @@
                                 </a>
                             </td>
                             <td>{{ date('d/m/Y', strtotime($item->borrow_date)) }}</td>
-                            <td>{{ $item->status }}</td>
-                            <td>{{ $item->approved }}</td>
+                            <td>{{ $item->status ? 'Đã trả' : 'Chưa trả'  }}</td>
+                            <td>{{ $item->approved ? 'Đã duyệt' : 'Chưa duyệt'  }}</td>
 
                             <td>
 
-                                <span class="sr-only">Edit</span></a> <a href="{{route('borrows.edit',$item->id)}}"
-                                    class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span
-                                        class="sr-only">Remove</span></a>
-                                <a class="btn btn-sm btn-icon btn-secondary"
-                                    href="{{ route('borrows.show',$item->id) }}">
-                                    <i class="fa-solid fa-eye"></i></a>
+                                <span class="sr-only">Edit</span>
+                                
+                                @if ($item->approved != 1)
+                                <a href="{{route('borrows.edit',$item->id)}}" class="btn btn-sm btn-icon btn-secondary">
+                                    <i class="fa fa-pencil-alt"></i> 
+                                    <span class="sr-only">Remove</span>
+                                </a>
+                                @endif
+
+                                <a class="btn btn-sm btn-icon btn-secondary" href="{{ route('borrows.show',$item->id) }}">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
 
                                 </a>
-                                @if ($item->approved !== 'Đã xét duyệt')
+                                @if ($item->approved != 1)
                                 <form action="{{ route('borrows.destroy', $item->id) }}" style="display:inline"
                                     method="post">
                                     <button onclick="return confirm('Xóa {{ $item->name }} ?')"

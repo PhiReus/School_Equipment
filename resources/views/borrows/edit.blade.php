@@ -1,4 +1,4 @@
-    @extends('layouts.master')
+@extends('layouts.master')
     @section('content')
     <!-- .page-title-bar -->
     <header class="page-title-bar">
@@ -56,9 +56,9 @@
                             <div class="form-group">
                                 <label for="tf1">Tình trạng</label>
                                 <select name="status" class="form-control">
-                                    <option value="Chưa trả" {{ $item->status == 'Chưa trả' ? 'selected' : '' }}>Chưa trả
+                                    <option value="0" {{ $item->status == '0' ? 'selected' : '' }}>Chưa trả
                                     </option>
-                                    <option value="Đã trả" {{ $item->status == 'Đã trả' ? 'selected' : '' }}>Đã trả</option>
+                                    <option value="1" {{ $item->status == '1' ? 'selected' : '' }}>Đã trả</option>
                                 </select>
                                 @if ($errors->has('status'))
                                 <p style="color:red">{{ $errors->first('status') }}</p>
@@ -69,13 +69,10 @@
                             <div class="form-group">
                                 <label for="tf1">Xét duyệt</label>
                                 <select name="approved" class="form-control">
-                                    <option value="Chưa xét duyệt"
-                                        {{ $item->approved == 'Chưa xét duyệt' ? 'selected' : '' }}>Chưa
-                                        xét duyệt</option>
-                                    <option value="Đã xét duyệt" {{ $item->approved == 'Đã xét duyệt' ? 'selected' : '' }}>
-                                        Đã xét
-                                        duyệt</option>
-                                    <option value="Từ chối" {{ $item->approved == 'Từ chối' ? 'selected' : '' }}>Từ chối
+                                    <option value="0"
+                                        {{ $item->approved == '0' ? 'selected' : '' }}>Chưa xét duyệt</option>
+                                    <option value="1" {{ $item->approved == '1' ? 'selected' : '' }}> Đã xét duyệt</option>
+                                    <option value="2" {{ $item->approved == '2' ? 'selected' : '' }}> Từ chối
                                     </option>
                                 </select>
                                 @if ($errors->has('approved'))

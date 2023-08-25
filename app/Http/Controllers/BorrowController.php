@@ -81,8 +81,8 @@ class BorrowController extends Controller
         
         $user = $item->user;
         $devices = $item->devices;
-        $borrow_device = $item->the_devices;
-    return view('borrows.show', compact('item','user','devices','borrow_device'));
+        $the_devices = $item->the_devices;
+        return view('borrows.show', compact('item','user','devices','the_devices'));
         
     }
 
@@ -190,7 +190,8 @@ class BorrowController extends Controller
         foreach ($devices as $device){
             $data[] = [
                 'id' => $device->id,
-                'text' => $device->name
+                'text' => $device->name . ' (Type: '. $device->devicetype->name .' - SL: '. $device->quantity.')',
+                'disabled' => $device->quantity == 0 ? true : false
             ];
         }
         return response()->json($data);
