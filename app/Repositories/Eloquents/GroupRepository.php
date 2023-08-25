@@ -25,7 +25,7 @@ class GroupRepository extends EloquentRepository implements GroupRepositoryInter
         if ($request->search) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
-        return $query->orderBy('id', 'DESC')->paginate(10);
+        return $query->orderBy('id', 'DESC')->paginate(5);
     }
 
     public function update($id, $data)

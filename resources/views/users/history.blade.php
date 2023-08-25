@@ -108,7 +108,6 @@
                                                                             class="fa-regular fa-eye"></i>
                                                                         <span class="sr-only">Remove</span></a>
                                                                 </td>
-
                                                             </tr>
                                                         @endif
                                                     @endforeach
@@ -122,7 +121,7 @@
                     </table>
                 </div>
                 <div style="float:right">
-                    {{ $history->links() }}
+                    {{ $history->appends(request()->query())->links() }}
                 </div>
             </div>
         </div>

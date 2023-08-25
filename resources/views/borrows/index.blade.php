@@ -39,6 +39,7 @@
 
                         <div class="row">
                             <div class="col">
+
                                 <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
                                     placeholder="Tìm theo tên..." />
                             </div>
@@ -46,11 +47,39 @@
                                 <input name="searchBorrow_date" value="{{request('searchBorrow_date')}}" class="form-control" type="text"
                                     placeholder="Tìm theo ngày mượn..." />
                             </div>
+                            <div class="col">
+                                <select name="searchStatus" class="form-control">
+                                    <option value="">Tìm theo tình trạng...</option>
+                                    <option value="Đã trả"
+                                        {{ $request->input('searchStatus') === 'Đã trả' ? 'selected' : '' }}>Đã trả
+                                    </option>
+                                    <option value="Chưa trả"
+                                        {{ $request->input('searchStatus') === 'Chưa trả' ? 'selected' : '' }}>Chưa trả
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col">
+                                <select name="searchApproved" class="form-control">
+                                    <option value="">Tìm theo trạng thái...</option>
+                                    <option value="Chưa xét duyệt"
+                                        {{ $request->input('searchApproved') === 'Chưa xét duyệt' ? 'selected' : '' }}>
+                                        Chưa xét duyệt</option>
+                                    <option value="Đã xét duyệt"
+                                        {{ $request->input('searchApproved') === 'Đã xét duyệt' ? 'selected' : '' }}>Đã
+                                        xét duyệt</option>
+                                    <option value="Từ chối"
+                                        {{ $request->input('searchApproved') === 'Từ chối' ? 'selected' : '' }}>Từ chối
+                                    </option>
+                                </select>
+                            </div>
+
                             <div class="col-lg-2">
                                 <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
             @if (session('success'))
@@ -67,10 +96,11 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>STT</th>
                             <th>Người dùng</th>
                             <th>Ngày mượn</th>
-                            <th>Ghi chú</th>
+                            <th>Tình trạng</th>
+                            <th>Xét duyệt</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
@@ -79,32 +109,41 @@
                         <tr>
                             <td>{{ ++$key }}</td>
                             <td>
-                                <!-- <a href="{{ route('borrows.edit', $item->id) }}" class="tile tile-img mr-1">
-                                    <img class="img-fluid" src="{{ asset($item->image) }}" alt="">
-                                </a> -->
-                                <a href="#">{{ $item->user->name }}</a>
+                                <a href="{{ route('borrows.show',$item->id) }}">
+                                    {{ $item->user->name }}
+                                </a>
                             </td>
-                            <td>{{ $item->borrow_date }}</td>
-                            <td>{{ $item->borrow_note }}</td>
+                            <td>{{ date('d/m/Y', strtotime($item->borrow_date)) }}</td>
+                            <td>{{ $item->status ? 'Đã trả' : 'Chưa trả'  }}</td>
+                            <td>{{ $item->approved ? 'Đã duyệt' : 'Chưa duyệt'  }}</td>
 
                             <td>
-                                <form action="{{ route('borrows.destroy',$item->id )}}" style="display:inline"
+
+                                <span class="sr-only">Edit</span>
+                                
+                                @if ($item->approved != 1)
+                                <a href="{{route('borrows.edit',$item->id)}}" class="btn btn-sm btn-icon btn-secondary">
+                                    <i class="fa fa-pencil-alt"></i> 
+                                    <span class="sr-only">Remove</span>
+                                </a>
+                                @endif
+
+                                <a class="btn btn-sm btn-icon btn-secondary" href="{{ route('borrows.show',$item->id) }}">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+
+                                </a>
+                                @if ($item->approved != 1)
+                                <form action="{{ route('borrows.destroy', $item->id) }}" style="display:inline"
                                     method="post">
-                                    <button onclick="return confirm('Xóa {{$item->name}} ?')"
-                                        class="btn btn-sm btn-icon btn-secondary"><i
-                                            class="far fa-trash-alt"></i></button>
+                                    <button onclick="return confirm('Xóa {{ $item->name }} ?')"
+                                        class="btn btn-sm btn-icon btn-secondary">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
                                     @csrf
                                     @method('delete')
                                 </form>
-                                <span class="sr-only">Edit</span></a> <a href="{{route('borrows.edit',$item->id)}}"
-                                    class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span
-                                        class="sr-only">Remove</span></a>
-                                <a class="btn btn-sm btn-icon btn-secondary"
-                                    href="{{ route('borrows.show',$item->id) }}">
-                                    <i class="fa-solid fa-eye"></i></a>
-
-                                </a>
-
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -114,6 +153,7 @@
                 <div style="float:right">
                     {{ $items->appends(request()->query())->links() }}
                 </div>
+
             </div>
 
             @endsection

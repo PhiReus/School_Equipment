@@ -29,12 +29,12 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-                        <form action="{{ route('rooms.index') }}" method="GET" id="form-search">
+                        <form action="{{ route('rooms.trash') }}" method="GET" id="form-search">
                             @csrf
                             <div class="row">
                                 <div class="col">
                                     <input name="search" class="form-control" type="text"
-                                        placeholder="Tìm theo tên..." />
+                                    value="{{ request('search') }}" placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col-lg-1">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
@@ -62,7 +62,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th> # </th>
+                                <th> STT </th>
                                 <th> Tên Lớp Học </th>
                                 <th> Thao Tác </th>
 

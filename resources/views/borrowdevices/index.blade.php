@@ -31,12 +31,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="card-body">
-                <div class="row mb-2">
-                    <div class="col">
-                        <form action="{{ route('borrowdevices.index') }}" method="GET" id="form-search">
-
-                            <div class="row">
+                           <div class="row">
                                 <div class="col">
                                     <input name="searchTeacher" value="{{ request('searchTeacher') }}" class="form-control"
                                         type="text" placeholder="Tìm theo tên giáo viên..." />
@@ -129,4 +124,5 @@
                         {{ $items->appends(request()->query())->links() }}
                     </div>
                 </div>
+
             @endsection

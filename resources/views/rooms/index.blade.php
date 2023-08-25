@@ -40,6 +40,7 @@
 
                             <div class="row">
                                 <div class="col">
+
                                     <input name="search" value="{{request('search')}}" class="form-control" type="text"
                                         placeholder="Tìm theo tên..." />
                                 </div>
@@ -65,7 +66,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th> # </th>
+                                <th> STT </th>
                                 <th> Tên lớp học </th>
                                 @if (Auth::check())
                                     <th> Chức năng </th>

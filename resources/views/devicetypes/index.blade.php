@@ -92,7 +92,7 @@
                     </table>
 
                     <div style="float:right">
-                        {{ $items->links() }}
+                        {{ $items->appends(request()->query())->links() }}
                     </div>
                 </div>
             </div>

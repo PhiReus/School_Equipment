@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('groups',\App\Http\Controllers\GroupController::class);
 });
 
+Route::get('/export-pdf/{id}', [\App\Http\Controllers\PDFController::class, 'exportPDF'])->name('export_PDF');
+
 
 //User
 Route::prefix('users')->group(function () {
@@ -82,9 +84,12 @@ Route::prefix('borrows')->group(function () {
     Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowController::class, 'forceDelete'])->name('borrows.forceDelete');
     Route::get('/devices', [\App\Http\Controllers\BorrowController::class, 'devices'])->name('borrows.devices');
+    Route::put('/{id}/update-approved', [\App\Http\Controllers\BorrowController::class, 'updateApproved'])->name('borrows.update-approved');
 });
 Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 
+//Export PDF
+Route::get('/export-pdf', [\App\Http\Controllers\PdfController::class, 'exportPDF'])->name('borrowdevices.exportPDF');
 
 
 // BorrowDevice
@@ -104,5 +109,6 @@ Route::prefix('devicetypes')->group(function () {
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceTypeController::class, 'forceDelete'])->name('devicetypes.forceDelete');
 });
 Route::resource('devicetypes',\App\Http\Controllers\DeviceTypeController::class);
+// Thêm route sau vào web.php
 
 

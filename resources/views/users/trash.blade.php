@@ -29,12 +29,12 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-                        <form action="{{ route('users.index') }}" method="GET" id="form-search">
+                        <form action="{{ route('users.trash') }}" method="GET" id="form-search">
                             @csrf
                             <div class="row">
                                 <div class="col">
                                     <input name="search" class="form-control" type="text"
-                                        placeholder="Tìm theo tên..." />
+                                        value="{{ request('search') }}" placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col-lg-1">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
@@ -102,9 +102,9 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{-- <div style="float:right">
-                    {{ $customers->links() }}
-                </div> --}}
+                    <div style="float:right">
+                        {{ $users->appends(['search' => $request->search])->links() }}
+                    </div>
                 </div>
             </div>
         </div>

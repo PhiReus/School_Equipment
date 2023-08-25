@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\DB;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\Interfaces\GroupServiceInterface;
 use Illuminate\Support\Facades\Auth;
-use Redirect;
 
 
 class UserController extends Controller
@@ -32,13 +31,14 @@ class UserController extends Controller
     }
     public function index(Request $request)
     {
-        if (!Auth::user()->hasPermission('User_viewAny')) {
+        if(!Auth::user()->hasPermission('User_viewAny')){
             abort(403);
         }
         $items = $this->userService->all($request);
         $param =
             [
-                'items' => $items
+                'items' => $items,
+                'request' => $request,
             ];
         return view('users.index', $param);
     }
@@ -89,10 +89,10 @@ class UserController extends Controller
         $item = $this->userService->find($id);
         return view('users.show', compact('item'));
     }
-    public function trash()
+    public function trash(Request $request)
     {
-        $users = $this->userService->trash();
-        return view('users.trash', compact('users'));
+        $users = $this->userService->trash($request);
+        return view('users.trash', compact('users','request'));
     }
     public function restore($id)
     {
@@ -106,7 +106,7 @@ class UserController extends Controller
     public function force_destroy($id)
     {
         try {
-            $user = $this->userService->find($id);
+            $user = $this->userService->forceDelete($id);
             return redirect()->route('users.trash')->with('success', 'Xóa thành công!');
         } catch (err) {
             return redirect()->route('users.trash')->with('success', 'Xóa thất bại!');

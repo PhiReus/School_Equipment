@@ -16,7 +16,7 @@
                 @method('PUT')
                 <div class="card">
                     <div class="card-header">
-                        <label class="btn btn-success">
+                        <label class="btn btn-info">
                             <input id='checkAll' type="checkbox">
                             Chọn tất cả
                         </label>
@@ -28,7 +28,7 @@
                                     <ul class="list-group">
                                         <li class="list-group-item active text-uppercase">
                                             <input type="checkbox" class="checker" value="{{ $group_name }}">
-                                            {{ trans($group_name) }}
+                                            <span class="ml-2">{{ trans($group_name) }}</span>
                                         </li>
                                         @foreach ($roles as $key => $role)
                                             <?php
@@ -50,10 +50,10 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <input type="submit" class="btn btn-info" value="Cấp quyền">
-                        <a href="{{ route('groups.index') }}" class="btn btn-light">Quay lại</a>
+                        <div class="form-actions">
+                            <a href="{{ route('groups.index') }}" class="btn btn-secondary float-right">Hủy</a>
+                            <input type="submit" class="btn btn-info ml-auto" value="Lưu">
+                        </div>
                     </div>
                 </div>
             </form>

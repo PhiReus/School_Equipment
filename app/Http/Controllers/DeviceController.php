@@ -35,6 +35,7 @@ class DeviceController extends Controller
         // $devicetypes = $this->deviceTypeService->all($request);
         $devicetypes = DeviceType::get();
         return view('devices.index', compact('items','request','devicetypes'));
+
     }
     public function create()
     {

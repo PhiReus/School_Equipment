@@ -21,17 +21,16 @@ class RoomRepository extends EloquentRepository implements RoomRepositoryInterfa
         return $items;
     }
 
-    public function trash($limit,$request)
+
+    public function trash($request = null)
     {
         $query = $this->model->onlyTrashed();
 
-        if ($request->searchName != null) {
-            $query->where('name', 'LIKE', '%' . $request->searchName . '%');
+        if ($request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%');
         }
+        return $query->orderBy('id', 'DESC')->paginate(5);
 
-
-         
-        return $query->paginate($limit);
     }
 
     public function restore($id)
@@ -42,6 +41,6 @@ class RoomRepository extends EloquentRepository implements RoomRepositoryInterfa
     public function forceDelete($id)
     {
         return $this->model->onlyTrashed()->find($id)->forceDelete();
-            
+
     }
 }

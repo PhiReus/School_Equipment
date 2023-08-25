@@ -82,8 +82,8 @@ class DeviceTypeController extends Controller
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
     }
-    public function trash(){
-        $devicetypes = $this->deviceTypeService->trash();
+    public function trash(Request $request){
+        $devicetypes = $this->deviceTypeService->trash($request);
         return view('devicetypes.trash',compact('devicetypes'));
 
     }

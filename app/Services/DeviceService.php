@@ -52,4 +52,6 @@ class DeviceService implements DeviceServiceInterface
     public function search($request=[]){
         return $this->deviceRepository->search($request);
     }
+
+
 }

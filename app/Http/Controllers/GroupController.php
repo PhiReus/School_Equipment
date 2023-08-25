@@ -42,7 +42,8 @@ class GroupController extends Controller
         $params =
             [
                 'items' => $items,
-                'users' => $users
+                'users' => $users,
+                'request' => $request,
             ];
 
         return view('groups.index', $params);
