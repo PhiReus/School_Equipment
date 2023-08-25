@@ -25,7 +25,7 @@ class BorrowDeviceExport implements FromView
             2=> 'Đã trả'
         ];
         $BorrowDevices = BorrowDevice::all();
-        return view('exportExcel.BorrowDevice',[
+        return view('exports.BorrowDevice',[
 
             'BorrowDevices'=> $BorrowDevices,
             'changeStatus' => $changeStatus
