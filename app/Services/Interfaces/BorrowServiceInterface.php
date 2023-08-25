@@ -7,7 +7,7 @@ interface BorrowServiceInterface extends ServiceInterface{
     public function trash($request);
     public function restore($id);
     public function forceDelete($id);
-    public function updateApproved($id, $approved);
+    public function updateBorrow($id, $data);
 
 
 }
