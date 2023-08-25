@@ -197,11 +197,13 @@ class BorrowController extends Controller
         return response()->json($data);
     }
 
-    public function updateApproved(Request $request, string $id)
+    public function updateBorrow(Request $request, $id)
     {
-        $approved = $request->input('approved'); // Lấy dữ liệu từ form
-        $this->borrowService->updateApproved($id, $approved); // Gọi phương thức từ service để xử lý
-
+        // dd($request->status);
+        $data = $request->all(); // Lấy dữ liệu từ biểu mẫu
+        
+        $this->borrowService->updateBorrow($id, $data); // Gọi phương thức để cập nhật
+        
         return redirect()->back()->with('success', 'Cập nhật thành công');
     }
 

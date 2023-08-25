@@ -50,11 +50,11 @@
                             <div class="col">
                                 <select name="searchStatus" class="form-control">
                                     <option value="">Tìm theo tình trạng...</option>
-                                    <option value="Đã trả"
-                                        {{ $request->input('searchStatus') === 'Đã trả' ? 'selected' : '' }}>Đã trả
+                                    <option value="1"
+                                        {{ $request->input('searchStatus') === '1' ? 'selected' : '' }}>Đã trả
                                     </option>
-                                    <option value="Chưa trả"
-                                        {{ $request->input('searchStatus') === 'Chưa trả' ? 'selected' : '' }}>Chưa trả
+                                    <option value="0"
+                                        {{ $request->input('searchStatus') === '0' ? 'selected' : '' }}>Chưa trả
                                     </option>
                                 </select>
                             </div>
@@ -62,14 +62,14 @@
                             <div class="col">
                                 <select name="searchApproved" class="form-control">
                                     <option value="">Tìm theo trạng thái...</option>
-                                    <option value="Chưa xét duyệt"
-                                        {{ $request->input('searchApproved') === 'Chưa xét duyệt' ? 'selected' : '' }}>
+                                    <option value="0"
+                                        {{ $request->input('searchApproved') === '0' ? 'selected' : '' }}>
                                         Chưa xét duyệt</option>
-                                    <option value="Đã xét duyệt"
-                                        {{ $request->input('searchApproved') === 'Đã xét duyệt' ? 'selected' : '' }}>Đã
+                                    <option value="1"
+                                        {{ $request->input('searchApproved') === '1' ? 'selected' : '' }}>Đã
                                         xét duyệt</option>
-                                    <option value="Từ chối"
-                                        {{ $request->input('searchApproved') === 'Từ chối' ? 'selected' : '' }}>Từ chối
+                                    <option value="2"
+                                        {{ $request->input('searchApproved') === '2' ? 'selected' : '' }}>Từ chối
                                     </option>
                                 </select>
                             </div>
@@ -106,6 +106,10 @@
                     </thead>
                     <tbody>
                         @foreach ($items as $key => $item)
+                        <?php
+                        $tong_muon = $item->the_devices()->count();
+                        $tong_tra = $item->the_devices()->where('status',1)->count();
+                        ?>
                         <tr>
                             <td>{{ ++$key }}</td>
                             <td>
@@ -114,8 +118,14 @@
                                 </a>
                             </td>
                             <td>{{ date('d/m/Y', strtotime($item->borrow_date)) }}</td>
-                            <td>{{ $item->status ? 'Đã trả' : 'Chưa trả'  }}</td>
-                            <td>{{ $item->approved ? 'Đã duyệt' : 'Chưa duyệt'  }}</td>
+                            <td>{{ $item->status ? 'Đã trả' : 'Chưa trả'  }}  ({{ $tong_tra.'/'.$tong_muon }})</td>
+                            <td>
+                                @if($item->approved ==2)
+                                Từ chối
+                                @else
+                                {{ $item->approved ? 'Đã duyệt' : 'Chưa duyệt'  }}
+                                @endif
+                            </td>
 
                             <td>
 
