@@ -9,6 +9,7 @@ use App\Models\Room;
 use App\Models\Device;
 use App\Models\BorrowDevice;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
@@ -39,9 +40,9 @@ class BorrowController extends Controller
      */
     public function index(Request $request)
     {
-        $items = $this->borrowService->paginate(10,$request);
+        $items = $this->borrowService->paginate(21,$request);
         // $users = $this->userService->all($request);
-        return view('borrows.index', compact('items'));
+        return view('borrows.index', compact('items','request'));
     }
 
     /**
@@ -62,6 +63,7 @@ class BorrowController extends Controller
      */
     public function store(StoreBorrowRequest $request)
     {
+
         // dd(2);
         $data = $request->except(['_token', '_method']);
         $this->borrowService->store($data);
@@ -74,19 +76,13 @@ class BorrowController extends Controller
     public function show(Request $request, string $id)
 {
     // dd($id);
-    // dd($user->user_id);
-
-    $item2 = BorrowDevice::where('borrow_id', $id)->get();
-    
-        // dd($item2);
-    
-    
-    return view('borrows.show', compact('item2'));
-        // dd($item);
-        // $rooms = $this->roomService->all($request);
-        // $devices = $this->deviceService->all($request);
-        // $users = $this->userService->all($request);
-        // return view('borrows.show', compact('item','users','devices'));
+   
+        $item = $this->borrowService->find($id);
+        
+        $user = $item->user;
+        $devices = $item->devices;
+        $the_devices = $item->the_devices;
+        return view('borrows.show', compact('item','user','devices','the_devices'));
         
     }
 
@@ -117,10 +113,11 @@ class BorrowController extends Controller
      */
     public function update(UpdateBorrowRequest $request, string $id)
     {
-        // dd(123);
         $data = $request->except(['_token', '_method']);
         $this->borrowService->update( $data, $id);
         return redirect()->route('borrows.index')->with('success', 'Cập nhật thành công');
+
+        
     }
 
     /**
@@ -129,40 +126,51 @@ class BorrowController extends Controller
     public function destroy(string $id)
     {
         try {
-            // Lấy thông tin phiếu mượn trước khi xóa
             $borrow = $this->borrowService->find($id);
             
-            // Xóa bản ghi trong bảng borrow_devices
+            // Delete the record and related devices
             $this->borrowService->destroy($id);
-    
-            // Cập nhật lại số lượng thiết bị trong bảng devices
+            
+            // Update device quantities
             foreach ($borrow->the_devices as $device) {
                 $this->deviceService->updateQuantity($device->device_id, $device->quantity);
             }
-    
+            
             return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
     }
     
+    
+    
 
     public function trash(Request $request)
     {
-        $items = $this->borrowService->trash();
+        $items = $this->borrowService->trash($request);
         $users = $this->userService->all($request);
-        return view('borrows.trash', compact('items','users'));
+        return view('borrows.trash', compact('items', 'users', 'request'));
     }
+    
     public function restore($id)
     {
         try {
-            $items = $this->borrowService->restore($id);
+            // Khôi phục bản ghi mượn
+            $this->borrowService->restore($id);
+    
+            // Lấy các thiết bị liên quan đến bản ghi mượn đã khôi phục
+            $borrow = $this->borrowService->find($id);
+            foreach ($borrow->the_devices as $device) {
+                $this->deviceService->updateQuantity($device->device_id, -$device->quantity);
+            }
+    
             return redirect()->route('borrows.trash')->with('success', 'Khôi phục thành công');
-        } catch (\exception $e) {
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
             return redirect()->route('borrows.trash')->with('error', 'Khôi phục không thành công!');
         }
     }
+    
     public function forceDelete($id)
     {
 
@@ -182,9 +190,19 @@ class BorrowController extends Controller
         foreach ($devices as $device){
             $data[] = [
                 'id' => $device->id,
-                'text' => $device->name
+                'text' => $device->name . ' (Type: '. $device->devicetype->name .' - SL: '. $device->quantity.')',
+                'disabled' => $device->quantity == 0 ? true : false
             ];
         }
         return response()->json($data);
     }
+
+    public function updateApproved(Request $request, string $id)
+    {
+        $approved = $request->input('approved'); // Lấy dữ liệu từ form
+        $this->borrowService->updateApproved($id, $approved); // Gọi phương thức từ service để xử lý
+
+        return redirect()->back()->with('success', 'Cập nhật thành công');
+    }
+
 }
