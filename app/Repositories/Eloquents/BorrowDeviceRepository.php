@@ -38,6 +38,21 @@ class BorrowDeviceRepository extends EloquentRepository implements  BorrowDevice
         if($request->searchQuantity){
             $query->where('quantity', 'LIKE', '%' . $request->searchQuantity . '%');
         }
+        if ($request->searchTeacher) {
+            $query->whereHas('borrow.user', function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->searchTeacher . '%');
+            });
+        }
+        if ($request->searchBorrow_date) {
+            $query->whereHas('borrow', function ($query) use ($request) {
+                $query->where('borrow_date', 'LIKE', '%' . $request->searchBorrow_date . '%');
+            });
+        }
+        
+    
+        if($request->searchStatus){
+            $query->where('status', 'LIKE', '%' . $request->searchStatus . '%');
+        }
         $query->orderBy('id','desc');
         $items = $query->paginate($limit);
         return $items;

@@ -39,11 +39,11 @@
 
                         <div class="row">
                             <div class="col">
-                                <input name="searchName" class="form-control" type="text"
+                                <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
                                     placeholder="Tìm theo tên..." />
                             </div>
                             <div class="col">
-                                <input name="searchBorrow_date" class="form-control" type="text"
+                                <input name="searchBorrow_date" value="{{request('searchBorrow_date')}}" class="form-control" type="text"
                                     placeholder="Tìm theo ngày mượn..." />
                             </div>
                             <div class="col-lg-2">
@@ -112,7 +112,7 @@
                 </table>
 
                 <div style="float:right">
-                    {{ $items->links() }}
+                    {{ $items->appends(request()->query())->links() }}
                 </div>
             </div>
 

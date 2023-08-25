@@ -136,8 +136,7 @@ class UserController extends Controller
             ->join('devices AS d', 'bd.device_id', '=', 'd.id')
             ->join('rooms AS r', 'bd.room_id', '=', 'r.id')
             ->join('users AS u', 'b.user_id', '=', 'u.id')
-            ->where('u.id', $id)
-            ->withTrashed();
+            ->where('u.id', $id);
         $history = $queryBuilder->paginate(3);
         // dd($history);
         return view('users.history', compact('user', 'history'));

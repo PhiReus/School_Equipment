@@ -96,9 +96,9 @@
                             @endforeach
                         </tbody><!-- /tbody -->
                     </table><!-- /.table -->
-                    {{-- <div style="float:right">
-                    {{ $customers->links() }}
-                </div> --}}
+                    <div style="float:right">
+                        {{ $rooms->appends(request()->query())->links() }}
+                    </div>
                 </div>
                 <!-- /.table-responsive -->
                 <!-- .pagination -->

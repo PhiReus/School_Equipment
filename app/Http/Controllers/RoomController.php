@@ -92,9 +92,9 @@ class RoomController extends Controller
         }
         
     }
-    public function trash(){
-        $rooms = $this->postSevice->trash();
-        return view('rooms.trash',compact('rooms'));
+    public function trash(Request $request){        
+        $rooms = $this->postSevice->trash(1,$request);
+        return view('rooms.trash',compact('rooms','request'));
        
     }
 

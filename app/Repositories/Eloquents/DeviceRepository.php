@@ -2,6 +2,7 @@
 namespace App\Repositories\Eloquents;
 
 use App\Models\Device;
+use App\Models\DeviceType;
 use App\Repositories\Interfaces\DeviceRepositoryInterface;
 use App\Repositories\Eloquents\EloquentRepository;
 use Illuminate\Support\Facades\Storage;
@@ -35,12 +36,21 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
     public function paginate($limit,$request=null)
     {
         $query = $this->model->query(true);
+        // dd($query);
         if($request->searchName){
             $query->where('name', 'LIKE', '%' . $request->searchName . '%');
         }
-        if($request->searchQuantity){
-            $query->where('quantity', 'LIKE', '%' . $request->searchQuantity . '%');
+        if($request->searchDevicetype){
+            $query->where('device_type_id', 'LIKE', '%' . $request->searchDevicetype . '%');
         }
+
+        if($request->searchQuantity == 1){
+            $query->where('quantity', 0);
+        }
+
+        if($request->searchQuantity == 2){
+            $query->where('quantity', '>', 0);
+        }   
         $query->orderBy('id','desc');
         $items = $query->paginate($limit);
         return $items;
@@ -66,10 +76,20 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
         return $this->model->where('id',$id)->update($data);
     }
 
-    public function trash()
+    public function trash($limit,$request)
     {
-        $result = $this->model->onlyTrashed()->get();
-        return $result;
+        $query = $this->model->onlyTrashed();
+
+        if ($request->searchName != null) {
+            $query->where('name', 'LIKE', '%' . $request->searchName . '%');
+        }
+
+        if ($request->searchDevicetype != null) {
+            $query->where('device_type_id', 'LIKE', '%' . $request->searchDevicetype . '%');
+        }
+
+        $items = $query->paginate($limit);
+        return $items;
     }
     public function restore($id)
     {

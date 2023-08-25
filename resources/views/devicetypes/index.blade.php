@@ -37,7 +37,7 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <input name="searchname" class="form-control" type="text"
+                                    <input name="searchname" value="{{request('searchname')}}" class="form-control" type="text"
                                         placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col-lg-2">
