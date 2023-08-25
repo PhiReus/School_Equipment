@@ -65,7 +65,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>STT</th>
                             <th>Người mượn</th>
                             <th>Tên thiết bị</th>
                             <th>Tên bài dạy</th>

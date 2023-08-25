@@ -96,7 +96,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>STT</th>
                             <th>Người dùng</th>
                             <th>Ngày mượn</th>
                             <th>Tình trạng</th>

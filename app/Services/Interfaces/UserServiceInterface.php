@@ -2,7 +2,7 @@
 namespace App\Services\Interfaces;
 
 interface UserServiceInterface extends ServiceInterface {
-    public function trash();
+    public function trash($request);
     public function forceDelete($id);
     public function restore($id);
     public function login();

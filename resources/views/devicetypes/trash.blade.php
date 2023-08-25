@@ -30,11 +30,11 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-                        <form action="{{ route('devicetypes.index') }}" method="GET" id="form-search">
+                        <form action="{{ route('devicetypes.trash') }}" method="GET" id="form-search">
                             @csrf
                             <div class="row">
                                 <div class="col">
-                                    <input name="searchName" class="form-control" type="text"
+                                    <input name="search" class="form-control" type="text"
                                         placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col-lg-1">
@@ -88,6 +88,9 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div style="float:right">
+                {{ $devicetypes->appends(request()->query())->links() }}
             </div>
         </div>
     </div>

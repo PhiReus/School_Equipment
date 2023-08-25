@@ -20,12 +20,17 @@ class DeviceTypeRepository extends EloquentRepository implements DeviceTypeRepos
         if ($request->id) {
             $query->where('id', $request->id);
         }
-        return $query->orderBy('id', 'DESC')->paginate(10);
+        return $query->orderBy('id', 'DESC')->paginate(5);
     }
 
-    public function trash()
+    public function trash($request = null)
     {
-        return $this->model->onlyTrashed()->get();
+        $query = $this->model->onlyTrashed();
+
+        if ($request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+        return $query->orderBy('id', 'DESC')->paginate(3);
     }
     public function restore($id)
     {

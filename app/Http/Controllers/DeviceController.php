@@ -30,7 +30,7 @@ class DeviceController extends Controller
         if(!Auth::user()->hasPermission('Device_viewAny')){
             abort(403);
         }
-        $items = $this->deviceService->paginate(2,$request);
+        $items = $this->deviceService->paginate(5,$request);
         $devicetypes = $this->deviceTypeService->all($request);
         return view('devices.index', compact('items','devicetypes'));
     }
