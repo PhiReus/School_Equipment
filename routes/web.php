@@ -84,7 +84,7 @@ Route::prefix('borrows')->group(function () {
     Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowController::class, 'forceDelete'])->name('borrows.forceDelete');
     Route::get('/devices', [\App\Http\Controllers\BorrowController::class, 'devices'])->name('borrows.devices');
-    Route::put('/{id}/update-approved', [\App\Http\Controllers\BorrowController::class, 'updateApproved'])->name('borrows.update-approved');
+    Route::put('/{id}/updateBorrow', [\App\Http\Controllers\BorrowController::class, 'updateBorrow'])->name('borrows.updateBorrow');
 });
 Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 

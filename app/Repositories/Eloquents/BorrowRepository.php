@@ -41,13 +41,12 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         if ($request && $request->searchBorrow_date) {
             $query->where('borrow_date', 'LIKE', '%' . $request->searchBorrow_date . '%');
         }
-        if ($request && $request->searchStatus) {
-            $query->where('status', 'LIKE', '%' . $request->searchStatus . '%');
+        if($request->searchStatus !== null){
+            $query->where('status',$request->searchStatus);
         }
-        if ($request && $request->searchApproved) {
-            $query->where('approved', 'LIKE', '%' . $request->searchApproved . '%');
+        if ($request->searchApproved !== null) {
+            $query->where('approved',$request->searchApproved);
         }
-    
         
         $query->orderBy('id','desc');
         $items = $query->paginate($limit);
@@ -238,10 +237,37 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         $query = $this->model->select('*');
         return $query->orderBy('id', 'DESC')->paginate(21);
     }
-    public function updateApproved($id, $approved){
+    public function updateBorrow($id, $data)
+    {
+        // dd($data);
         $borrow = $this->model->findOrFail($id);
-        $borrow->approved = $approved;
+        
+        // Cập nhật trường approved từ dữ liệu gửi đến
+        $borrow->approved = $data['approved'];
+        
+        // Cập nhật trường status từ dữ liệu gửi đến (nếu có)
+        if (isset($data['status'])) {
+            $borrow->status = $data['status'];
+        }
+
+        $borrow_device_ids = $data['the_device_status'];
+        foreach ($borrow_device_ids as $borrow_device_id => $device_status) {
+            // BorrowDevice::where('id',$borrow_device_id)->update(['status' => $device_status]);
+            $borrow->the_devices()->where('id',$borrow_device_id)->update(['status' => $device_status]);
+        }
+
+        // Tim tong so tra / tong muon
+        $tong_muon = $borrow->the_devices()->count();
+        $tong_tra = $borrow->the_devices()->where('status',1)->count();
+        // Tu dong cap nhat trang thai khi nguoi dung tra het
+        if($tong_tra == $tong_muon){
+            $borrow->status = 1;
+        }
+        
+        // Lưu các thay đổi
         $borrow->save();
+        
+        return $borrow;
     }
     
 }

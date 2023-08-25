@@ -109,7 +109,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col-lg-12">
+                        @if ($errors->any())
+                        <p style="color:red">{{ $errors->first('devices') }}</p>
+                        @endif
+                    </div>
+                    <div class="col-lg-12">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>

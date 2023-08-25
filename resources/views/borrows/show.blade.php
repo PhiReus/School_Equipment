@@ -16,16 +16,17 @@
                 </a>
             </div>
         </header>
-
-        <div class="page-section">
-            <div class="card card-fluid">
-                <div class="card-body">
-                    @if (session('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
+    <div class="page-section">
+        <div class="card card-fluid">
+            <div class="card-body">
+                @if (session('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+                @endif
+                <form action="{{ route('borrows.updateBorrow', ['id' => $item->id]) }}" method="POST">
+                    @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col-lg-6">
                             <table class="table table-bordered">
@@ -77,22 +78,20 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td> Tên </td>
-                                        <td> </td>
+                                        <td> Tên </td>                                    
+                                        <td> {{ $user->name }}</td>
                                     </tr>
-
                                     <tr>
                                         <td> Email </td>
-                                        <td> 216 </td>
+                                        <td> {{ $user->email }} </td>
                                     </tr>
-
                                     <tr>
                                         <td> Số điện thoại </td>
-                                        <td> 191 </td>
+                                        <td> {{ $user->phone }} </td>
                                     </tr>
                                     <tr>
                                         <td> Ghi chú </td>
-                                        <td> {{ $item->borrow_note }} </td>
+                                        <td> {{ $item->borrow_note  }} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -160,10 +159,7 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
+                </form>
                 </div><!-- /.card-body -->
             </div>
         </div>

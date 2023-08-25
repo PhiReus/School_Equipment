@@ -24,13 +24,15 @@ class UpdateBorrowRequest extends FormRequest
         return [
             'user_id' => 'required',
             'borrow_date' => 'required',
-    ];
+            'devices' => 'required',
+        ];
     }
     public function messages()
     {
         return [
             'user_id.required' => 'Bạn không được để trống !',
             'borrow_date.required' => 'Bạn không được để trống !',
+            'devices.required' => 'Vui lòng chọn thiết bị !',
         ];
     }
 }
