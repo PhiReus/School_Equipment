@@ -97,7 +97,7 @@
                         </tbody><!-- /tbody -->
                     </table><!-- /.table -->
                     <div style="float:right">
-                        {{ $rooms->appends(['search' => $request->search])->links() }}
+                        {{ $rooms->appends(request()->query())->links() }}
                     </div>
                 </div>
                 <!-- /.table-responsive -->

@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\StoreBorrow_devicesRequest;
 use App\Http\Requests\UpdateBorrow_devicesRequest;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BorrowDeviceExport;
 
 class BorrowDevicesController extends Controller
 {
@@ -30,8 +32,12 @@ class BorrowDevicesController extends Controller
         $items = $this->borrowdeviceService->paginate(10,$request);
         // Load thông tin người mượn thông qua bảng borrows
         $items->load('borrow.user');
+        $changeStatus = [
+            1 => 'chưa trả',
+            2=> 'Đã trả'
+        ];
 
-        return view('borrowdevices.index', compact('items'));
+        return view('borrowdevices.index', compact('items','request','changeStatus'));
     }
 
     public function create()
@@ -115,5 +121,20 @@ class BorrowDevicesController extends Controller
                 Log::error($e->getMessage());
                 return redirect()->route('borrowdevices.trash')->with('error', 'Xóa không thành công!');
             }
+        }
+
+        public function exportSinglePage()
+        {
+            
+            return Excel::download(new BorrowDeviceExport, 'BorrowDevice.xlsx');
+        }
+
+        public function testHTML(){
+            $changeStatus = [
+                1 => 'chưa trả',
+                2=> 'Đã trả'
+            ];
+            $BorrowDevices = BorrowDevice::all();
+            return view('exportExcel.BorrowDevice',compact(['BorrowDevices','changeStatus']));
         }
 }

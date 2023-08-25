@@ -39,13 +39,13 @@
 
                         <div class="row">
                             <div class="col">
-                                <input name="searchName" class="form-control" type="text" placeholder="Tìm theo tên..."
-                                    value="{{ $request->input('searchName') }}" />
+
+                                <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
+                                    placeholder="Tìm theo tên..." />
                             </div>
                             <div class="col">
-                                <input name="searchBorrow_date" class="form-control" type="date"
-                                    placeholder="Tìm theo ngày mượn..."
-                                    value="{{ $request->input('searchBorrow_date') }}" />
+                                <input name="searchBorrow_date" value="{{request('searchBorrow_date')}}" class="form-control" type="text"
+                                    placeholder="Tìm theo ngày mượn..." />
                             </div>
                             <div class="col">
                                 <select name="searchStatus" class="form-control">

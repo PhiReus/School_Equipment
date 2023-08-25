@@ -48,6 +48,7 @@ class RoomService implements RoomServiceInterface {
     {
         return $this->roomRepository->restore($id);
     }
+
     public function trash($request)
     {
         return $this->roomRepository->trash($request);

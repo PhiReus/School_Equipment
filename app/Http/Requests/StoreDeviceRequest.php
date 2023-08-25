@@ -14,7 +14,6 @@ class StoreDeviceRequest extends FormRequest
             return [
                     'name' => 'required|unique:devices',
                     'quantity' => 'required',
-                    'image' => 'required',
             ];
         }
         public function messages()
@@ -23,7 +22,6 @@ class StoreDeviceRequest extends FormRequest
             return [
                 'name.required' => 'Bạn không được để trống !',
                 'quantity.required' => 'Bạn không được để trống !',
-                'image.required' => 'Bạn không được để trống !',
                 'name.unique' => 'Tên thiết bị đã tồn tại !',
             ];
         }

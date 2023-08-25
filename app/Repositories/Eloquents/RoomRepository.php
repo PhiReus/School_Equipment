@@ -21,6 +21,7 @@ class RoomRepository extends EloquentRepository implements RoomRepositoryInterfa
         return $items;
     }
 
+
     public function trash($request = null)
     {
         $query = $this->model->onlyTrashed();
@@ -29,6 +30,7 @@ class RoomRepository extends EloquentRepository implements RoomRepositoryInterfa
             $query->where('name', 'like', '%' . $request->search . '%');
         }
         return $query->orderBy('id', 'DESC')->paginate(5);
+
     }
 
     public function restore($id)

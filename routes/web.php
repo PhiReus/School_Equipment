@@ -97,8 +97,10 @@ Route::prefix('borrowdevices')->group(function () {
     Route::get('/trash', [\App\Http\Controllers\BorrowDevicesController::class, 'trash'])->name('borrowdevices.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\BorrowDevicesController::class, 'restore'])->name('borrowdevices.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowDevicesController::class, 'forceDelete'])->name('borrowdevices.forceDelete');
+    Route::get('/export-single-page', [\App\Http\Controllers\BorrowDevicesController::class, 'exportSinglePage'])->name('export.single.page');
 });
 Route::resource('borrowdevices',\App\Http\Controllers\BorrowDevicesController::class);
+Route::get('test',[\App\Http\Controllers\BorrowDevicesController::class,'testHTML'])->name('borrowdevices.testHTML');
 
 // DeviceType
 Route::prefix('devicetypes')->group(function () {

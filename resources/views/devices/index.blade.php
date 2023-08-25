@@ -38,12 +38,23 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <input name="searchName" class="form-control" type="text"
+                                    <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
                                         placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col">
-                                    <input name="searchQuantity" class="form-control" type="text"
-                                        placeholder="Tìm theo số lượng..." />
+                                    <select name="searchDevicetype"  class="form-control">
+                                        <option value="">Tìm theo Loại Thiết Bị...</option>
+                                        @foreach ($devicetypes as $key => $devicetype)
+                                        <option value="{{ $devicetype->id }} " {{ $request->searchDevicetype == $devicetype->id ? 'selected' : '' }}>{{ $devicetype->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select name="searchQuantity"  class="form-control">
+                                        <option value="">Tình trạng</option>
+                                        <option value="2"  {{ $request->searchQuantity == 2 ? 'selected' : '' }}>Còn thiết bị</option>
+                                        <option value="1" {{ $request->searchQuantity == 1 ? 'selected' : '' }}>Hết thiết bị</option>
+                                    </select>
                                 </div>
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
@@ -106,7 +117,7 @@
                     </table>
 
                     <div style="float:right">
-                        {{ $items->links() }}
+                        {{ $items->appends(request()->query())->links() }}
                     </div>
                 </div>
             @endsection

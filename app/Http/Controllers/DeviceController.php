@@ -30,9 +30,12 @@ class DeviceController extends Controller
         if(!Auth::user()->hasPermission('Device_viewAny')){
             abort(403);
         }
-        $items = $this->deviceService->paginate(5,$request);
-        $devicetypes = $this->deviceTypeService->all($request);
-        return view('devices.index', compact('items','devicetypes'));
+        
+        $items = $this->deviceService->paginate(2,$request);
+        // $devicetypes = $this->deviceTypeService->all($request);
+        $devicetypes = DeviceType::get();
+        return view('devices.index', compact('items','request','devicetypes'));
+
     }
     public function create()
     {
@@ -95,10 +98,11 @@ class DeviceController extends Controller
     }
 
 
-    public function trash()
+    public function trash(Request $request)
     {
-        $items = $this->deviceService->trash();
-        return view('devices.trash', compact('items'));
+        $devicetypes = DeviceType::get();
+        $items = $this->deviceService->trash(1,$request);
+        return view('devices.trash', compact('items','devicetypes','request'));
     }
     public function restore($id)
     {

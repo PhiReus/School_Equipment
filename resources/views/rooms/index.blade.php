@@ -40,8 +40,9 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <input name="search" class="form-control" type="text"
-                                    value="{{ request('search') }}" placeholder="Tìm theo tên..." />
+
+                                    <input name="search" value="{{request('search')}}" class="form-control" type="text"
+                                        placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col-lg-1">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
@@ -103,9 +104,8 @@
                             @endforeach
                         </tbody><!-- /tbody -->
                     </table><!-- /.table -->
-
                     <div style="float:right">
-                        {{ $rooms->links() }}
+                        {{ $rooms->appends(request()->query())->links() }}
                     </div>
                 </div>
                 <!-- /.table-responsive -->

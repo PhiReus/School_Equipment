@@ -30,16 +30,20 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-                        <form action="{{ route('devices.index') }}" method="GET" id="form-search">
+                        <form action="{{ route('devices.trash') }}" method="GET" id="form-search">
 
                             <div class="row">
                                 <div class="col">
-                                    <input name="searchName" class="form-control" type="text"
+                                    <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
                                         placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col">
-                                    <input name="searchQuantity" class="form-control" type="text"
-                                        placeholder="Tìm theo số lượng..." />
+                                    <select name="searchDevicetype"  class="form-control">
+                                        <option value="">Tìm theo Loại Thiết Bị...</option>
+                                        @foreach ($devicetypes as $key => $devicetype)
+                                        <option value="{{ $devicetype->id }}" {{ $request->searchDevicetype == $devicetype->id ? 'selected' : '' }}> {{ $devicetype->name }} </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
@@ -96,6 +100,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div style="float:right">
+                        {{ $items->appends(request()->query())->links() }}
+                    </div>
                 </div>
             </div>
         </div>

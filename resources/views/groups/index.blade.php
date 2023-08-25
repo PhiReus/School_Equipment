@@ -29,7 +29,7 @@
                         <form action="{{ route('groups.index') }}" method="GET" id="form-search">
                             <div class="row">
                                 <div class="col">
-                                    <input name="search" class="form-control" type="text"
+                                    <input name="search" value="{{request('search')}}" class="form-control" type="text"
                                         placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col-lg-2">
