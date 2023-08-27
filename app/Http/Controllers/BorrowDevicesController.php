@@ -33,8 +33,8 @@ class BorrowDevicesController extends Controller
         // Load thông tin người mượn thông qua bảng borrows
         $items->load('borrow.user');
         $changeStatus = [
-            1 => 'chưa trả',
-            2=> 'Đã trả'
+            0 => 'chưa trả',
+            1=> 'Đã trả'
         ];
         return view('borrowdevices.index', compact('items','request','changeStatus'));
     }
@@ -130,8 +130,8 @@ class BorrowDevicesController extends Controller
 
         public function testHTML(){
             $changeStatus = [
-                1 => 'chưa trả',
-                2=> 'Đã trả'
+                0 => 'chưa trả',
+                1=> 'Đã trả'
             ];
             $BorrowDevices = BorrowDevice::all();
             return view('exportExcel.BorrowDevice',compact(['BorrowDevices','changeStatus']));

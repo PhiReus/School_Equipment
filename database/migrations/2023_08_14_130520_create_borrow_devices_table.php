@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('session')->nullable();
             $table->string('image_first')->nullable();
             $table->string('image_last')->nullable();
-            $table->string('status')->nullable()->nullable();
+            $table->string('status')->default('0');
             $table->timestamps();
         });
     }

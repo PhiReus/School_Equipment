@@ -42,6 +42,31 @@
                                     placeholder="Tìm theo ngày mượn..."
                                     value="{{ $request->input('searchBorrow_date') }}" />
                             </div>
+                            <div class="col">
+                                <select name="searchStatus" class="form-control">
+                                    <option value="">Tìm theo tình trạng...</option>
+                                    <option value="1" {{ $request->input('searchStatus') === '1' ? 'selected' : '' }}>Đã
+                                        trả
+                                    </option>
+                                    <option value="0" {{ $request->input('searchStatus') === '0' ? 'selected' : '' }}>
+                                        Chưa trả
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col">
+                                <select name="searchApproved" class="form-control">
+                                    <option value="">Tìm theo trạng thái...</option>
+                                    <option value="0" {{ $request->input('searchApproved') === '0' ? 'selected' : '' }}>
+                                        Chưa xét duyệt</option>
+                                    <option value="1" {{ $request->input('searchApproved') === '1' ? 'selected' : '' }}>
+                                        Đã
+                                        xét duyệt</option>
+                                    <option value="2" {{ $request->input('searchApproved') === '2' ? 'selected' : '' }}>
+                                        Từ chối
+                                    </option>
+                                </select>
+                            </div>
                             <div class="col-lg-2">
                                 <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                             </div>
@@ -70,12 +95,23 @@
                     </thead>
                     <tbody>
                         @foreach($items as $key => $item)
+                        <?php
+                        $tong_muon = $item->the_devices()->count();
+                        $tong_tra = $item->the_devices()->where('status',1)->count();
+                        ?>
                         <tr>
                             <td>{{++$key}}</td>
-                            <td>{{$item->user->name}}</td>
+                            <td> {{$item->user->name}}</td>
                             <td>{{$item->borrow_date}}</td>
-                            <td>{{ $item->status }}</td>
-                            <td>{{ $item->approved }}</td>
+                            <td>{{ $item->status ? 'Đã trả' : 'Chưa trả'  }} ({{ $tong_tra.'/'.$tong_muon }})</td>
+                            <td>
+                                @if($item->approved == 2)
+                                Từ chối
+                                @else
+                                {{ $item->approved ? 'Đã duyệt' : 'Chưa duyệt' }}
+                                @endif
+                            </td>
+
                             <td>
                                 <form action="{{ route('borrows.forceDelete',$item->id )}}" style="display:inline"
                                     method="post">

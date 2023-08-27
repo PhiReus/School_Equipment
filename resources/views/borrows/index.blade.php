@@ -45,7 +45,7 @@
                             </div>
                             <div class="col">
                                 <input name="searchBorrow_date" value="{{request('searchBorrow_date')}}"
-                                    class="form-control" type="text" placeholder="Tìm theo ngày mượn..." />
+                                    class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
                             </div>
                             <div class="col">
                                 <select name="searchStatus" class="form-control">
