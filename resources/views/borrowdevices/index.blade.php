@@ -36,26 +36,40 @@
                 <div class="col">
                     <form action="{{ route('borrowdevices.index') }}" method="GET" id="form-search">
 
-                        <div class="row">
-                            <div class="col">
-                                <input name="searchTeacher" value="{{ request('searchTeacher') }}" class="form-control"
-                                    type="text" placeholder="Tìm theo tên giáo viên..." />
-                            </div>
-                            <div class="col">
-                                <input name="searchName" value="{{ request('searchName') }}" class="form-control"
-                                    type="text" placeholder="Tìm theo tên thiết bị..." />
-                            </div>
-                            <div class="col">
-                                <input name="searchSession" value="{{ request('searchSession') }}" class="form-control"
-                                    type="text" placeholder="Tìm theo buổi..." />
-                            </div>
-                            <div class="col">
-                                <input name="searchQuantity" value="{{ request('searchQuantity') }}"
-                                    class="form-control" type="text" placeholder="Tìm theo số lượng..." />
-                            </div>
-                            <div class="col">
-                                <input name="searchBorrow_date" value="{{ request('searchBorrow_date') }}"
-                                    class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
+                            <div class="row">
+                                <div class="col">
+                                    <input name="searchTeacher" value="{{ request('searchTeacher') }}" class="form-control"
+                                        type="text" placeholder="Tìm theo tên giáo viên..." />
+                                </div>
+                                <div class="col">
+                                    <input name="searchName" value="{{ request('searchName') }}" class="form-control"
+                                        type="text" placeholder="Tìm theo tên thiết bị..." />
+                                </div>
+                                <div class="col">
+                                    <input name="searchSession" value="{{ request('searchSession') }}" class="form-control"
+                                        type="text" placeholder="Tìm theo buổi..." />
+                                </div>
+                                <div class="col">
+                                    <input name="searchQuantity" value="{{ request('searchQuantity') }}"
+                                        class="form-control" type="text" placeholder="Tìm theo số lượng..." />
+                                </div>
+                                <div class="col">
+                                    <input name="searchBorrow_date" value="{{ request('searchBorrow_date') }}"
+                                        class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
+                                </div>
+                                <div class="col">
+                                    <select name="searchStatus" class="form-control">
+                                        <option value="">Tìm theo trạng thái...</option>
+                                        <option value="1" {{ request('searchStatus') == '1' ? 'selected' : '' }}>Đã trả
+                                        </option>
+                                        <option value="0" {{ request('searchStatus') == '0' ? 'selected' : '' }}>Chưa
+                                            trả</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
+                                </div>
+
                             </div>
                             <div class="col">
                                 <select name="searchStatus" class="form-control">

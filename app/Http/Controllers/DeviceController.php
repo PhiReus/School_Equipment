@@ -30,8 +30,8 @@ class DeviceController extends Controller
         if(!Auth::user()->hasPermission('Device_viewAny')){
             abort(403);
         }
-        
-        $items = $this->deviceService->paginate(2,$request);
+
+        $items = $this->deviceService->paginate(5,$request);
         // $devicetypes = $this->deviceTypeService->all($request);
         $devicetypes = DeviceType::get();
         return view('devices.index', compact('items','request','devicetypes'));
@@ -108,10 +108,10 @@ class DeviceController extends Controller
     {
         try {
             $this->deviceService->restore($id);
-            return redirect()->route('devices.index')->with('success', 'Khôi phục thiết bị thành công');
+            return redirect()->route('devices.trash')->with('success', 'Khôi phục thiết bị thành công');
         } catch (\exception $e) {
             Log::error($e->getMessage());
-            return redirect()->route('devices.index')->with('error', 'Khôi phục không thành công!');
+            return redirect()->route('devices.trash')->with('error', 'Khôi phục không thành công!');
         }
     }
     public function forceDelete($id)
@@ -119,10 +119,10 @@ class DeviceController extends Controller
 
         try {
             $this->deviceService->forceDelete($id);
-            return redirect()->route('devices.index')->with('success', 'Xóa vĩnh viễn thành công');
+            return redirect()->route('devices.trash')->with('success', 'Xóa vĩnh viễn thành công');
         } catch (\exception $e) {
             Log::error($e->getMessage());
-            return redirect()->route('devices.index')->with('error', 'Xóa không thành công!');
+            return redirect()->route('devices.trash')->with('error', 'Xóa không thành công!');
         }
 }
 

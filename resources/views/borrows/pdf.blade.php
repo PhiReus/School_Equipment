@@ -79,15 +79,17 @@
     <br>
     <br>
     <table border="0" align="left" width="100%">
-        <caption align="left">Thông tin :</caption><br>
+        <caption align="left">Thông tin người mượn :</caption><br>
         <tr>
             <td align="left" width="41%">
                 Tên giáo viên : <br>
-                Ngày mượn : <br>
+                E-mail : <br>
+                Số điện thoại : <br>
             </td>
             <td align="left" width="59%">
-                {{ $user->name }}<br />
-                {{ $user->birthday }}<br />
+                {{ $item->borrow->user->name }}<br />
+                {{ $item->borrow->user->email }}<br />
+                {{ $item->borrow->user->phone }}<br />
             </td>
         </tr>
     </table>
@@ -95,31 +97,42 @@
     <br>
     <br>
     <table border="1" align="left" cellpadding="5">
-        <caption>Chi tiết phiếu mượn thiết bị của giáo viên : {{ $user->name }}</caption>
+        <caption>Chi tiết phiếu mượn thiết bị của giáo viên : {{ $item->borrow->user->name }} </caption>
         <thead class="thead-dark">
             <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Tên giáo viên</th>
-                <th scope="col">E-mail</th>
-                <th scope="col">Số điện thoại</th>
-                <th scope="col">Địa chỉ</th>
-                <th scope="col">Giới tính</th>
-                <th scope="col">Ngày sinh</th>
-                <th scope="col">Chức vụ</th>
+                <th scope="col">Tên thiết bị</th>
+                <th scope="col">Tên bài dạy</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Buổi</th>
+                <th scope="col">Tiết PCCT</th>
+                <th scope="col">Lớp</th>
+                <th scope="col">Tiết TKB</th>
+                <th scope="col">Ngày trả</th>
+                <th scope="col">Trạng thái</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td scope="row" align="center">{{ $user->id }}</td>
-                <td align="center">{{ $user->name }}</td>
-                <td align="center">{{ $user->email }}</td>
-                <td align="center">{{ $user->phone }}</td>
-                <td align="center">{{ $user->address }}</td>
-                <td align="center">{{ $user->gender }}</td>
-                <td align="center">{{ $user->birthday }}</td>
-                <td align="center">{{ $user->group->name }}</td>
+                <td align="center">{{ $item->device->name }}</td>
+                <td align="center">{{ $item->lesson_name }}</td>
+                <td align="center">{{ $item->quantity }}</td>
+                <td align="center">{{ $item->session }}</td>
+                <td align="center">{{ $item->lecture_name }}</td>
+                <td align="center">{{ $item->room->name }}</td>
+                <td align="center">{{ $item->lecture_number }}</td>
+                <td align="center">{{ $item->return_date }}</td>
+                <td align="center">{{ $changeStatus[$item->status] }}</td>
             </tr>
         </tbody>
+    </table>
+
+    <table border="0" align="left">
+        <tr>
+            <td>
+                <h4> Ghi chú : </h4>
+            </td>
+            <td> {{ $item->borrow->borrow_note }}</td>
+        </tr>
     </table>
 </body>
 

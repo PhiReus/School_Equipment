@@ -30,7 +30,6 @@
                 <div class="row mb-2">
                     <div class="col">
                         <form action="{{ route('rooms.trash') }}" method="GET" id="form-search">
-                            @csrf
                             <div class="row">
                                 <div class="col">
                                     <input name="search" class="form-control" type="text"

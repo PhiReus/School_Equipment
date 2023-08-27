@@ -115,9 +115,20 @@ class UserController extends Controller
     public function history(Request $request, $id)
     {
         $user = $this->userService->find($id);
+        $changeStatus = [
+            0 => 'Chưa trả',
+            1 => 'Đã trả',
+        ];
+        $changeApproved = [
+            0 => 'Chưa xét duyệt',
+            1 => 'Đã xét duyệt',
+            2 => 'Từ chối',
+        ];
         $queryBuilder = DB::table('borrows AS b')
             ->select(
                 'b.id AS borrow_id',
+                'b.borrow_date AS borrow_date',
+                'b.approved',
                 'bd.id AS borrow_device_id',
                 'bd.quantity',
                 'bd.return_date',
@@ -130,7 +141,7 @@ class UserController extends Controller
                 'd.name AS device_name',
                 'r.name AS room_name',
                 'u.name AS user_name',
-                'bd.borrow_date'
+                'bd.borrow_date AS bd_borrow_date'
             )
             ->join('borrow_devices AS bd', 'b.id', '=', 'bd.borrow_id')
             ->join('devices AS d', 'bd.device_id', '=', 'd.id')
@@ -139,6 +150,6 @@ class UserController extends Controller
             ->where('u.id', $id);
         $history = $queryBuilder->paginate(3);
         // dd($history);
-        return view('users.history', compact('user', 'history'));
+        return view('users.history', compact('user', 'history','changeStatus','changeApproved'));
     }
 }
