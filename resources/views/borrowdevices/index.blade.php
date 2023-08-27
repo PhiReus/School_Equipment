@@ -71,18 +71,6 @@
                                 </div>
 
                             </div>
-                            <div class="col">
-                                <select name="searchStatus" class="form-control">
-                                    <option value="">Tìm theo trạng thái...</option>
-                                    <option value="1" {{ request('searchStatus') == '1' ? 'selected' : '' }}>Đã trả
-                                    </option>
-                                    <option value="0" {{ request('searchStatus') == '0' ? 'selected' : '' }}>Chưa
-                                        trả</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
-                            </div>
                         </div>
                     </form>
                 </div>

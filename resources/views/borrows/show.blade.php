@@ -1,21 +1,21 @@
     @extends('layouts.master')
     @section('content')
-        <header class="page-title-bar">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active">
-                        <a href="#"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang Chủ</a>
-                    </li>
-                </ol>
-            </nav>
-            <div class="d-md-flex align-items-md-start">
-                <h1 class="page-title mr-sm-auto">Phiếu Mượn #{{ $item->id }} </h1>
-                <a href="{{ route('export_PDF', $item->id) }}" class="btn btn-primary ">
-                    <i class='fas fa-file-alt'></i>
-                    <span class="ml-1">Xuất File PDF</span>
-                </a>
-            </div>
-        </header>
+    <header class="page-title-bar">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">
+                    <a href="#"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Trang Chủ</a>
+                </li>
+            </ol>
+        </nav>
+        <div class="d-md-flex align-items-md-start">
+            <h1 class="page-title mr-sm-auto">Phiếu Mượn #{{ $item->id }} </h1>
+            <a href="{{ route('export_PDF', $item->id) }}" class="btn btn-primary ">
+                <i class='fas fa-file-alt'></i>
+                <span class="ml-1">Xuất File PDF</span>
+            </a>
+        </div>
+    </header>
     <div class="page-section">
         <div class="card card-fluid">
             <div class="card-body">
@@ -60,7 +60,8 @@
                                         <td> Trạng thái duyệt </td>
                                         <td>
                                             <select name="approved" class="form-control">
-                                                <option value="0" @selected($item->approved == 0)>Chưa xét duyệt</option>
+                                                <option value="0" @selected($item->approved == 0)>Chưa xét duyệt
+                                                </option>
                                                 <option value="1" @selected($item->approved == 1)> Đã xét duyệt</option>
                                                 <option value="2" @selected($item->approved == 2)> Từ chối </option>
                                             </select>
@@ -120,32 +121,34 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($the_devices as $index => $the_device)
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>
-                                                    <a class="tile tile-img mr-1">
-                                                        <img src="{{ $the_devices[$index]->image }}" alt="Ảnh sản phẩm"
-                                                            style="max-width: 100px; max-height: 100px;">
-                                                        <a href="#">{{ $the_devices[$index]->name }}</a>
-                                                </td>
-                                                <td>{{ $the_device->lesson_name }}</td>
-                                                <td>{{ $the_device->quantity }}</td>
-                                                <td>{{ $the_device->session }}</td>
-                                                <td>{{ $the_device->lecture_name }}</td>
-                                                <td>{{ $the_device->room->name }}</td>
-                                                <td>{{ $the_device->lecture_number }}</td>
-                                                <td>{{ $the_device->return_date }}</td>
-                                                <td>
-                                                    <select name="status[{{ $the_device->id }}][]" class="form-control">
-                                                        <option value="0"
-                                                            {{ $the_device->status == '0' ? 'selected' : '' }}>Chưa trả
-                                                        </option>
-                                                        <option value="1"
-                                                            {{ $the_device->status == '1' ? 'selected' : '' }}>Đã trả
-                                                        </option>
-                                                    </select>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>
+                                                <a class="tile tile-img mr-1">
+                                                    <img src="{{ $devices[$index]->image }}" alt="Ảnh sản phẩm"
+                                                        style="max-width: 100px; max-height: 100px;">
+                                                    <a href="#">{{ $devices[$index]->name }}</a>
+                                            </td>
+                                            <td>{{ $the_device->lesson_name }}</td>
+                                            <td>{{ $the_device->quantity }}</td>
+                                            <td>{{ $the_device->session }}</td>
+                                            <td>{{ $the_device->lecture_name }}</td>
+                                            <td>{{ $the_device->room->name }}</td>
+                                            <td>{{ $the_device->lecture_number }}</td>
+                                            <td>{{ $the_device->return_date }}</td>
+                                            <td>
+                                                <select name="the_device_status[{{ $the_device->id }}]"
+                                                    class="form-control">
+                                                    <option value="0"
+                                                        {{ $the_device->status == '0' ? 'selected' : '' }}>Chưa trả
+                                                    </option>
+                                                    <option value="1"
+                                                        {{ $the_device->status == '1' ? 'selected' : '' }}>Đã trả
+                                                    </option>
+                                                </select>
+
+                                            </td>
+                                        </tr>
                                         @endforeach
                                     </tbody>
                                 </table><!-- /.table -->
@@ -159,7 +162,7 @@
                         </div>
                     </div>
                 </form>
-                </div><!-- /.card-body -->
-            </div>
+            </div><!-- /.card-body -->
         </div>
+    </div>
     @endsection
