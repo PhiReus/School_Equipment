@@ -107,7 +107,7 @@
                             <td>{{ ++$key }}</td>
                             <!-- Hiển thị tên người mượn -->
                             <td>{{ $item->borrow->user->name ?? 'null' }}</td>
-                            <td>{{ $item->device->name }}</td>
+                            <td>{{ $item->device->name ?? 'null' }}</td>
                             <td>{{ $item->lesson_name }}</td>
                             <td>{{ $item->quantity }}</td>
                             <td>{{ $item->session }}</td>
