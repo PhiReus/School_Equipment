@@ -78,7 +78,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td> Tên </td>                                    
+                                        <td> Tên </td>
                                         <td> {{ $user->name }}</td>
                                     </tr>
                                     <tr>
@@ -97,7 +97,6 @@
                             </table>
                         </div>
                     </div>
-
 
                     <!-- Chi tiết thiết bị -->
 
@@ -151,9 +150,9 @@
                                     </tbody>
                                 </table><!-- /.table -->
                                 <div class="form-actions">
-                                    <button class="btn btn-secondary float-right" onclick="window.history.back()">
+                                    <a href="{{ route('borrows.index') }}" class="btn btn-secondary float-right">
                                         Quay lại
-                                    </button>
+                                    </a>
                                     <button class="btn btn-primary ml-auto" type="submit">Lưu</button>
                                 </div>
                             </div>
