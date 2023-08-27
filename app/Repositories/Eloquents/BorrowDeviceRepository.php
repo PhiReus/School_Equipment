@@ -48,13 +48,9 @@ class BorrowDeviceRepository extends EloquentRepository implements  BorrowDevice
                 $query->where('borrow_date', 'LIKE', '%' . $request->searchBorrow_date . '%');
             });
         }
-        if($request->searchStatus != null){
-            if($request->searchStatus == 1){
-                $query->where('status', 'LIKE', '%' . $request->searchStatus . '%');
-            }
-            if($request->searchStatus == 0){
-                $query->where('status', '!=', 1);
-            }
+        
+        if($request->searchStatus !== null){
+            $query->where('status',$request->searchStatus);
         }
         $query->orderBy('id','desc');
         $items = $query->paginate($limit);

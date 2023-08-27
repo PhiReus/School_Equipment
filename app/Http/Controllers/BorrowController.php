@@ -40,7 +40,7 @@ class BorrowController extends Controller
      */
     public function index(Request $request)
     {
-        $items = $this->borrowService->paginate(21,$request);
+        $items = $this->borrowService->paginate(5,$request);
         // $users = $this->userService->all($request);
         return view('borrows.index', compact('items','request'));
     }
@@ -131,11 +131,6 @@ class BorrowController extends Controller
             // Delete the record and related devices
             $this->borrowService->destroy($id);
             
-            // Update device quantities
-            foreach ($borrow->the_devices as $device) {
-                $this->deviceService->updateQuantity($device->device_id, $device->quantity);
-            }
-            
             return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
@@ -147,6 +142,7 @@ class BorrowController extends Controller
 
     public function trash(Request $request)
     {
+        
         $items = $this->borrowService->trash($request);
         $users = $this->userService->all($request);
         return view('borrows.trash', compact('items', 'users', 'request'));

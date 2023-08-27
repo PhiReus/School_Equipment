@@ -99,10 +99,32 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     
         return $borrow;
     }
+
+
+    public function destroy($id)
+    {
+        $borrow = $this->model->findOrFail($id);
+        $borrowDevices = $borrow->the_devices;
+    
+        foreach ($borrowDevices as $borrowDevice) {
+            $this->updateDeviceQuantity($borrowDevice->device_id, $borrowDevice->quantity);
+        }
+    
+        $result = $this->model->destroy($id);
+        return $result;
+    }
+    
+
     public function trash($request = null)
     {
         $query = $this->model->onlyTrashed()->with(['user:id,name']);
     
+        if($request->searchStatus !== null){
+            $query->where('status',$request->searchStatus);
+        }
+        if ($request->searchApproved !== null) {
+            $query->where('approved',$request->searchApproved);
+        }
         if ($request->searchBorrow_date) {
             $query->where('borrow_date', 'like', '%' . $request->searchBorrow_date . '%');
         }
@@ -230,6 +252,7 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         $device = Device::findOrFail($deviceId);
         $device->quantity += $quantityChange;
         $device->save();
+        
     }
   
     public function all($request = null)
