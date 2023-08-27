@@ -25,7 +25,6 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-
                         <form action="{{ route('groups.index') }}" method="GET" id="form-search">
                             <div class="row">
                                 <div class="col">

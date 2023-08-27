@@ -34,7 +34,6 @@
                 <div class="row mb-2">
                     <div class="col">
                         <form action="{{ route('devicetypes.index') }}" method="GET" id="form-search">
-
                             <div class="row">
                                 <div class="col">
                                     <input name="searchname" value="{{request('searchname')}}" class="form-control" type="text"

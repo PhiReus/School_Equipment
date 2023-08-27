@@ -31,7 +31,6 @@
                 <div class="row mb-2">
                     <div class="col">
                         <form action="{{ route('devices.trash') }}" method="GET" id="form-search">
-
                             <div class="row">
                                 <div class="col">
                                     <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"

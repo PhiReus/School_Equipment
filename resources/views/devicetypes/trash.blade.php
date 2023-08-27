@@ -31,10 +31,9 @@
                 <div class="row mb-2">
                     <div class="col">
                         <form action="{{ route('devicetypes.trash') }}" method="GET" id="form-search">
-                            @csrf
                             <div class="row">
                                 <div class="col">
-                                    <input name="searchName" value="{{request('searchname')}}" class="form-control" type="text"
+                                    <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
                                         placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col-lg-1">

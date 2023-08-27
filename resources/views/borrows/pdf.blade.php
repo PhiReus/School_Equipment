@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Phiếu Mượn</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -123,6 +124,15 @@
                 <td align="center">{{ $changeStatus[$item->status] }}</td>
             </tr>
         </tbody>
+    </table>
+
+    <table border="0" align="left">
+        <tr>
+            <td>
+                <h4> Ghi chú : </h4>
+            </td>
+            <td> {{ $item->borrow->borrow_note }}</td>
+        </tr>
     </table>
 </body>
 
