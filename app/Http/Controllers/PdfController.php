@@ -9,10 +9,10 @@ use PDF;
 
 class PDFController extends Controller
 {
-    
+
     public function exportPDF($id)
     {
-        $item = BorrowDevice::with('borrow', 'user', 'room', 'device')->orderBy('id', 'DESC')->findOrFail($id);
+        $item = Borrow::with('the_devices', 'user', 'the_rooms', 'devices')->orderBy('id', 'DESC')->findOrFail($id);
         $changeStatus = [
             0 => 'Chưa trả',
             1 => 'Đã trả',

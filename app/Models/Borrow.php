@@ -22,9 +22,14 @@ class Borrow extends Model
     {
         return $this->hasMany(BorrowDevice::class, 'borrow_id', 'id');
     }
-   
+
     public function devices()
     {
         return $this->belongsToMany(Device::class,'borrow_devices','borrow_id','device_id');
     }
+    public function the_rooms()
+    {
+        return $this->belongsToMany(Room::class,'borrow_devices','borrow_id','room_id');
+    }
+
 }

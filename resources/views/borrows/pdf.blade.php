@@ -87,9 +87,9 @@
                 Số điện thoại : <br>
             </td>
             <td align="left" width="59%">
-                {{ $item->borrow->user->name }}<br />
-                {{ $item->borrow->user->email }}<br />
-                {{ $item->borrow->user->phone }}<br />
+                {{ $item->user->name }}<br />
+                {{ $item->user->email }}<br />
+                {{ $item->user->phone }}<br />
             </td>
         </tr>
     </table>
@@ -97,7 +97,7 @@
     <br>
     <br>
     <table border="1" align="left" cellpadding="5">
-        <caption>Chi tiết phiếu mượn thiết bị của giáo viên : {{ $item->borrow->user->name }} </caption>
+        <caption>Chi tiết phiếu mượn thiết bị của giáo viên : {{ $item->user->name }} </caption>
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Tên thiết bị</th>
@@ -112,17 +112,23 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td align="center">{{ $item->device->name }}</td>
-                <td align="center">{{ $item->lesson_name }}</td>
-                <td align="center">{{ $item->quantity }}</td>
-                <td align="center">{{ $item->session }}</td>
-                <td align="center">{{ $item->lecture_name }}</td>
-                <td align="center">{{ $item->room->name }}</td>
-                <td align="center">{{ $item->lecture_number }}</td>
-                <td align="center">{{ $item->return_date }}</td>
-                <td align="center">{{ $changeStatus[$item->status] }}</td>
-            </tr>
+            @foreach ($item->the_devices as $borrowDevice)
+                <tr>
+                    @foreach ($item->devices as $device)
+                        <td align="center">{{ $device->name }}</td>
+                    @endforeach
+                    <td align="center">{{ $borrowDevice->lesson_name }}</td>
+                    <td align="center">{{ $borrowDevice->quantity }}</td>
+                    <td align="center">{{ $borrowDevice->session }}</td>
+                    <td align="center">{{ $borrowDevice->lecture_name }}</td>
+                    @foreach ($item->the_rooms as $room)
+                        <td align="center">{{ $room->name }}</td>
+                    @endforeach
+                    <td align="center">{{ $borrowDevice->lecture_number }}</td>
+                    <td align="center">{{ $borrowDevice->return_date }}</td>
+                    <td align="center">{{ $changeStatus[$borrowDevice->status] }}</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 
@@ -131,7 +137,7 @@
             <td>
                 <h4> Ghi chú : </h4>
             </td>
-            <td> {{ $item->borrow->borrow_note }}</td>
+            <td> {{ $item->borrow_note }}</td>
         </tr>
     </table>
 </body>
