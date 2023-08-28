@@ -43,17 +43,17 @@
     @foreach ($BorrowDevices as $key => $item)
         <tr>
             <td align="center">{{ ++$key }}</td>
-            <td align="center">{{ $item->borrow->user->name ?? 'Người mượn không tồn tại' }}</td>
-            <td align="center">{{ $item->device ?? $item->device->name }}</td>
+            <td align="center">{{ $item->borrow->user->name ?? '(Không tồn tại)' }}</td>
+            <td align="center">{{ $item->device && $item->device->name ? $item->device->name : '(Không tồn tại)' }}</td>
             <td align="center">{{ $item->lesson_name }}</td>
             <td align="center">{{ $item->quantity }}</td>
             <td align="center">{{ $item->session }}</td>
             <td align="center">{{ $item->lecture_name }}</td>
-            <td align="center">{{ $item->room ?? $item->room->name }}</td>
+            <td align="center">{{ $item->room && $item->room->name ? $item->room->name : '(Không tồn tại)' }}</td>
             <td align="center">{{ $item->lecture_number }}</td>
             <td align="center">{{ $changeStatus[$item->status] }}</td>
-            <td align="center">{{ $item->borrow && $item->borrow->borrow_date ? $item->borrow->borrow_date : '' }}</td>
-            <td align="center">{{ $item->return_date ? $item->return_date : ''}}</td>
+            <td align="center">{{ $item->borrow && $item->borrow->borrow_date ?  date('d/m/Y', strtotime($item->borrow->borrow_date)) : '(Không tồn tại)' }}</td>
+            <td align="center">{{ $item->return_date ? date('d/m/Y', strtotime($item->return_date)) : '(Không tồn tại)'}}</td>
         </tr>
     @endforeach
 </table>
