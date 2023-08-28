@@ -58,7 +58,7 @@
                                 @if (isset($item->borrow_date))
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $item->borrow_date }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($item->borrow_date)) }}</td>
                                         <td>{{ $item->quantity }}</td>
                                         <td>{{ $changeApproved[$item->approved] }}</td>
                                         <td class="align-middle px-0" style="width: 1.5rem">
@@ -92,7 +92,7 @@
                                                             @endphp
                                                             <tr>
                                                                 <td>{{ $index + 1 }}</td>
-                                                                <td>{{ $subItem->return_date }}</td>
+                                                                <td>{{ date('d/m/Y', strtotime($subItem->return_date)) }}</td>
                                                                 <td>{{ $subItem->device_name }}</td>
                                                                 <td>{{ $subItem->room_name }}</td>
                                                                 <td>{{ $changeStatus[$subItem->status] }}</td>
