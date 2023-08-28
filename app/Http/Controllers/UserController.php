@@ -148,7 +148,7 @@ class UserController extends Controller
             ->join('rooms AS r', 'bd.room_id', '=', 'r.id')
             ->join('users AS u', 'b.user_id', '=', 'u.id')
             ->where('u.id', $id);
-        $history = $queryBuilder->paginate(3);
+        $history = $queryBuilder->paginate(5);
         // dd($history);
         return view('users.history', compact('user', 'history','changeStatus','changeApproved'));
     }
