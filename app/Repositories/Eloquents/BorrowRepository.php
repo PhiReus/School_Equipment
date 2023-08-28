@@ -275,16 +275,33 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     
         // Kiểm tra nếu trạng thái đã xét duyệt thay đổi thành chưa xét duyệt hoặc từ chối
         if ($currentApprovedStatus == 1 && ($newApprovedStatus == 0 || $newApprovedStatus == 2)) {
+            // dd(123);
+            // $borrow->the_devices()->update([
+            //     'status' => 0
+            // ]);
             // Trả lại số lượng thiết bị cho bảng device tương ứng
             foreach ($borrow->the_devices as $device) {
                 $this->updateDeviceQuantity($device->device_id, $device->quantity);
+                $device->status = 0;
+                $device->save();
+                // $device->update([
+                //     'status' => 0
+                // ]);
             }
+            
         }
         // Kiểm tra nếu trạng thái chưa xét duyệt hoặc từ chối thay đổi thành đã xét duyệt
         elseif (($currentApprovedStatus == 0 || $currentApprovedStatus == 2) && $newApprovedStatus == 1) {
             // Trừ đi số lượng thiết bị cho bảng device tương ứng
             foreach ($borrow->the_devices as $device) {
                 $this->updateDeviceQuantity($device->device_id, -$device->quantity);
+            }
+            
+        }else{
+            // Cập nhật trạng thái và số lượng trong bảng borrow_device
+            $borrow_device_ids = $data['the_device_status'];
+            foreach ($borrow_device_ids as $borrow_device_id => $device_status) {
+                $borrow->the_devices()->where('id', $borrow_device_id)->update(['status' => $device_status]);
             }
         }
     
@@ -296,11 +313,7 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
             $borrow->status = $data['status'];
         }
     
-        // Cập nhật trạng thái và số lượng trong bảng borrow_device
-        $borrow_device_ids = $data['the_device_status'];
-        foreach ($borrow_device_ids as $borrow_device_id => $device_status) {
-            $borrow->the_devices()->where('id', $borrow_device_id)->update(['status' => $device_status]);
-        }
+        
     
         // Tính tổng số thiết bị mượn và trả
         $tong_muon = $borrow->the_devices()->count();

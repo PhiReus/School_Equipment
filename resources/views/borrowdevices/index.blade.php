@@ -107,8 +107,8 @@
                         @foreach ($items as $key => $item)
                         <tr>
                             <td>{{ ++$key }}</td>
-                            <td>{{ $item->borrow->user->name ?? 'null' }}</td>
-                            <td>{{ $item->device->name ?? 'null' }}</td>
+                            <td>{{ $item->borrow->user->name ?? 'Không xác định' }}</td>
+                            <td>{{ $item->device->name ?? 'Không xác định' }}</td>
                             <td>{{ $item->lesson_name }}</td>
                             <td>{{ $item->quantity }}</td>
                             <td>{{ $item->session }}</td>
