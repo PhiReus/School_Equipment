@@ -63,10 +63,9 @@
                                         <td>{{ $changeApproved[$item->approved] }}</td>
                                         <td class="align-middle px-0" style="width: 1.5rem">
                                             <button type="button" class="btn btn-sm btn-icon btn-light"
-                                                data-target="#details-cid{{ $item->borrow_device_id }}"
                                                 data-toggle="collapse"
-                                                data-target="#details-cid{{ $item->borrow_device_id }}"><span
-                                                    class="collapse-indicator"><i
+                                                data-target="#details-cid{{ $item->borrow_device_id }}">
+                                                <span class="collapse-indicator"><i
                                                         class="fa fa-angle-right"></i></span></button>
                                         </td>
                                     </tr>
@@ -88,19 +87,23 @@
                                                 <tbody>
                                                     @foreach ($history as $index => $subItem)
                                                         @if ($subItem->borrow_id === $item->borrow_id)
+                                                            @php
+                                                                $borrowExists = App\Models\Borrow::find($subItem->borrow_id);
+                                                            @endphp
                                                             <tr>
                                                                 <td>{{ $index + 1 }}</td>
                                                                 <td>{{ $subItem->return_date }}</td>
                                                                 <td>{{ $subItem->device_name }}</td>
                                                                 <td>{{ $subItem->room_name }}</td>
                                                                 <td>{{ $changeStatus[$subItem->status] }}</td>
-                                                                <td>
-                                                                    <span class="sr-only">Edit</span></a> <a
-                                                                        href="{{ route('borrows.show', $subItem->borrow_id) }}"
-                                                                        class="btn btn-sm btn-icon btn-secondary"> <i
-                                                                            class="fa-regular fa-eye"></i>
-                                                                        <span class="sr-only">Remove</span></a>
-                                                                </td>
+                                                                @if ($borrowExists)
+                                                                    <td>
+                                                                        <span class="sr-only">Edit</span></a> <a
+                                                                            href="{{ route('borrows.show', $subItem->borrow_id) }}"
+                                                                            class="btn btn-sm btn-icon btn-secondary"> <i class="fa-solid fa-eye"></i>
+                                                                            <span class="sr-only">Remove</span></a>
+                                                                    </td>
+                                                                @endif
                                                             </tr>
                                                         @endif
                                                     @endforeach
