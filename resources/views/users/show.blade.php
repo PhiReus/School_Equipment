@@ -10,10 +10,6 @@
         </nav>
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Xem thông tin chi tiết giáo viên : {{ $item->name }}</h1>
-            <a href="{{ route('export_PDF', $item->id) }}" class="btn btn-primary ">
-                <i class='fas fa-file-alt'></i>
-                <span class="ml-1">Xuất file pdf</span>
-            </a>
         </div>
     </header>
     <div class="page-section">
@@ -36,7 +32,7 @@
                         <div class="media mb-3">
                             <div class="user-avatar user-avatar-xl fileinput-button">
                                 <img src="{{ $item->image }}"
-                                    alt=""> 
+                                    alt="">
                             </div>
                             <div class="media-body pl-3">
                                 <div id="progress-avatar" class="progress progress-xs fade">
