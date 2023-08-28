@@ -11,7 +11,6 @@
         </nav>
         <h1 class="page-title">Sửa Thông Tin Giáo Viên</h1>
     </header>
-
     <div class="page-section">
         <form method="post" action="{{ route('users.update', $item->id) }}" enctype="multipart/form-data">
             @csrf
@@ -41,7 +40,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <label for="tf1">Mật khẩu<abbr name="Trường bắt buộc">*</abbr></label>
+                            <label for="tf1">Mật khẩu<abbr name="Trường bắt buộc"></abbr></label>
 
                             <input name="password" type="password" class="form-control" id=""
                                 placeholder="Nhập mật khẩu">
@@ -116,7 +115,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <label for="tf1">Ảnh<abbr name="Trường bắt buộc">*</abbr></label>
+                            <label for="tf1">Ảnh<abbr name="Trường bắt buộc"></abbr></label>
                             <input type="file" class="form-control" name="image">
                             <img src="{{ asset($item->image) ?? asset('public/users' . old('image', $item->image)) }}"
                                 width="90px" height="90px" id="blah1" alt="">

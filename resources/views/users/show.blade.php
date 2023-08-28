@@ -78,7 +78,8 @@
                             <div class="form-row">
                                 <label for="input04" class="col-md-3">Ngày sinh :</label>
                                 <div class="col-md-9 mb-3">
-                                    <p>{{ $item->birthday }}</p>
+                                    <p>{{ date('d/m/Y', strtotime($item->birthday)) }}</p>
+
                                 </div>
                             </div>
                             <div class="form-row">

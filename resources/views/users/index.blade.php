@@ -49,6 +49,14 @@
                                     <input name="searchphone" class="form-control" type="text"
                                         placeholder="Tìm theo số điện thoại..." value="{{ request('searchphone') }}" />
                                 </div>
+                                <div class="col">
+                                    <select name="searchGroup" class="form-control">
+                                        <option value="">Tìm theo chức vụ...</option>
+                                        @foreach ($groups as $key => $group)
+                                        <option value="{{ $group->id }} " {{ $request->searchGroup == $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
                                         type="submit">Tìm Kiếm</button>
