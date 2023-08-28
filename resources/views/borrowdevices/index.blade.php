@@ -107,17 +107,17 @@
                         @foreach ($items as $key => $item)
                         <tr>
                             <td>{{ ++$key }}</td>
-                            <td>{{ $item->borrow->user->name ?? 'Không xác định' }}</td>
-                            <td>{{ $item->device->name ?? 'Không xác định' }}</td>
+                            <td>{{ $item->borrow->user->name ?? '(Không xác định)' }}</td>
+                            <td>{{ $item->device->name ?? '(Không xác định)' }}</td>
                             <td>{{ $item->lesson_name }}</td>
                             <td>{{ $item->quantity }}</td>
                             <td>{{ $item->session }}</td>
                             <td>{{ $item->lecture_name }}</td>
                             <td>{{ $item->room->name }}</td>
                             <td>{{ $item->lecture_number }}</td>
-                            <td>{{ $changeStatus[$item->status] ?? 'Unknown Status' }}</td>
+                            <td>{{ $changeStatus[$item->status] ?? '(Không xác định)' }}</td>
                             <td>
-                                {{ optional($item->borrow)->borrow_date ? date('d/m/Y', strtotime($item->borrow->borrow_date)) : 'null' }}
+                                {{ optional($item->borrow)->borrow_date ? date('d/m/Y', strtotime($item->borrow->borrow_date)) : '(Không xác định)' }}
                             </td>
                             <td>{{ date('d/m/Y', strtotime($item->return_date)) }}</td>
 
