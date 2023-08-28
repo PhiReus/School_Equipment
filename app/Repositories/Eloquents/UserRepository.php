@@ -126,7 +126,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
 
             return  Mail::send('includes.SendMail', compact('data'), function ($email) use ($user) {
                 $email->from($user->email, 'Quan tri vien'); // Địa chỉ email và tên người gửi là email của người dùng
-                $email->subject('Forgot Password');
+                $email->subject('Đặt lại mật khẩu');
                 $email->to($user->email, $user->name);
             });
         }
