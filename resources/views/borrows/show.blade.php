@@ -147,7 +147,6 @@
                                                         {{ $the_device->status == '1' ? 'selected' : '' }}>Đã trả
                                                     </option>
                                                 </select>
-
                                             </td>
                                         </tr>
                                         @endforeach
