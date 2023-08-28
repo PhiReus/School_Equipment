@@ -126,9 +126,9 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>
                                                 <a class="tile tile-img mr-1">
-                                                    <img src="{{ $devices[$index]->image }}" alt="Ảnh sản phẩm"
+                                                    <img src="{{ $the_device->device->image }}" alt="Ảnh sản phẩm"
                                                         style="max-width: 100px; max-height: 100px;">
-                                                    <a href="#">{{ $devices[$index]->name }}</a>
+                                                    <a href="#">{{ $the_device->device->name }}</a>
                                             </td>
                                             <td>{{ $the_device->lesson_name }}</td>
                                             <td>{{ $the_device->quantity }}</td>
