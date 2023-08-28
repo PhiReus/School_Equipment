@@ -273,35 +273,49 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         // Lấy trạng thái mới từ dữ liệu gửi đến
         $newApprovedStatus = $data['approved'];
     
-        // Kiểm tra nếu trạng thái đã xét duyệt thay đổi thành chưa xét duyệt hoặc từ chối
+        // Kiểm tra nếu trạng thái đã xét duyệt thay đổi thành chưa xét duyệt hoặc từ chối => OK
+        // Đã xét duyệt => Chưa xét duyệt => số lượng cộng
         if ($currentApprovedStatus == 1 && ($newApprovedStatus == 0 || $newApprovedStatus == 2)) {
-            // dd(123);
-            // $borrow->the_devices()->update([
-            //     'status' => 0
-            // ]);
             // Trả lại số lượng thiết bị cho bảng device tương ứng
-            foreach ($borrow->the_devices as $device) {
-                $this->updateDeviceQuantity($device->device_id, $device->quantity);
-                $device->status = 0;
-                $device->save();
-                // $device->update([
-                //     'status' => 0
-                // ]);
+            foreach ($borrow->the_devices as $borrow_device) {
+                $this->updateDeviceQuantity($borrow_device->device_id, $borrow_device->quantity);
+                $borrow_device->status = 0;
+                $borrow_device->save();
             }
             
         }
         // Kiểm tra nếu trạng thái chưa xét duyệt hoặc từ chối thay đổi thành đã xét duyệt
+        // Chưa xét duyệt => Đã xét duyệt => số lượng trừ
         elseif (($currentApprovedStatus == 0 || $currentApprovedStatus == 2) && $newApprovedStatus == 1) {
             // Trừ đi số lượng thiết bị cho bảng device tương ứng
-            foreach ($borrow->the_devices as $device) {
-                $this->updateDeviceQuantity($device->device_id, -$device->quantity);
+            foreach ($borrow->the_devices as $borrow_device) {
+                $this->updateDeviceQuantity($borrow_device->device_id, -$borrow_device->quantity);
             }
             
         }else{
+            // Đã xét duyệt và thực hiện trả
             // Cập nhật trạng thái và số lượng trong bảng borrow_device
             $borrow_device_ids = $data['the_device_status'];
             foreach ($borrow_device_ids as $borrow_device_id => $device_status) {
-                $borrow->the_devices()->where('id', $borrow_device_id)->update(['status' => $device_status]);
+                // Cập nhật status trong database
+                $borrow_device = $borrow->the_devices()->where('id', $borrow_device_id)->first();
+
+                $borrow_device_old_status = $borrow_device->status;
+                $borrow_device_new_status = $device_status;
+
+                $borrow_device->status = $device_status;
+                $borrow_device->save();
+
+                // Cập nhật số lương
+                
+                // Nếu trả
+                if( $borrow_device_old_status == 0 && $borrow_device_new_status == 1 ){
+                    $this->updateDeviceQuantity($borrow_device->device_id,$borrow_device->quantity);
+                }
+                // Nếu trả rồi, nhưng cập nhật lại chưa trả
+                if( $borrow_device_old_status == 1 && $borrow_device_new_status == 0 ){
+                    $this->updateDeviceQuantity($borrow_device->device_id,-$borrow_device->quantity);
+                }
             }
         }
     
