@@ -79,7 +79,9 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
                 'session' => $data['devices']['session'][$key],
                 'lecture_name' => $data['devices']['lecture_name'][$key],
                 'lecture_number' => $data['devices']['lecture_number'][$key],
-                'return_date' => $data['devices']['return_date'][$key]
+                'return_date' => $data['devices']['return_date'][$key],
+                'borrow_date'  => $data['borrow_date'],
+                'status' => $data['status']
             ];
         }
     

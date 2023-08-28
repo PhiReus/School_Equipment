@@ -9,6 +9,7 @@ use PDF;
 
 class PDFController extends Controller
 {
+    
     public function exportPDF($id)
     {
         $item = BorrowDevice::with('borrow', 'user', 'room', 'device')->orderBy('id', 'DESC')->findOrFail($id);
