@@ -21,8 +21,8 @@ class BorrowDeviceExport implements FromView
     public function view(): View
     {
         $changeStatus = [
-            1 => 'chưa trả',
-            2=> 'Đã trả'
+            0 => 'chưa trả',
+            1 => 'Đã trả'
         ];
         $BorrowDevices = BorrowDevice::all();
         return view('exports.BorrowDevice',[

@@ -107,7 +107,6 @@
                         @foreach ($items as $key => $item)
                         <tr>
                             <td>{{ ++$key }}</td>
-                            <!-- Hiển thị tên người mượn -->
                             <td>{{ $item->borrow->user->name ?? 'null' }}</td>
                             <td>{{ $item->device->name ?? 'null' }}</td>
                             <td>{{ $item->lesson_name }}</td>
@@ -120,8 +119,6 @@
                             <td>
                                 {{ optional($item->borrow)->borrow_date ? date('d/m/Y', strtotime($item->borrow->borrow_date)) : 'null' }}
                             </td>
-
-
                             <td>{{ date('d/m/Y', strtotime($item->return_date)) }}</td>
 
                         </tr>

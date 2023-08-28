@@ -133,7 +133,7 @@ class BorrowDevicesController extends Controller
         public function testHTML(){
             $changeStatus = [
                 0 => 'chưa trả',
-                1=> 'Đã trả'
+                1 => 'Đã trả'
 
             ];
             $BorrowDevices = BorrowDevice::all();
