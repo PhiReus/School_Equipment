@@ -169,7 +169,7 @@
                                                 <select name="devices[lecture_number][]" class="form-control">
                                                     <option @selected($device->lecture_number == '1') value="1">1</option>
                                                     <option @selected($device->lecture_number == '2') value="2">2</option>
-                                                    <option @selected($device->lecture_number == '3') value="3">4</option>
+                                                    <option @selected($device->lecture_number == '3') value="3">3</option>
                                                     <option @selected($device->lecture_number == '4') value="4">4</option>
                                                     <option @selected($device->lecture_number == '5') value="5">5</option>
                                                 </select>
@@ -254,7 +254,7 @@
                     <select name="devices[lecture_number][]" class="form-control">
                         <option value="1">1</option>
                         <option value="2">2</option>
-                        <option value="3">4</option>
+                        <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>

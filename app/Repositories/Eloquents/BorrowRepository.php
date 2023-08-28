@@ -103,18 +103,18 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     }
 
 
-    public function destroy($id)
-    {
-        $borrow = $this->model->findOrFail($id);
-        $borrowDevices = $borrow->the_devices;
+    // public function destroy($id)
+    // {
+    //     $borrow = $this->model->findOrFail($id);
+    //     $borrowDevices = $borrow->the_devices;
     
-        foreach ($borrowDevices as $borrowDevice) {
-            $this->updateDeviceQuantity($borrowDevice->device_id, $borrowDevice->quantity);
-        }
+    //     foreach ($borrowDevices as $borrowDevice) {
+    //         $this->updateDeviceQuantity($borrowDevice->device_id, $borrowDevice->quantity);
+    //     }
     
-        $result = $this->model->destroy($id);
-        return $result;
-    }
+    //     $result = $this->model->destroy($id);
+    //     return $result;
+    // }
     
 
     public function trash($request = null)
@@ -264,35 +264,71 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     }
     public function updateBorrow($id, $data)
     {
-        // dd($data);
+        // Tìm phiếu mượn theo ID
         $borrow = $this->model->findOrFail($id);
-        
-        // Cập nhật trường approved từ dữ liệu gửi đến
-        $borrow->approved = $data['approved'];
-        
-        // Cập nhật trường status từ dữ liệu gửi đến (nếu có)
+    
+        // Lấy trạng thái xét duyệt hiện tại
+        $currentApprovedStatus = $borrow->approved;
+    
+        // Lấy trạng thái mới từ dữ liệu gửi đến
+        $newApprovedStatus = $data['approved'];
+    
+        // Kiểm tra nếu trạng thái đã xét duyệt thay đổi thành chưa xét duyệt hoặc từ chối
+        if ($currentApprovedStatus == 1 && ($newApprovedStatus == 0 || $newApprovedStatus == 2)) {
+            // dd(123);
+            // $borrow->the_devices()->update([
+            //     'status' => 0
+            // ]);
+            // Trả lại số lượng thiết bị cho bảng device tương ứng
+            foreach ($borrow->the_devices as $device) {
+                $this->updateDeviceQuantity($device->device_id, $device->quantity);
+                $device->status = 0;
+                $device->save();
+                // $device->update([
+                //     'status' => 0
+                // ]);
+            }
+            
+        }
+        // Kiểm tra nếu trạng thái chưa xét duyệt hoặc từ chối thay đổi thành đã xét duyệt
+        elseif (($currentApprovedStatus == 0 || $currentApprovedStatus == 2) && $newApprovedStatus == 1) {
+            // Trừ đi số lượng thiết bị cho bảng device tương ứng
+            foreach ($borrow->the_devices as $device) {
+                $this->updateDeviceQuantity($device->device_id, -$device->quantity);
+            }
+            
+        }else{
+            // Cập nhật trạng thái và số lượng trong bảng borrow_device
+            $borrow_device_ids = $data['the_device_status'];
+            foreach ($borrow_device_ids as $borrow_device_id => $device_status) {
+                $borrow->the_devices()->where('id', $borrow_device_id)->update(['status' => $device_status]);
+            }
+        }
+    
+        // Cập nhật trạng thái xét duyệt từ dữ liệu gửi đến
+        $borrow->approved = $newApprovedStatus;
+    
+        // Cập nhật trạng thái từ dữ liệu gửi đến (nếu có)
         if (isset($data['status'])) {
             $borrow->status = $data['status'];
         }
-
-        $borrow_device_ids = $data['the_device_status'];
-        foreach ($borrow_device_ids as $borrow_device_id => $device_status) {
-            // BorrowDevice::where('id',$borrow_device_id)->update(['status' => $device_status]);
-            $borrow->the_devices()->where('id',$borrow_device_id)->update(['status' => $device_status]);
-        }
-
-        // Tim tong so tra / tong muon
+    
+        
+    
+        // Tính tổng số thiết bị mượn và trả
         $tong_muon = $borrow->the_devices()->count();
-        $tong_tra = $borrow->the_devices()->where('status',1)->count();
-        // Tu dong cap nhat trang thai khi nguoi dung tra het
-        if($tong_tra == $tong_muon){
+        $tong_tra = $borrow->the_devices()->where('status', 1)->count();
+    
+        // Tự động cập nhật trạng thái phiếu mượn nếu đã trả hết
+        if ($tong_tra == $tong_muon) {
             $borrow->status = 1;
         }
-        
+    
         // Lưu các thay đổi
         $borrow->save();
-        
+    
         return $borrow;
     }
+    
     
 }
