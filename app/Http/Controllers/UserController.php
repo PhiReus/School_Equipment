@@ -35,10 +35,12 @@ class UserController extends Controller
             abort(403);
         }
         $items = $this->userService->all($request);
+        $groups = Group::get();
         $param =
             [
                 'items' => $items,
                 'request' => $request,
+                'groups' => $groups,
             ];
         return view('users.index', $param);
     }

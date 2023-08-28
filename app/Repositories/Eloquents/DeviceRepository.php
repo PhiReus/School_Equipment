@@ -50,7 +50,7 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
 
         if($request->searchQuantity == 2){
             $query->where('quantity', '>', 0);
-        }   
+        }
         $query->orderBy('id','desc');
         $items = $query->paginate($limit);
         return $items;
@@ -63,6 +63,9 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
             $url = Storage::url($path);
             $data['image'] = $url;
         }
+        else {
+            $data['image'] = 'storage/default/image.jpg';
+        }
         return $this->model->create($data);
     }
 
@@ -72,7 +75,7 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
             $path = $data['image']->store('public/devices');
             $url = Storage::url($path);
             $data['image'] = $url;
-        }    
+        }
         return $this->model->where('id',$id)->update($data);
     }
 
@@ -106,5 +109,5 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
             return $result;
 
     }
-    
+
 }

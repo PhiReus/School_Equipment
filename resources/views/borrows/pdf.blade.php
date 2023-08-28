@@ -96,7 +96,7 @@
     <br>
     <br>
     <br>
-    <table border="1" align="left" cellpadding="5">
+    <table border="1" align="left" cellpadding="5" width="100%">
         <caption>Chi tiết phiếu mượn thiết bị của giáo viên : {{ $item->user->name }} </caption>
         <thead class="thead-dark">
             <tr>

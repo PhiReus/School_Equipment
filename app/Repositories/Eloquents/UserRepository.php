@@ -38,6 +38,9 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
         if ($request->id) {
             $query->where('id', $request->id);
         }
+        if ($request->searchGroup) {
+            $query->where('group_id', $request->searchGroup);
+        }
         return $query->orderBy('id', 'DESC')->paginate(5);
     }
     public function store($data)
@@ -46,12 +49,17 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
             $path = $data['image']->store('public/users');
             $url = Storage::url($path);
             $data['image'] = $url;
+        } else {
+            $data['image'] = 'storage/default/image.jpg';
         }
+
         if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
-        };
+        }
+
         return $this->model->create($data);
     }
+
     public function update($id, $data)
     {
         if (isset($data['image']) && $data['image']->isValid()) {
@@ -59,12 +67,12 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
             $url = Storage::url($path);
             $data['image'] = $url;
         }
-
         if (isset($data['password']) && !empty($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']); // Loại bỏ trường password khỏi mảng data
         }
+
 
         return $this->model->where('id', $id)->update($data);
     }
