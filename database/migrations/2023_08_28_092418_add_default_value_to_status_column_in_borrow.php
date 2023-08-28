@@ -9,20 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('borrows', function (Blueprint $table) {
-            $table->string('borrow_note')->nullable();
+            $table->integer('status')->default(0)->change();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::table('borrows', function (Blueprint $table) {
-            $table->dropColumn('borrow_note');
+            $table->integer('status')->change();
         });
     }
 };
