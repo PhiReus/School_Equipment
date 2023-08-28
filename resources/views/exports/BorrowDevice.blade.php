@@ -1,52 +1,13 @@
 
 
-<table border="1" align="left" cellpadding="5" width="100%">
-    <caption>Ảnh và Số Điện Thoại : </caption>
-    <tr>
-        <th width="60px" height="50px">Ảnh</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th width="60%" style="font-weight: bold;">Liên Hệ : 0987654321</th>
-    </tr>
-</table>
+
+
 
 
 
 
 <table border="1" align="left" cellpadding="5">
-    <caption>Liên Hệ Và Địa Chỉ : </caption>
-    <tr>
-        <th width="200px" style="font-weight: bold;">
-            http://thptgiolinh.com/ <br>
-            032522800 - 0987654321
-        </th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th width="200px" style="font-weight: bold;">
-            Trường THPT Gio Linh <br>
-            Địa Chỉ: Gio Linh Quảng Trị
-        </th>
-    </tr>
-</table>
-
-<table border="1" align="left" cellpadding="5">
-    <caption>Liên Hệ Và Địa Chỉ : </caption>
+    <caption></caption>
     <tr>
         <th></th>
         <th></th>
