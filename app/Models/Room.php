@@ -14,4 +14,8 @@ class Room extends Model
         'name',
         // các thuộc tính fillable khác
     ];
+    public function borrows()
+    {
+        return $this->belongsToMany(Borrow::class,'borrow_devices','room_id','borrow_id');
+    }
 }

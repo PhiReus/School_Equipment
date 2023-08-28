@@ -56,7 +56,7 @@ class BorrowController extends Controller
 
         return view('borrows.create', compact('users', 'rooms'));
     }
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -76,14 +76,13 @@ class BorrowController extends Controller
     public function show(Request $request, string $id)
 {
     // dd($id);
-   
+
         $item = $this->borrowService->find($id);
-        
         $user = $item->user;
         $devices = $item->devices;
         $the_devices = $item->the_devices;
         return view('borrows.show', compact('item','user','devices','the_devices'));
-        
+
     }
 
     /**
@@ -105,7 +104,7 @@ class BorrowController extends Controller
 
         return view('borrows.edit', compact('item','users','rooms','device_ids'));
 
-        
+
     }
 
     /**
@@ -117,7 +116,7 @@ class BorrowController extends Controller
         $this->borrowService->update( $data, $id);
         return redirect()->route('borrows.index')->with('success', 'Cập nhật thành công');
 
-        
+
     }
 
     /**
@@ -127,46 +126,46 @@ class BorrowController extends Controller
     {
         try {
             $borrow = $this->borrowService->find($id);
-            
+
             // Delete the record and related devices
             $this->borrowService->destroy($id);
-            
+
             return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
     }
-    
-    
-    
+
+
+
 
     public function trash(Request $request)
     {
-        
+
         $items = $this->borrowService->trash($request);
         $users = $this->userService->all($request);
         return view('borrows.trash', compact('items', 'users', 'request'));
     }
-    
+
     public function restore($id)
     {
         try {
             // Khôi phục bản ghi mượn
             $this->borrowService->restore($id);
-    
+
             // Lấy các thiết bị liên quan đến bản ghi mượn đã khôi phục
             $borrow = $this->borrowService->find($id);
             foreach ($borrow->the_devices as $device) {
                 $this->deviceService->updateQuantity($device->device_id, -$device->quantity);
             }
-    
+
             return redirect()->route('borrows.trash')->with('success', 'Khôi phục thành công');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return redirect()->route('borrows.trash')->with('error', 'Khôi phục không thành công!');
         }
     }
-    
+
     public function forceDelete($id)
     {
 
@@ -197,9 +196,9 @@ class BorrowController extends Controller
     {
         // dd($request->status);
         $data = $request->all(); // Lấy dữ liệu từ biểu mẫu
-        
+
         $this->borrowService->updateBorrow($id, $data); // Gọi phương thức để cập nhật
-        
+
         return redirect()->back()->with('success', 'Cập nhật thành công');
     }
 
