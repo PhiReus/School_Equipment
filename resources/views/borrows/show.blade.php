@@ -51,15 +51,15 @@
                                     <tr>
                                         <td> Tình trạng </td>
                                         <td>
-                                        @if (Auth::check() && Auth::user()->group->name ===  'Supper Admin')
-                                        <select name="status" class="form-control">
-                                            <option value="0" {{ $item->status == '0' ? 'selected' : '' }}>Chưa trả
-                                            </option>
-                                            <option value="1" {{ $item->status == '1' ? 'selected' : '' }}>Đã trả
-                                            </option>
-                                        </select>
+                                            @if (Auth::check() && Auth::user()->group->name === 'Supper Admin')
+                                            <select name="status" class="form-control">
+                                                <option value="0" {{ $item->status == '0' ? 'selected' : '' }}>Chưa trả
+                                                </option>
+                                                <option value="1" {{ $item->status == '1' ? 'selected' : '' }}>Đã trả
+                                                </option>
+                                            </select>
                                             @else
-                                        {{ $item->status == '0' ? 'Chưa trả' : 'Đã trả' }}
+                                            {{ $item->status == '0' ? 'Chưa trả' : 'Đã trả' }}
 
                                             @endif
                                         </td>
@@ -69,8 +69,8 @@
                                     <tr>
                                         <td> Trạng thái duyệt </td>
                                         <td>
-                                        @if (Auth::check() && Auth::user()->group->name ===  'Supper Admin')
-                                        <select name="approved" class="form-control">
+                                            @if (Auth::check() && Auth::user()->group->name === 'Supper Admin')
+                                            <select name="approved" class="form-control">
                                                 <option value="0" {{ $item->approved == '0' ? 'selected' : '' }}>Chưa
                                                     xét duyệt</option>
                                                 <option value="1" {{ $item->approved == '1' ? 'selected' : '' }}>Đã xét
@@ -78,7 +78,7 @@
                                                 <option value="2" {{ $item->approved == '2' ? 'selected' : '' }}>Từ chối
                                                 </option>
                                             </select>
-                                      
+
                                             @else
                                             @if ($item->approved == '0')
                                             Chưa xét duyệt
@@ -87,7 +87,7 @@
                                             @elseif ($item->approved == '2')
                                             Từ chối
                                             @endif
-                                            
+
                                             @endif
                                         </td>
                                     </tr>
@@ -141,7 +141,9 @@
                                             <th>Lớp</th>
                                             <th>Tiết TKB</th>
                                             <th>Ngày trả</th>
+                                            @if ($item->approved == 1)
                                             <th>Trạng thái</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -152,7 +154,8 @@
                                                 <a class="tile tile-img mr-1">
                                                     <img src="{{ $the_device->device->image }}" alt="Ảnh sản phẩm"
                                                         style="max-width: 100px; max-height: 100px;">
-                                                    <a href="#">{{ $the_device->device->name }}</a>
+                                                    <a href="{{ route('devices.edit', $the_device->device->id)}}">{{ $the_device->device->name }}
+                                                        (SL: {{ $the_device->device->quantity }})</a>
                                             </td>
                                             <td>{{ $the_device->lesson_name }}</td>
                                             <td>{{ $the_device->quantity }}</td>
@@ -160,10 +163,11 @@
                                             <td>{{ $the_device->lecture_name }}</td>
                                             <td>{{ $the_device->room->name }}</td>
                                             <td>{{ $the_device->lecture_number }}</td>
-                                            <td>{{ $the_device->return_date }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($the_device->return_date)) }}</td>
+                                            @if ($item->approved == 1)
                                             <td>
-                                            @if (Auth::check() && Auth::user()->group->name ===  'Supper Admin')
-                                            <select name="the_device_status[{{ $the_device->id }}]"
+                                                @if (Auth::check() && Auth::user()->group->name === 'Supper Admin')
+                                                <select name="the_device_status[{{ $the_device->id }}]"
                                                     class="form-control">
                                                     <option value="0"
                                                         {{ $the_device->status == '0' ? 'selected' : '' }}>Chưa trả
@@ -172,12 +176,13 @@
                                                         {{ $the_device->status == '1' ? 'selected' : '' }}>Đã trả
                                                     </option>
                                                 </select>
-                                                
+
                                                 @else
                                                 {{ $the_device->status == '0' ? 'Chưa trả' : 'Đã trả' }}
 
                                                 @endif
                                             </td>
+                                            @endif
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -186,7 +191,7 @@
                                     <a href="{{ route('borrows.index') }}" class="btn btn-secondary float-right">
                                         Quay lại
                                     </a>
-                                    @if (Auth::check() && Auth::user()->group->name ===  'Supper Admin')
+                                    @if (Auth::check() && Auth::user()->group->name === 'Supper Admin')
                                     <button class="btn btn-primary ml-auto" type="submit">Lưu</button>
                                     @endif
                                 </div>

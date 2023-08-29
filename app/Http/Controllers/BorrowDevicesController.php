@@ -33,7 +33,7 @@ class BorrowDevicesController extends Controller
         // Load thông tin người mượn thông qua bảng borrows
         $items->load('borrow.user');
         $changeStatus = [
-            0 => 'chưa trả',
+            0 => 'Chưa trả',
             1=> 'Đã trả'
 
 
@@ -132,7 +132,7 @@ class BorrowDevicesController extends Controller
 
         public function testHTML(){
             $changeStatus = [
-                0 => 'chưa trả',
+                0 => 'Chưa trả',
                 1 => 'Đã trả'
 
             ];
