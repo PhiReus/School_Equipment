@@ -100,6 +100,7 @@
         <caption>Chi tiết phiếu mượn thiết bị của giáo viên : {{ $item->user->name }} </caption>
         <thead class="thead-dark">
             <tr>
+                <th scope="col">STT</th>
                 <th scope="col">Tên thiết bị</th>
                 <th scope="col">Tên bài dạy</th>
                 <th scope="col">Số lượng</th>
@@ -114,6 +115,7 @@
         <tbody>
             @foreach ($item->the_devices as $borrowDevice)
                 <tr>
+                    <td align="center">{{ $borrowDevice->id }}</td>
                     @foreach ($item->devices as $device)
                         <td align="center">{{ $device->name }}</td>
                     @endforeach
