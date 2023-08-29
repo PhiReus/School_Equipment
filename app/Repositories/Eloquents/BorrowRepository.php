@@ -278,7 +278,13 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         if ($currentApprovedStatus == 1 && ($newApprovedStatus == 0 || $newApprovedStatus == 2)) {
             // Trả lại số lượng thiết bị cho bảng device tương ứng
             foreach ($borrow->the_devices as $borrow_device) {
-                $this->updateDeviceQuantity($borrow_device->device_id, $borrow_device->quantity);
+                // Nếu thiết đã trả thì không cộng
+                if($borrow_device->status == 1){
+
+                }else{
+                    // Chưa trả thì cộng
+                    $this->updateDeviceQuantity($borrow_device->device_id, $borrow_device->quantity);
+                }
                 $borrow_device->status = 0;
                 $borrow_device->save();
             }
@@ -295,30 +301,31 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         }else{
             // Đã xét duyệt và thực hiện trả
             // Cập nhật trạng thái và số lượng trong bảng borrow_device
-            $borrow_device_ids = $data['the_device_status'];
-            foreach ($borrow_device_ids as $borrow_device_id => $device_status) {
-                // Cập nhật status trong database
-                $borrow_device = $borrow->the_devices()->where('id', $borrow_device_id)->first();
+            if (isset($data['the_device_status'])) {
+                $borrow_device_ids = $data['the_device_status'];
+                foreach ($borrow_device_ids as $borrow_device_id => $device_status) {
+                    // Cập nhật status trong database
+                    $borrow_device = $borrow->the_devices()->where('id', $borrow_device_id)->first();
 
-                $borrow_device_old_status = $borrow_device->status;
-                $borrow_device_new_status = $device_status;
+                    $borrow_device_old_status = $borrow_device->status;
+                    $borrow_device_new_status = $device_status;
 
-                $borrow_device->status = $device_status;
-                $borrow_device->save();
+                    $borrow_device->status = $device_status;
+                    $borrow_device->save();
 
-                // Cập nhật số lương
-                
-                // Nếu trả
-                if( $borrow_device_old_status == 0 && $borrow_device_new_status == 1 ){
-                    $this->updateDeviceQuantity($borrow_device->device_id,$borrow_device->quantity);
-                }
-                // Nếu trả rồi, nhưng cập nhật lại chưa trả
-                if( $borrow_device_old_status == 1 && $borrow_device_new_status == 0 ){
-                    $this->updateDeviceQuantity($borrow_device->device_id,-$borrow_device->quantity);
+                    // Cập nhật số lương
+                    
+                    // Nếu trả
+                    if( $borrow_device_old_status == 0 && $borrow_device_new_status == 1 ){
+                        $this->updateDeviceQuantity($borrow_device->device_id,$borrow_device->quantity);
+                    }
+                    // Nếu trả rồi, nhưng cập nhật lại chưa trả
+                    if( $borrow_device_old_status == 1 && $borrow_device_new_status == 0 ){
+                        $this->updateDeviceQuantity($borrow_device->device_id,-$borrow_device->quantity);
+                    }
                 }
             }
-        }
-    
+        } 
         // Cập nhật trạng thái xét duyệt từ dữ liệu gửi đến
         $borrow->approved = $newApprovedStatus;
     

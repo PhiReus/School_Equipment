@@ -1,4 +1,4 @@
-    @extends('layouts.master')
+ @extends('layouts.master')
     @section('content')
         <header class="page-title-bar">
             <nav aria-label="breadcrumb">
@@ -11,7 +11,6 @@
             <div class="d-md-flex align-items-md-start">
                 <h1 class="page-title mr-sm-auto">Phiếu Mượn #{{ $item->id }} </h1>
                 <a href="{{ route('export_PDF', $item->id) }}" class="btn btn-primary ">
-
                     <i class='fas fa-file-alt'></i>
                     <span class="ml-1">Xuất File PDF</span>
                 </a>
@@ -41,12 +40,10 @@
                                             <td> Mã </td>
                                             <td>{{ $item->id }}</td>
                                         </tr>
-
                                         <tr>
                                             <td> Ngày mượn </td>
                                             <td> {{ date('d/m/Y', strtotime($item->borrow_date)) }} </td>
                                         </tr>
-
                                         <!-- Trạng thái -->
                                         <tr>
                                             <td> Tình trạng </td>
@@ -65,7 +62,6 @@
                                                 @endif
                                             </td>
                                         </tr>
-
                                         <!-- Trạng thái duyệt -->
                                         <tr>
                                             <td> Trạng thái duyệt </td>
@@ -93,7 +89,6 @@
                                                 @endif
                                             </td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -125,9 +120,7 @@
                                 </table>
                             </div>
                         </div>
-
                         <!-- Chi tiết thiết bị -->
-
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="table-responsive">
