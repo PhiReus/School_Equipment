@@ -53,7 +53,9 @@
                                     <select name="searchGroup" class="form-control">
                                         <option value="">Tìm theo chức vụ...</option>
                                         @foreach ($groups as $key => $group)
-                                        <option value="{{ $group->id }} " {{ $request->searchGroup == $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
+                                            <option value="{{ $group->id }}"
+                                                {{ $request->searchGroup == $group->id ? 'selected' : '' }}>
+                                                {{ $group->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -85,6 +87,7 @@
                                 <th>E-mail</th>
                                 <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
+                                <th>Chức vụ</th>
                                 @if (Auth::check())
                                     <th>Chức năng</th>
                                 @endif
@@ -98,11 +101,16 @@
                                         <a href="#" class="tile tile-img mr-1">
                                             <img class="img-fluid" src="{{ asset($item->image) }}" alt="">
                                         </a>
-                                        <a href="{{ route('users.show', $item->id) }}">{{ $item->name }}</a>
+                                        @if (Auth::user()->hasPermission('User_view'))
+                                            <a href="{{ route('users.show', $item->id) }}">{{ $item->name }}</a>
+                                        @else
+                                            {{ $item->name }}
+                                        @endif
                                     </td>
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->address }}</td>
                                     <td>{{ $item->phone }}</td>
+                                    <td>{{ $item->group->name }}</td>
                                     @if (Auth::check())
                                         <td>
                                             @if (Auth::user()->hasPermission('User_update'))

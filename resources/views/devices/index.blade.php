@@ -38,22 +38,26 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
-                                        placeholder="Tìm theo tên..." />
+                                    <input name="searchName" value="{{ request('searchName') }}" class="form-control"
+                                        type="text" placeholder="Tìm theo tên..." />
                                 </div>
                                 <div class="col">
-                                    <select name="searchDevicetype"  class="form-control">
+                                    <select name="searchDevicetype" class="form-control">
                                         <option value="">Tìm theo Loại Thiết Bị...</option>
                                         @foreach ($devicetypes as $key => $devicetype)
-                                        <option value="{{ $devicetype->id }} " {{ $request->searchDevicetype == $devicetype->id ? 'selected' : '' }}>{{ $devicetype->name }}</option>
+                                            <option value="{{ $devicetype->id }} "
+                                                {{ $request->searchDevicetype == $devicetype->id ? 'selected' : '' }}>
+                                                {{ $devicetype->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <select name="searchQuantity"  class="form-control">
+                                    <select name="searchQuantity" class="form-control">
                                         <option value="">Tình trạng</option>
-                                        <option value="2"  {{ $request->searchQuantity == 2 ? 'selected' : '' }}>Còn thiết bị</option>
-                                        <option value="1" {{ $request->searchQuantity == 1 ? 'selected' : '' }}>Hết thiết bị</option>
+                                        <option value="2" {{ $request->searchQuantity == 2 ? 'selected' : '' }}>Còn
+                                            thiết bị</option>
+                                        <option value="1" {{ $request->searchQuantity == 1 ? 'selected' : '' }}>Hết
+                                            thiết bị</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-2">
@@ -92,7 +96,11 @@
                                         <a href="{{ route('devices.edit', $item->id) }}" class="tile tile-img mr-1">
                                             <img class="img-fluid" src="{{ asset($item->image) }}" alt="">
                                         </a>
-                                        <a href="{{ route('devices.edit', $item->id) }}">{{ $item->name }}</a>
+                                        @if (Auth::user()->hasPermission('Device_view'))
+                                            <a href="{{ route('devices.edit', $item->id) }}">{{ $item->name }}</a>
+                                        @else
+                                            {{ $item->name }}
+                                        @endif
                                     </td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ $item->devicetype->name }}</td>
