@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\User;
+use App\Models\Borrow
+;
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
 use Illuminate\Support\Facades\DB;
@@ -81,11 +83,12 @@ class UserController extends Controller
     {
         try {
             $this->userService->destroy($id);
-            return redirect()->route('users.index')->with('success', 'Xóa thành công!');
+            return redirect()->route('users.index')->with('success', 'Xóa người dùng thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
     }
+    
     public function show($id)
     {
         $item = $this->userService->find($id);

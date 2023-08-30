@@ -44,9 +44,15 @@
                                     type="text" placeholder="Tìm theo tên..." />
                             </div>
                             <div class="col">
-                                <input name="searchBorrow_date" value="{{request('searchBorrow_date')}}"
+                                <input name="searchBorrow_date_from" value="{{request('searchBorrow_date_from')}}"
                                     class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
                             </div>
+
+                            <div class="col">
+                                <input name="searchBorrow_date_to" value="{{request('searchBorrow_date_to')}}"
+                                    class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
+                            </div>
+
                             <div class="col">
                                 <select name="searchStatus" class="form-control">
                                     <option value="">Tìm theo tình trạng...</option>
@@ -98,6 +104,7 @@
                     <tr>
                         <th>STT</th>
                         <th>Người dùng</th>
+                        <th>Ngày tạo phiếu</th>
                         <th>Ngày mượn</th>
                         <th>Tình trạng</th>
                         <th>Xét duyệt</th>
@@ -113,10 +120,16 @@
                     <tr>
                         <td>{{ ++$key }}</td>
                         <td>
+                            @if(isset($item->user->name))
                             <a href="{{ route('borrows.show',$item->id) }}">
                                 {{ $item->user->name }}
                             </a>
+                            @else
+                            {{ 'không xác định' }}
+                            @endif
                         </td>
+
+                        <td>{{ date('d/m/Y H:i:s', strtotime($item->created_at)) }}</td>
                         <td>{{ date('d/m/Y', strtotime($item->borrow_date)) }}</td>
                         <td>{{ $item->status ? 'Đã trả' : 'Chưa trả'  }} ({{ $tong_tra.'/'.$tong_muon }})</td>
                         <td>

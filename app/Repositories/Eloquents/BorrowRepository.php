@@ -38,8 +38,12 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
                 ->orderBy('id', 'desc');
         }
     
-        if ($request && $request->searchBorrow_date) {
-            $query->where('borrow_date', 'LIKE', '%' . $request->searchBorrow_date . '%');
+        if ($request && $request->searchBorrow_date_from) {
+            $query->where('borrow_date', '>=', $request->searchBorrow_date_from);
+        }
+
+        if ($request && $request->searchBorrow_date_to) {
+            $query->where('borrow_date', '<=', $request->searchBorrow_date_to);
         }
         if($request->searchStatus !== null){
             $query->where('status',$request->searchStatus);
@@ -65,7 +69,8 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
             'borrow_date' => $data['borrow_date'],
             'borrow_note' => $data['borrow_note'],
             'status' => $data['status'],
-            'approved' => $data['approved']
+            'approved' => $data['approved'],
+            'created_at' => $data['created_at']
 
         ];
     
@@ -81,7 +86,8 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
                 'lecture_number' => $data['devices']['lecture_number'][$key],
                 'return_date' => $data['devices']['return_date'][$key],
                 'borrow_date'  => $data['borrow_date'],
-                'status' => $data['status']
+                'status' => $data['status'],
+                'created_at' => $data['created_at']
             ];
         }
     
@@ -106,15 +112,18 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     // public function destroy($id)
     // {
     //     $borrow = $this->model->findOrFail($id);
-    //     $borrowDevices = $borrow->the_devices;
     
-    //     foreach ($borrowDevices as $borrowDevice) {
-    //         $this->updateDeviceQuantity($borrowDevice->device_id, $borrowDevice->quantity);
+    //     // Xóa tất cả các bản ghi con (thiết bị đã mượn)
+    //     foreach ($borrow->the_devices as $device) {
+    //         $device->forceDelete();
     //     }
     
-    //     $result = $this->model->destroy($id);
-    //     return $result;
+    //     // Đưa phiếu mượn vào thùng rác
+    //     $borrow->delete();
+    
+    //     return true;
     // }
+    
     
 
     public function trash($request = null)
@@ -147,13 +156,40 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         return $result;
     }
 
+    // public function forceDelete($id)
+    // {
+
+    //     $borrow = $this->model->withTrashed()->find($id);
+    //     // $borrow->onlyTrashed()->the_devices;
+    //     $borrow->forceDelete();
+    //     return $borrow;
+    // }
+
     public function forceDelete($id)
     {
-
-        $result = $this->model->onlyTrashed()->find($id);
-        $result->forceDelete();
-        return $result;
+        // Tìm bản ghi trong bảng "borrow" kèm theo cả bản ghi đã bị xóa (soft deleted)
+        $borrow = $this->model->withTrashed()->find($id);
+        
+        if ($borrow) {
+            // Lấy danh sách các bản ghi "borrow_devices" liên quan đến bản ghi "borrow"
+            $relatedDevices = $borrow->the_devices;
+    
+            // Xóa các bản ghi liên quan trong bảng "borrow_devices" trước
+            foreach ($relatedDevices as $device) {
+                $device->forceDelete();
+            }
+    
+            // Cuối cùng, xóa bản ghi trong bảng "borrow"
+            $borrow->forceDelete();
+            
+            return $borrow;
+        } else {
+            // Xử lý trường hợp không tìm thấy bản ghi
+            // Ví dụ: throw exception hoặc trả về thông báo lỗi
+        }
     }
+    
+
     public function update($data, $id)
     {
         $userData = [
@@ -163,6 +199,10 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
             'status' => $data['status'],
             'approved' => $data['approved']
         ];
+
+        if(isset($data['created_at']) && $data['created_at']){
+            $userData['created_at'] = $data['created_at'];
+        }
     
         $borrow = $this->model->findOrFail($id);
         $borrow->update($userData);
@@ -231,10 +271,20 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
                 'session' => $data['devices']['session'][$key],
                 'lecture_name' => $data['devices']['lecture_name'][$key],
                 'lecture_number' => $data['devices']['lecture_number'][$key],
-                'return_date' => $data['devices']['return_date'][$key]
+                'return_date' => $data['devices']['return_date'][$key],
+                'borrow_date'  => $data['borrow_date'],
+                'status' => $data['status'],
+                'created_at' => $data['created_at']
             ];
         }
-        $borrow->the_devices()->delete();
+        // foreach ($borrow->the_devices as $the_device) {
+        //     $the_device->delete();
+        // }
+        // dd($borrow->the_devices);
+        // $borrow->the_devices()
+        //         ->where('borrow_id', $id)
+        //         ->delete();
+        $borrow->the_devices()->forceDelete();
         $borrow->the_devices()->createMany($deviceData);
 
         // Khi xét duyệt, trừ số lượng
@@ -344,6 +394,7 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         if ($tong_tra == $tong_muon) {
             $borrow->status = 1;
         }
+
     
         // Lưu các thay đổi
         $borrow->save();
@@ -351,5 +402,7 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         return $borrow;
     }
     
-    
+    // public function destroy($id){
+    //     return $this->borrowRepository->destroy($id);
+    // }
 }

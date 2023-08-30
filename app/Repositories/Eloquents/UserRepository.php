@@ -41,7 +41,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
         if ($request->searchGroup) {
             $query->where('group_id', $request->searchGroup);
         }
-        return $query->orderBy('id', 'DESC')->paginate(5);
+        return $query->orderBy('id', 'DESC')->paginate(111);
     }
     public function store($data)
     {
