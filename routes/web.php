@@ -90,6 +90,7 @@ Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 
 //Export PDF
 Route::get('/export-pdf/{id}', [\App\Http\Controllers\PDFController::class, 'exportPDF'])->name('export_PDF');
+Route::get('/exportBook/{id}', [\App\Http\Controllers\ExportBookController::class, 'export'])->name('exportBook');
 
 // BorrowDevice
 Route::prefix('borrowdevices')->group(function () {
@@ -110,4 +111,11 @@ Route::prefix('devicetypes')->group(function () {
 Route::resource('devicetypes',\App\Http\Controllers\DeviceTypeController::class);
 // Thêm route sau vào web.php
 
+// Nest
+Route::prefix('nests')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\NestController::class, 'trash'])->name('nests.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\NestController::class, 'restore'])->name('nests.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\NestController::class, 'forceDelete'])->name('nests.forceDelete');
+});
+Route::resource('nests',\App\Http\Controllers\NestController::class);
 

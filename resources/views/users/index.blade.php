@@ -59,6 +59,16 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="col">
+                                    <select name="searchNest" class="form-control">
+                                        <option value="">Tìm theo tổ...</option>
+                                        @foreach ($nests as $key => $nest)
+                                            <option value="{{ $nest->id }}"
+                                                {{ $request->searchNest == $nest->id ? 'selected' : '' }}>
+                                                {{ $nest->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
                                         type="submit">Tìm Kiếm</button>
@@ -88,6 +98,7 @@
                                 <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
                                 <th>Chức vụ</th>
+                                <th>Tổ</th>
                                 @if (Auth::check())
                                     <th>Chức năng</th>
                                 @endif
@@ -111,6 +122,7 @@
                                     <td>{{ $item->address }}</td>
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->group->name }}</td>
+                                    <td>{{ $item->nest->name }}</td>
                                     @if (Auth::check())
                                         <td>
                                             @if (Auth::user()->hasPermission('User_update'))

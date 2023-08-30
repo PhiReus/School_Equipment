@@ -76,6 +76,9 @@ class DeviceTypeController extends Controller
     public function destroy($id)
     {
         try {
+            if ($this->deviceTypeService->isDevice_deviceType($id)) {
+                return redirect()->back()->with('error', 'Trong loại thiết bị đang có thiết bị, không thể xóa!');
+            }
             $this->deviceTypeService->destroy($id);
             return redirect()->route('devicetypes.index')->with('success', 'Xóa thành công!');
         } catch (\Exception $e) {

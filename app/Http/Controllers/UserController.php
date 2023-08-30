@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\Group;
+use App\Models\Nest;
 use App\Models\User;
 use App\Models\Borrow
 ;
@@ -14,6 +15,7 @@ use App\Services\Interfaces\DeviceServiceInterface;
 use Illuminate\Support\Facades\DB;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\Interfaces\GroupServiceInterface;
+use App\Services\Interfaces\NestServiceInterface;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -23,36 +25,41 @@ class UserController extends Controller
     protected $groupService;
     protected $borrowService;
     protected $deviceService;
+    protected $nestService;
 
-    public function __construct(UserServiceInterface $userService, GroupServiceInterface $groupService, BorrowServiceInterface $borrowService, DeviceServiceInterface $deviceService,)
+    public function __construct(UserServiceInterface $userService, NestServiceInterface $nestService, GroupServiceInterface $groupService, BorrowServiceInterface $borrowService, DeviceServiceInterface $deviceService,)
     {
         $this->groupService = $groupService;
         $this->userService = $userService;
         $this->borrowService = $borrowService;
         $this->deviceService = $deviceService;
+        $this->nestService = $nestService;
     }
     public function index(Request $request)
     {
-        if(!Auth::user()->hasPermission('User_viewAny')){
+        if (!Auth::user()->hasPermission('User_viewAny')) {
             abort(403);
         }
         $items = $this->userService->all($request);
         $groups = Group::get();
+        $nests = Nest::get();
         $param =
             [
                 'items' => $items,
                 'request' => $request,
                 'groups' => $groups,
+                'nests' => $nests,
             ];
         return view('users.index', $param);
     }
     public function create()
     {
-
         $groups = Group::get();
+        $nests = Nest::get();
         $params =
             [
                 'groups' => $groups,
+                'nests' => $nests,
             ];
         return view('users.create', $params);
     }
@@ -65,10 +72,12 @@ class UserController extends Controller
     public function edit($id)
     {
         $groups = Group::get();
+        $nests = Nest::get();
         $item = $this->userService->find($id);
         $params =
             [
                 'groups' => $groups,
+                'nests' => $nests,
                 'item' => $item,
             ];
         return view('users.edit', $params);
@@ -82,13 +91,17 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
+            if ($this->userService->isUserBorrow($id)) {
+                return redirect()->back()->with('error', 'Người dùng đang mượn thiết bị, không thể xóa!');
+            }
+
             $this->userService->destroy($id);
             return redirect()->route('users.index')->with('success', 'Xóa người dùng thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
     }
-    
+
     public function show($id)
     {
         $item = $this->userService->find($id);
@@ -97,7 +110,7 @@ class UserController extends Controller
     public function trash(Request $request)
     {
         $users = $this->userService->trash($request);
-        return view('users.trash', compact('users','request'));
+        return view('users.trash', compact('users', 'request'));
     }
     public function restore($id)
     {
@@ -155,6 +168,6 @@ class UserController extends Controller
             ->where('u.id', $id);
         $history = $queryBuilder->paginate(5);
         // dd($history);
-        return view('users.history', compact('user', 'history','changeStatus','changeApproved'));
+        return view('users.history', compact('user', 'history', 'changeStatus', 'changeApproved'));
     }
 }

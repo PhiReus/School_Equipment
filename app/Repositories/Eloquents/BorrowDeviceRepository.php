@@ -54,10 +54,16 @@ class BorrowDeviceRepository extends EloquentRepository implements  BorrowDevice
                 $query->where('borrow_date','<=', $request->searchBorrow_date_to );
             });
         }
-        
+
         if($request->searchStatus !== null){
             $query->where('status',$request->searchStatus);
         }
+        if ($request->searchNest) {
+            $query->whereHas('borrow.user', function ($query) use ($request) {
+                $query->where('nest_id', $request->searchNest);
+            });
+        }
+
         $query->orderBy('id','desc');
         $items = $query->paginate($limit);
         return $items;
@@ -79,7 +85,7 @@ class BorrowDeviceRepository extends EloquentRepository implements  BorrowDevice
     //         $path = $data['image']->store('public/devices');
     //         $url = Storage::url($path);
     //         $data['image'] = $url;
-    //     }    
+    //     }
     //     return $this->model->where('id',$id)->update($data);
     // }
 
@@ -102,5 +108,5 @@ class BorrowDeviceRepository extends EloquentRepository implements  BorrowDevice
             return $result;
 
     }
-    
+
 }

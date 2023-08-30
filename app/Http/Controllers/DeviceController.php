@@ -33,7 +33,7 @@ class DeviceController extends Controller
             abort(403);
         }
 
-        $items = $this->deviceService->paginate(5,$request);
+        $items = $this->deviceService->paginate(20,$request);
         // $devicetypes = $this->deviceTypeService->all($request);
         $devicetypes = DeviceType::get();
         return view('devices.index', compact('items','request','devicetypes'));

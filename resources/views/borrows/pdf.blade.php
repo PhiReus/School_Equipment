@@ -117,22 +117,19 @@
         </thead>
         <tbody>
             @foreach ($item->the_devices as $borrowDevice)
-            <tr>
-                <td align="center">{{ $borrowDevice->id }}</td>
-                @foreach ($item->devices as $device)
-                <td align="center">{{ $device->name }}</td>
-                @endforeach
-                <td align="center">{{ $borrowDevice->lesson_name }}</td>
-                <td align="center">{{ $borrowDevice->quantity }}</td>
-                <td align="center">{{ $borrowDevice->session }}</td>
-                <td align="center">{{ $borrowDevice->lecture_name }}</td>
-                @foreach ($item->the_rooms as $room)
-                <td align="center">{{ $room->name }}</td>
-                @endforeach
-                <td align="center">{{ $borrowDevice->lecture_number }}</td>
-                <td align="center">{{ $borrowDevice->return_date }}</td>
-                <td align="center">{{ $changeStatus[$borrowDevice->status] }}</td>
-            </tr>
+                <tr>
+                    <td align="center">{{ $borrowDevice->id }}</td>
+                    <td align="center">{{ $borrowDevice->device->name }}</td>
+                    <td align="center">{{ $borrowDevice->lesson_name }}</td>
+                    <td align="center">{{ $borrowDevice->quantity }}</td>
+                    <td align="center">{{ $borrowDevice->session }}</td>
+                    <td align="center">{{ $borrowDevice->lecture_name }}</td>
+                    <td align="center">{{ $borrowDevice->room->name }}</td>
+                    <td align="center">{{ $borrowDevice->lecture_number }}</td>
+                    <td align="center">{{ $borrowDevice->return_date }}</td>
+                    <td align="center">{{ $changeStatus[$borrowDevice->status] }}</td>
+                </tr>
+
             @endforeach
         </tbody>
     </table>
