@@ -46,6 +46,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
             $query->where('nest_id', $request->searchNest);
         }
         return $query->orderBy('id', 'DESC')->paginate(20);
+
     }
     public function store($data)
     {

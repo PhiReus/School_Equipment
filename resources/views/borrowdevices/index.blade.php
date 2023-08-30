@@ -35,7 +35,6 @@
             <div class="row mb-2">
                 <div class="col">
                     <form action="{{ route('borrowdevices.index') }}" method="GET" id="form-search">
-
                             <div class="row">
                                 <div class="col">
                                     <input name="searchTeacher" value="{{ request('searchTeacher') }}" class="form-control"
@@ -82,63 +81,70 @@
                                 </div>
 
                             </div>
+
                         </div>
-                    </form>
                 </div>
+                </form>
             </div>
-            @if (session('success'))
-            <div class="alert alert-success" role="alert">
-                {{ session('success') }}
-            </div>
-            @endif
-            @if (session('error'))
-            <div class="alert alert-danger" role="alert">
-                {{ session('error') }}
-            </div>
-            @endif
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Người mượn</th>
-                            <th>Tên thiết bị</th>
-                            <th>Tên bài dạy</th>
-                            <th>Số lượng</th>
-                            <th>Buổi</th>
-                            <th>Tiết PCCT</th>
-                            <th>Lớp</th>
-                            <th>Tiết TKB</th>
-                            <th>Trạng thái</th>
-                            <th>Ngày mượn</th>
-                            <th>Ngày trả</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($items as $key => $item)
-                        <tr>
-                            <td>{{ ++$key }}</td>
-                            <td>{{ $item->borrow->user->name ?? '(Không xác định)' }}</td>
-                            <td>{{ $item->device->name ?? '(Không xác định)' }}</td>
-                            <td>{{ $item->lesson_name }}</td>
-                            <td>{{ $item->quantity }}</td>
-                            <td>{{ $item->session }}</td>
-                            <td>{{ $item->lecture_name }}</td>
-                            <td>{{ $item->room->name }}</td>
-                            <td>{{ $item->lecture_number }}</td>
-                            <td>{{ $changeStatus[$item->status] ?? '(Không xác định)' }}</td>
-                            <td>
-                                {{ optional($item->borrow)->borrow_date ? date('d/m/Y', strtotime($item->borrow->borrow_date)) : '(Không xác định)' }}
-                            </td>
-                            <td>{{ date('d/m/Y', strtotime($item->return_date)) }}</td>
+        </div>
+        @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+        @endif
+        @if (session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+        </div>
+        @endif
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Người mượn</th>
+                        <th>Tên thiết bị</th>
+                        <th>Tên bài dạy</th>
+                        <th>Số lượng</th>
+                        <th>Buổi</th>
+                        <th>Tiết PCCT</th>
+                        <th>Lớp</th>
+                        <th>Tiết TKB</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo phiếu</th>
+                        <th>Ngày mượn</th>
+                        <th>Ngày trả</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($items as $key => $item)
+                    <tr>
+                        <td>{{ ++$key }}</td>
+                        <td>{{ $item->borrow->user->name ?? '(Phiếu mượn đã bị xóa)' }}</td>
+                        <td>{{ $item->device->name ?? '(Không xác định)' }}</td>
+                        <td>{{ $item->lesson_name }}</td>
+                        <td>{{ $item->quantity }}</td>
+                        <td>{{ $item->session }}</td>
+                        <td>{{ $item->lecture_name }}</td>
+                        <td>{{ $item->room->name }}</td>
+                        <td>{{ $item->lecture_number }}</td>
+                        <td>{{ $changeStatus[$item->status] ?? '(Không xác định)' }}</td>
+                        <td>
+                            {{ optional($item->borrow)->created_at ? date('d/m/Y H:i:s', strtotime($item->borrow->created_at)) : '(Không xác định)' }}
+                        </td>
+                        <td>
+                            {{ optional($item->borrow)->borrow_date ? date('d/m/Y', strtotime($item->borrow->borrow_date)) : '(Không xác định)' }}
+                        </td>
+                        <td>{{ $item->return_date ? date('d-m-Y', strtotime($item->return_date)) : '' }}</td>
 
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-                <div style="float:right">
-                    {{ $items->appends(request()->query())->links() }}
-                </div>
+            <div style="float:right">
+                {{ $items->appends(request()->query())->links() }}
             </div>
-            @endsection
+        </div>
+        @endsection
+

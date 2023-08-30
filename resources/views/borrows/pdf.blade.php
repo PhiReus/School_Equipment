@@ -5,49 +5,49 @@
     <title>Phiếu Mượn</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style type="text/css">
-        * {
-            font-family: DejaVu Sans, sans-serif;
-        }
+    * {
+        font-family: DejaVu Sans, sans-serif;
+    }
 
-        body {
-            font-size: 13px;
-            height: 100vh;
+    body {
+        font-size: 13px;
+        height: 100vh;
 
-        }
+    }
 
-        table {
-            border-collapse: collapse;
-            margin: 0;
-            padding: 0;
-        }
+    table {
+        border-collapse: collapse;
+        margin: 0;
+        padding: 0;
+    }
 
-        td {
-            vertical-align: middle;
-        }
+    td {
+        vertical-align: middle;
+    }
 
-        caption {
-            font-size: 15px;
-            font-weight: bold;
-            text-align: left;
-            color: rgb(0, 102, 255);
-        }
+    caption {
+        font-size: 15px;
+        font-weight: bold;
+        text-align: left;
+        color: rgb(0, 102, 255);
+    }
 
-        .companyInfo {
-            font-size: 13px;
-            font-weight: bold;
-            text-align: left;
-        }
+    .companyInfo {
+        font-size: 13px;
+        font-weight: bold;
+        text-align: left;
+    }
 
-        .thongtin {
-            font-size: 20px;
-            font-weight: bold;
-            text-align: left;
-        }
+    .thongtin {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: left;
+    }
 
-        .companyImg {
-            width: 200px;
-            height: 200px;
-        }
+    .companyImg {
+        width: 200px;
+        height: 200px;
+    }
     </style>
 </head>
 
@@ -57,10 +57,13 @@
             <td class="companyInfo" align="left" width="41%" style="padding: 0; margin: 0;">
                 <p style="font-size: 50px;">&#9733;</p>
             </td>
-            <td class="companyInfo" align="left" width="59%" style="padding: 0; margin: 0;">Date:
-                <?php echo date('Y-m-d'); ?></td>
+            <td class="companyInfo" align="left" width="59%" style="padding: 0; margin: 0;">
+                Ngày tạo phiếu:{{ $item->created_at }} <br>
+                Ngày xuất phiếu:<?php echo date('Y-m-d'); ?>
+            </td>
             <td style="padding: 0; margin: 0;"></td>
         </tr>
+        <tr>
     </table>
 
     <table border="0" align="left" width="100%">
@@ -126,6 +129,7 @@
                     <td align="center">{{ $borrowDevice->return_date }}</td>
                     <td align="center">{{ $changeStatus[$borrowDevice->status] }}</td>
                 </tr>
+
             @endforeach
         </tbody>
     </table>

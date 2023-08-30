@@ -9,7 +9,7 @@
             </li>
         </ol>
     </nav>
-    <h1 class="page-title">Thêm Thiết Bị</h1>
+    <h1 class="page-title">Thêm Phiếu Mượn</h1>
 </header>
 <div class="page-section">
     <form method="post" action="{{route('borrows.store')}}" enctype="multipart/form-data">
@@ -19,7 +19,7 @@
                 <legend>Thông tin cơ bản</legend>
 
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="exampleSelectGender">Người mượn<abbr name="Trường bắt buộc">*</abbr></label>
                             <select class="form-control" id="user_id" name="user_id">
@@ -34,7 +34,19 @@
                             @endif
                         </div>
                     </div>
-                    <div class="col-lg-6">
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="tf1">Ngày tạo phiếu<abbr name="Trường bắt buộc">*</abbr></label>
+                            <input name="created_at" type="text" class="form-control" id="" placeholder="Nhập ngày"
+                                value="{{ old('created_at', date('Y-m-d H:i:s')) }}">
+                            <small id="" class="form-text text-muted"></small>
+                            @if ($errors->any())
+                            <p style="color:red">{{ $errors->first('created_at') }}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
 
                         <div class="form-group">
                             <label for="tf1">Ngày mượn<abbr name="Trường bắt buộc">*</abbr></label> <input
@@ -69,8 +81,7 @@
                         <div class="form-group">
                             <label for="tf1">Xét duyệt<abbr name="Trường bắt buộc">*</abbr></label>
                             <select name="approved" class="form-control">
-                                <option value="0"
-                                    {{ old('approved') == '0' ? 'selected' : '' }}>Chưa
+                                <option value="0" {{ old('approved') == '0' ? 'selected' : '' }}>Chưa
                                     xét duyệt</option>
                                 <option value="1" {{ old('approved') == '1' ? 'selected' : '' }}>
                                     Đã xét

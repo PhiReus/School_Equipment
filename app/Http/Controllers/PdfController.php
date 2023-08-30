@@ -13,6 +13,7 @@ class PDFController extends Controller
     public function exportPDF($id)
     {
         $item = Borrow::with('the_devices', 'user', 'the_rooms', 'devices')->orderBy('id', 'DESC')->findOrFail($id);
+        // dd($item->created_at);
         $changeStatus = [
             0 => 'Chưa trả',
             1 => 'Đã trả',

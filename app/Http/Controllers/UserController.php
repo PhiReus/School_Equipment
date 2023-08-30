@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\Nest;
 use App\Models\User;
+use App\Models\Borrow
+;
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
 use Illuminate\Support\Facades\DB;
@@ -94,7 +96,7 @@ class UserController extends Controller
             }
 
             $this->userService->destroy($id);
-            return redirect()->route('users.index')->with('success', 'Xóa thành công!');
+            return redirect()->route('users.index')->with('success', 'Xóa người dùng thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
