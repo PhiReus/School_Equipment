@@ -68,4 +68,7 @@ class UserService implements UserServiceInterface {
     public function forgotPassword($request){
         return $this->userRepository->forgotPassword($request);
     }
+    public function isUserBorrow($userId){
+        return $this->userRepository->isUserBorrow($userId);
+    }
 }

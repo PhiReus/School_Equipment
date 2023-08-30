@@ -124,6 +124,21 @@
                                 <p style="color:red">{{ $errors->first('image') }}</p>
                             @endif
                         </div>
+                        <div class="col-md-6 mb-4">
+                            <label for="tf1">Tổ<abbr name="Trường bắt buộc">*</abbr></label>
+                            <select name="nest_id" id="" class="form-control">
+                                <option value="">--Vui lòng chọn--</option>
+                                @foreach ($nests as $nest)
+                                    <option value="{{ $nest->id }}"
+                                        {{ $nest->id == $item->nest_id ? 'selected' : '' }}>
+                                        {{ $nest->name }}</option>
+                                @endforeach
+                            </select>
+                            <small id="" class="form-text text-muted"></small>
+                            @if ($errors->any())
+                                <p style="color:red">{{ $errors->first('nest_id') }}</p>
+                            @endif
+                        </div>
 
                     </div>
                     <div class="form-actions">

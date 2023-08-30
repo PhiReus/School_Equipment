@@ -69,7 +69,7 @@
                         @endif
                     </div>
                     <div class="col-md-6 mb-4">
-                        <label for="tf1">Ảnh<abbr name="Trường bắt buộc">*</abbr></label>
+                        <label for="tf1">Ảnh<abbr name=""></abbr></label>
                         <input name="image" type="file" value="{{ old('image') }}" class="form-control"
                             id="" placeholder="Chọn ảnh">
                         <small id="" class="form-text text-muted"></small>
@@ -109,6 +109,19 @@
                             <option value="">--Vui lòng chọn--</option>
                             @foreach ($groups as $group)
                                 <option value="{{ $group->id }}">{{ $group->name }}</option>
+                            @endforeach
+                        </select>
+                        <small id="" class="form-text text-muted"></small>
+                        @if ($errors->any())
+                            <p style="color:red">{{ $errors->first('group_id') }}</p>
+                        @endif
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label for="tf1">Tổ<abbr name="Trường bắt buộc">*</abbr></label>
+                        <select name="group_id" id="" class="form-control">
+                            <option value="">--Vui lòng chọn--</option>
+                            @foreach ($nests as $nest)
+                                <option value="{{ $nest->id }}">{{ $nest->name }}</option>
                             @endforeach
                         </select>
                         <small id="" class="form-text text-muted"></small>

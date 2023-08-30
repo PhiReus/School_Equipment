@@ -25,8 +25,9 @@ class DatabaseSeeder extends Seeder
             // UserSeeder::class,
             // BorrowSeeder::class,
             // RoomSeeder::class,
-            // RoleSeeder::class,
-            BorrowDevicesSeeder::class,
+            RoleSeeder::class,
+            // BorrowDevicesSeeder::class,
+            // NestSeeder::class,
         ]);
     }
 }

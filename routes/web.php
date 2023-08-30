@@ -111,4 +111,11 @@ Route::prefix('devicetypes')->group(function () {
 Route::resource('devicetypes',\App\Http\Controllers\DeviceTypeController::class);
 // Thêm route sau vào web.php
 
+// Nest
+Route::prefix('nests')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\NestController::class, 'trash'])->name('nests.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\NestController::class, 'restore'])->name('nests.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\NestController::class, 'forceDelete'])->name('nests.forceDelete');
+});
+Route::resource('nests',\App\Http\Controllers\NestController::class);
 

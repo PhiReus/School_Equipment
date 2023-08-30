@@ -16,7 +16,8 @@ class RoomController extends Controller
 {
     protected $postSevice;
 
-    public function __construct(RoomServiceInterface $postSevice){
+    public function __construct(RoomServiceInterface $postSevice)
+    {
         $this->postSevice = $postSevice;
     }
     /**
@@ -24,11 +25,11 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
-        if(!Auth::user()->hasPermission('Room_viewAny')){
+        if (!Auth::user()->hasPermission('Room_viewAny')) {
             abort(403);
         }
-        $rooms = $this->postSevice->paginate(6,$request);
-        return view('rooms.index',compact('rooms'));
+        $rooms = $this->postSevice->paginate(20, $request);
+        return view('rooms.index', compact('rooms'));
     }
 
     /**
@@ -47,7 +48,6 @@ class RoomController extends Controller
         $data = $request->except(['_token', '_method']);
         $this->postSevice->store($data);
         return redirect()->route('rooms.index')->with('success', 'Thêm mới thành công!');
-
     }
 
     /**
@@ -55,8 +55,6 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-
-
     }
 
     /**
@@ -65,7 +63,7 @@ class RoomController extends Controller
     public function edit($id)
     {
         $room = $this->postSevice->find($id);
-        return view('rooms/edit',compact('room'));
+        return view('rooms/edit', compact('room'));
     }
 
     /**
@@ -74,9 +72,8 @@ class RoomController extends Controller
     public function update(UpdateRoomRequest $request, string $id)
     {
         $data = $request->except(['_token', '_method']);
-        $room = $this->postSevice->update($data,$id);
+        $room = $this->postSevice->update($data, $id);
         return redirect()->route('rooms.index')->with('success', 'Cập Nhật thành công!');
-
     }
 
     /**
@@ -84,24 +81,26 @@ class RoomController extends Controller
      */
     public function destroy($id)
     {
-        try{
+        try {
+            if ($this->postSevice->isRoomBorrow($id)) {
+                return redirect()->back()->with('error', 'Trong phiếu mượn đang có lớp, không thể xóa!');
+            }
             $this->postSevice->destroy($id);
             return redirect()->route('rooms.index')->with('success', 'Xóa thành công!');
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
-
     }
 
-       
-    public function trash(Request $request){
+
+    public function trash(Request $request)
+    {
         $rooms = $this->postSevice->trash($request);
-        return view('rooms.trash',compact('rooms','request'));
-
-
+        return view('rooms.trash', compact('rooms', 'request'));
     }
 
-    public function restore($id){
+    public function restore($id)
+    {
 
         try {
             $room = $this->postSevice->restore($id);
@@ -111,7 +110,8 @@ class RoomController extends Controller
         }
     }
 
-    public function force_destroy($id){
+    public function force_destroy($id)
+    {
         try {
             $room = $this->postSevice->forceDelete($id);
             return redirect()->route('rooms.trash')->with('success', 'Xóa thành công!');
@@ -119,5 +119,4 @@ class RoomController extends Controller
             return redirect()->route('rooms.trash')->with('error', 'Xóa không thành công!');
         }
     }
-
 }

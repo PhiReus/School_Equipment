@@ -2,16 +2,16 @@
 
 namespace App\Repositories\Eloquents;
 
-use App\Models\Device;
-use App\Models\DeviceType;
-use App\Repositories\Interfaces\DeviceTypeRepositoryInterface;
+use App\Models\Nest;
+use App\Models\User;
+use App\Repositories\Interfaces\NestRepositoryInterface;
 use App\Repositories\Eloquents\EloquentRepository;
 
-class DeviceTypeRepository extends EloquentRepository implements DeviceTypeRepositoryInterface
+class NestRepository extends EloquentRepository implements NestRepositoryInterface
 {
     public function getModel()
     {
-        return DeviceType::class;
+        return Nest::class;
     }
     public function all($request = null)
     {
@@ -37,13 +37,13 @@ class DeviceTypeRepository extends EloquentRepository implements DeviceTypeRepos
     }
     public function restore($id)
     {
-        return DeviceType::withTrashed()->find($id)->restore();
+        return Nest::withTrashed()->find($id)->restore();
     }
     public function forceDelete($id)
     {
         return $this->model->onlyTrashed()->find($id)->forceDelete();
     }
-    public function isDevice_deviceType($id) {
-        return Device::where('device_type_id', $id)->exists();
+    public function isUserNest($id) {
+        return User::where('nest_id', $id)->exists();
     }
 }

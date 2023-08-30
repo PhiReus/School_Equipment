@@ -53,4 +53,8 @@ class RoomService implements RoomServiceInterface {
     {
         return $this->roomRepository->trash($request);
     }
+    public function isRoomBorrow($id)
+    {
+        return $this->roomRepository->isRoomBorrow($id);
+    }
 }
