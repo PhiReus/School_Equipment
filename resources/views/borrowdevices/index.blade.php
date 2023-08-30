@@ -66,6 +66,17 @@
                                             trả</option>
                                     </select>
                                 </div>
+                                <div class="col">
+                                    <select name="searchNest" class="form-control">
+                                        <option value="">Tìm theo tổ...</option>
+                                        @foreach ($nests as $nest)
+                                            <option value="{{ $nest->id }}" {{ request('searchNest') == $nest->id ? 'selected' : '' }}>
+                                                {{ $nest->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                                 </div>

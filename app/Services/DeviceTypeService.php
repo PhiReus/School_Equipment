@@ -52,4 +52,8 @@ class DeviceTypeService implements DeviceTypeServiceInterface {
     {
         return $this->deviceTypeRepository->trash($request);
     }
+    public function isDevice_deviceType($id)
+    {
+        return $this->deviceTypeRepository->isDevice_deviceType($id);
+    }
 }
