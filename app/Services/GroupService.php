@@ -49,6 +49,10 @@ class GroupService implements GroupServiceInterface {
     }
     public function getTrashed($request=[])
     {
-        
+
+    }
+    public function isUserGroup($id)
+    {
+        return $this->groupRepository->isUserGroup($id);
     }
 }

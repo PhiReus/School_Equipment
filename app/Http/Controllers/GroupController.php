@@ -96,6 +96,9 @@ class GroupController extends Controller
     public function destroy($id)
     {
         try {
+            if ($this->groupService->isUserGroup($id)) {
+                return redirect()->back()->with('error', 'Đang có giáo viên trong nhóm quyền, không thể xóa!');
+            }
             $this->groupService->destroy($id);
             return redirect()->route('groups.index')->with('success', 'Xóa thành công!');
         } catch (\Exception $e) {

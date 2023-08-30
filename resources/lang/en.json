@@ -71,5 +71,14 @@
    "DeviceType_restore": "[Loại thiết bị]  Khôi phục",
    "DeviceType_trash": "[Loại thiết bị]  Xem Thùng Rác",
    "DeviceType_forceDelete": "[Loại thiết bị]  Xóa Vĩnh Viễn",
+   "Nest": "Tổ",
+   "Nest_viewAny": "[Tổ]  Xem Danh Sách",
+   "Nest_view": "[Tổ]  Xem Chi Tiết",
+   "Nest_create": "[Tổ]  Thêm",
+   "Nest_update": "[Tổ]  Sửa",
+   "Nest_delete": "[Tổ]  Xóa",
+   "Nest_restore": "[Tổ]  Khôi phục",
+   "Nest_trash": "[Tổ]  Xem Thùng Rác",
+   "Nest_forceDelete": "[Tổ]  Xóa Vĩnh Viễn",
    "CheckAll": "Chọn Tất Cả"
 }

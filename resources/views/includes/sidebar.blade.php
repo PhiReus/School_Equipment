@@ -53,6 +53,15 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
+                    <li class="menu-item has-child">
+                        <a href="#" class="menu-link"><span class="menu-icon"><i class="fa-solid fa-restroom"></i></span>
+                            <span class="menu-text">Tổ</span></a> <!-- child menu -->
+                        <ul class="menu">
+                            <li class="menu-item">
+                                <a href="{{ route('nests.index') }}" class="menu-link">Danh Sách</a>
+                            </li>
+                        </ul><!-- /child menu -->
+                    </li><!-- /.menu-item -->
                     <!-- .menu-item -->
                     @if (Auth::user()->hasPermission('Device_viewAny'))
                         <li class="menu-item has-child">
@@ -117,8 +126,8 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
-                    
-                    
+
+
                 </ul><!-- /.menu -->
             </nav><!-- /.stacked-menu -->
         </div><!-- /.aside-menu -->

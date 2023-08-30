@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories\Eloquents;
 
+use App\Models\BorrowDevice;
 use App\Models\Room;
 use App\Repositories\Interfaces\RoomRepositoryInterface;
 use App\Repositories\Eloquents\EloquentRepository;
@@ -29,7 +30,7 @@ class RoomRepository extends EloquentRepository implements RoomRepositoryInterfa
         if ($request->search) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
-        return $query->orderBy('id', 'DESC')->paginate(5);
+        return $query->orderBy('id', 'DESC')->paginate(20);
 
     }
 
@@ -42,5 +43,8 @@ class RoomRepository extends EloquentRepository implements RoomRepositoryInterfa
     {
         return $this->model->onlyTrashed()->find($id)->forceDelete();
 
+    }
+    public function isRoomBorrow($id) {
+        return BorrowDevice::where('room_id', $id)->exists();
     }
 }

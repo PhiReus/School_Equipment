@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Borrow;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -41,7 +42,10 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
         if ($request->searchGroup) {
             $query->where('group_id', $request->searchGroup);
         }
-        return $query->orderBy('id', 'DESC')->paginate(5);
+        if ($request->searchNest) {
+            $query->where('nest_id', $request->searchNest);
+        }
+        return $query->orderBy('id', 'DESC')->paginate(20);
     }
     public function store($data)
     {
@@ -84,7 +88,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
         if ($request->search) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
-        return $query->orderBy('id', 'DESC')->paginate(3);
+        return $query->orderBy('id', 'DESC')->paginate(20);
     }
 
     public function forceDelete($id)
@@ -139,4 +143,8 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
             });
         }
     }
+    public function isUserBorrow($userId) {
+        return Borrow::where('user_id', $userId)->exists();
+    }
+
 }

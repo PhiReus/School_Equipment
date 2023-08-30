@@ -40,7 +40,7 @@ class BorrowController extends Controller
      */
     public function index(Request $request)
     {
-        $items = $this->borrowService->paginate(5,$request);
+        $items = $this->borrowService->paginate(20,$request);
         // $users = $this->userService->all($request);
         return view('borrows.index', compact('items','request'));
     }
