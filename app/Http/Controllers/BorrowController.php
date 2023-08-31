@@ -10,6 +10,8 @@ use App\Models\Device;
 use App\Models\BorrowDevice;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+
 
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
@@ -40,6 +42,9 @@ class BorrowController extends Controller
      */
     public function index(Request $request)
     {
+        if(!Auth::user()->hasPermission('Borrow_viewAny')){
+            abort(403);
+        }
         $items = $this->borrowService->paginate(20,$request);
         // $users = $this->userService->all($request);
         return view('borrows.index', compact('items','request'));

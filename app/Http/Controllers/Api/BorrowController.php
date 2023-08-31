@@ -24,6 +24,7 @@ class BorrowController extends Controller
      */
     public function index(Request $request)
     {
+     
         $items = $this->borrowService->all($request);
         return response()->json($items,200);
 

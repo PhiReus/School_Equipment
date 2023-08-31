@@ -7,6 +7,8 @@ use App\Http\Requests\StoreNestRequest;
 use App\Http\Requests\UpdateNestRequest;
 use App\Services\Interfaces\NestServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class NestController extends Controller
 {
@@ -21,6 +23,9 @@ class NestController extends Controller
      */
     public function index(Request $request)
     {
+        if(!Auth::user()->hasPermission('Nest_viewAny')){
+            abort(403);
+        }
         $items = $this->nestService->all($request);
         return view('nests.index', compact('items'));
     }

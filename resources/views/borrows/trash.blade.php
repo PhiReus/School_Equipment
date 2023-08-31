@@ -113,6 +113,8 @@
                             </td>
 
                             <td>
+                                @if (Auth::user()->hasPermission('Borrow_forceDelete'))
+
                                 <form action="{{ route('borrows.forceDelete',$item->id )}}" style="display:inline"
                                     method="post">
                                     <button onclick="return confirm('Xóa vĩnh viễn {{$item->name}} ?')"
@@ -121,9 +123,13 @@
                                     @csrf
                                     @method('delete')
                                 </form>
+                                @endif
+                                @if (Auth::user()->hasPermission('Borrow_restore'))
+
                                 <span class="sr-only">Edit</span></a> <a href="{{route('borrows.restore',$item->id)}}"
                                     class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-trash-restore"></i> <span
                                         class="sr-only">Remove</span></a>
+                                        @endif
                             </td>
                             @endforeach
                         </tr>
