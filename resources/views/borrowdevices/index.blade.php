@@ -75,15 +75,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                                 </div>
-                            <div class="col-lg-2">
-                                <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                             </div>
                     </div>
                 </div>
+                </form>
             </div>
             @if (session('success'))
                 <div class="alert alert-success" role="alert">
@@ -134,12 +132,10 @@
                                     {{ optional($item->borrow)->borrow_date ? date('d/m/Y', strtotime($item->borrow->borrow_date)) : '(Không xác định)' }}
                                 </td>
                                 <td>{{ $item->return_date ? date('d-m-Y', strtotime($item->return_date)) : '' }}</td>
-
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-
                 <div style="float:right">
                     {{ $items->appends(request()->query())->links() }}
                 </div>
