@@ -24,11 +24,12 @@ class ExportBookController extends Controller
             0 => 'Chưa trả',
             1=> 'Đã trả'
         ];
+        $number = 0;
         $borrowDevices = BorrowDevice::whereHas('borrow', function ($query) use ($id) {
             $query->where('user_id', $id);
         })->with('borrow', 'device', 'room', 'user')->get();
 
-        $pdf = PDF::loadView('users.bookPDF.book', compact('user','borrowDevices','changeStatus'))->setPaper('a4', 'landscape');
+        $pdf = PDF::loadView('users.bookPDF.book', compact('user','borrowDevices','changeStatus','number'))->setPaper('a4', 'landscape');
         return $pdf->download('SoMuon.pdf');
  
     }

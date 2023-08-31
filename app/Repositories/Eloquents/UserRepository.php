@@ -13,6 +13,8 @@ use App\Models\Borrow;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+
 
 
 
@@ -147,5 +149,34 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
     public function isUserBorrow($userId) {
         return Borrow::where('user_id', $userId)->exists();
     }
+
+    public function history($id){
+        $queryBuilder = DB::table('borrows AS b')
+            ->select(
+                'b.id AS borrow_id',
+                'b.borrow_date AS borrow_date',
+                'b.approved',
+                'bd.id AS borrow_device_id',
+                'bd.quantity',
+                'bd.return_date',
+                'bd.lecture_name',
+                'bd.lesson_name',
+                'bd.session',
+                'bd.image_first',
+                'bd.image_last',
+                'bd.status',
+                'd.name AS device_name',
+                'r.name AS room_name',
+                'u.name AS user_name',
+                'bd.borrow_date AS bd_borrow_date'
+            )
+            ->join('borrow_devices AS bd', 'b.id', '=', 'bd.borrow_id')
+            ->join('devices AS d', 'bd.device_id', '=', 'd.id')
+            ->join('rooms AS r', 'bd.room_id', '=', 'r.id')
+            ->join('users AS u', 'b.user_id', '=', 'u.id')
+            ->where('u.id', $id);
+        return $queryBuilder;
+    }
+
 
 }

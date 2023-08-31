@@ -11,4 +11,5 @@ interface UserRepositoryInterface extends RepositoryInterface{
     public function getInfoUser();
     public function forgotPassword($request);
     public function isUserBorrow($userId);
+    public function history($id);
 }
