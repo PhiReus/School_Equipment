@@ -20,7 +20,6 @@
                 </a>
             </div>
         </div>
-
     </header>
     <div class="page-section">
         <div class="card card-fluid">
@@ -80,14 +79,12 @@
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                                 </div>
-
+                            <div class="col-lg-2">
+                                <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                             </div>
-
                     </div>
                 </div>
-                </form>
             </div>
-
             @if (session('success'))
                 <div class="alert alert-success" role="alert">
                     {{ session('success') }}
