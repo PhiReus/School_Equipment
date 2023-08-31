@@ -13,11 +13,13 @@
     <div class="d-md-flex align-items-md-start">
         <h1 class="page-title mr-sm-auto">Quản Lý Phiếu Mượn</h1>
         <div class="btn-toolbar">
+            @if (Auth::user()->hasPermission('Borrow_create'))
             <a href="{{ route('borrows.create') }}" class="btn btn-primary mr-2">
+
                 <i class="fa-solid fa fa-plus"></i>
                 <span class="ml-1">Thêm Mới</span>
             </a>
-
+            @endif
         </div>
     </div>
 </header>
@@ -27,10 +29,13 @@
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
                     <a class="nav-link active " href="{{ route('borrows.index') }}">Tất Cả</a>
+
                 </li>
+            @if (Auth::user()->hasPermission('Borrow_trash'))
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('borrows.trash') }}">Thùng Rác</a>
                 </li>
+                @endif
             </ul>
         </div>
         <div class="card-body">
@@ -141,20 +146,23 @@
                         </td>
 
                         <td>
-                            <span class="sr-only">Edit</span>
 
+                            <span class="sr-only">Edit</span>
+                            @if (Auth::user()->hasPermission('Borrow_update'))
                             @if ($item->approved != 1)
                             <a href="{{ route('borrows.edit', $item->id) }}" class="btn btn-sm btn-icon btn-secondary">
                                 <i class="fa fa-pencil-alt"></i>
                                 <span class="sr-only">Remove</span>
                             </a>
                             @endif
-
+                            @endif
+                            @if (Auth::user()->hasPermission('Borrow_view'))
                             <a class="btn btn-sm btn-icon btn-secondary" href="{{ route('borrows.show', $item->id) }}">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
-
+                            @endif
                             </a>
+                            @if (Auth::user()->hasPermission('Borrow_delete'))
                             @if ($item->approved != 1)
                             <form action="{{ route('borrows.destroy', $item->id) }}" style="display:inline"
                                 method="post">
@@ -165,6 +173,7 @@
                                 @csrf
                                 @method('delete')
                             </form>
+                            @endif
                             @endif
                         </td>
                     </tr>

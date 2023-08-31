@@ -7,6 +7,7 @@ use App\Http\Requests\StoreDeviceTypeRequest;
 use App\Http\Requests\UpdateDeviceTypeRequest;
 use App\Services\Interfaces\DeviceTypeServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DeviceTypeController extends Controller
 {
@@ -21,6 +22,10 @@ class DeviceTypeController extends Controller
      */
     public function index(Request $request)
     {
+     
+        if(!Auth::user()->hasPermission('DeviceType_viewAny')){
+            abort(403);
+        }
         $items = $this->deviceTypeService->all($request);
         return view('devicetypes.index', compact('items'));
     }
