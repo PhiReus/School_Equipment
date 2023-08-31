@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\api\DeviceController;
-use App\Http\Controllers\api\Historycontroller;
+use App\Http\Controllers\Api\DeviceController;
+use App\Http\Controllers\Api\Historycontroller;
 
 /*
 |--------------------------------------------------------------------------
