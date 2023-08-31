@@ -20,7 +20,6 @@
                 </a>
             </div>
         </div>
-
     </header>
     <div class="page-section">
         <div class="card card-fluid">
@@ -35,7 +34,6 @@
                 <div class="row mb-2">
                     <div class="col">
                         <form action="{{ route('borrowdevices.index') }}" method="GET" id="form-search">
-
                             <div class="row">
                                 <div class="col">
                                     <input name="searchTeacher" value="{{ request('searchTeacher') }}" class="form-control"
@@ -77,15 +75,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                                 </div>
-
                             </div>
                     </div>
-                    </form>
                 </div>
+                </form>
             </div>
             @if (session('success'))
                 <div class="alert alert-success" role="alert">
@@ -111,6 +107,7 @@
                             <th>Lớp</th>
                             <th>Tiết TKB</th>
                             <th>Trạng thái</th>
+                            <th>Ngày tạo phiếu</th>
                             <th>Ngày mượn</th>
                             <th>Ngày trả</th>
                         </tr>
@@ -118,8 +115,9 @@
                     <tbody>
                         @foreach ($items as $key => $item)
                             <tr>
-                                <td>{{ ++$key }}</td>
-                                <td>{{ $item->borrow->user->name ?? '(Không xác định)' }}</td>
+                                <td>{{ ++$key }}</td>                              
+                                <td>{{ $item->borrow->user->name ?? '(Phiếu mượn đã bị xóa)' }}</td>
+
                                 <td>{{ $item->device->name ?? '(Không xác định)' }}</td>
                                 <td>{{ $item->lesson_name }}</td>
                                 <td>{{ $item->quantity }}</td>
@@ -129,17 +127,19 @@
                                 <td>{{ $item->lecture_number }}</td>
                                 <td>{{ $changeStatus[$item->status] ?? '(Không xác định)' }}</td>
                                 <td>
+                                    {{ optional($item->borrow)->created_at ? date('d/m/Y H:i:s', strtotime($item->borrow->created_at)) : '(Không xác định)' }}
+                                </td>
+                                <td>
                                     {{ optional($item->borrow)->borrow_date ? date('d/m/Y', strtotime($item->borrow->borrow_date)) : '(Không xác định)' }}
                                 </td>
-                                <td>{{ date('d/m/Y', strtotime($item->return_date)) }}</td>
-
+                                <td>{{ $item->return_date ? date('d-m-Y', strtotime($item->return_date)) : '' }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-
                 <div style="float:right">
                     {{ $items->appends(request()->query())->links() }}
                 </div>
             </div>
-        @endsection
+        </div>
+    @endsection

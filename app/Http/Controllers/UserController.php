@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\Nest;
 use App\Models\User;
+use App\Models\Borrow
+;
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
 use Illuminate\Support\Facades\DB;
@@ -94,7 +96,7 @@ class UserController extends Controller
             }
 
             $this->userService->destroy($id);
-            return redirect()->route('users.index')->with('success', 'Xóa thành công!');
+            return redirect()->route('users.index')->with('success', 'Xóa người dùng thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
@@ -140,30 +142,7 @@ class UserController extends Controller
             1 => 'Đã xét duyệt',
             2 => 'Từ chối',
         ];
-        $queryBuilder = DB::table('borrows AS b')
-            ->select(
-                'b.id AS borrow_id',
-                'b.borrow_date AS borrow_date',
-                'b.approved',
-                'bd.id AS borrow_device_id',
-                'bd.quantity',
-                'bd.return_date',
-                'bd.lecture_name',
-                'bd.lesson_name',
-                'bd.session',
-                'bd.image_first',
-                'bd.image_last',
-                'bd.status',
-                'd.name AS device_name',
-                'r.name AS room_name',
-                'u.name AS user_name',
-                'bd.borrow_date AS bd_borrow_date'
-            )
-            ->join('borrow_devices AS bd', 'b.id', '=', 'bd.borrow_id')
-            ->join('devices AS d', 'bd.device_id', '=', 'd.id')
-            ->join('rooms AS r', 'bd.room_id', '=', 'r.id')
-            ->join('users AS u', 'b.user_id', '=', 'u.id')
-            ->where('u.id', $id);
+        $queryBuilder = $this->userService->history($id);
         $history = $queryBuilder->paginate(5);
         // dd($history);
         return view('users.history', compact('user', 'history', 'changeStatus', 'changeApproved'));

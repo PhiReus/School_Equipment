@@ -4,6 +4,10 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\BorrowController;
+use App\Http\Controllers\Api\DeviceController;
+use App\Http\Controllers\Api\Historycontroller;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +46,12 @@ Route::group([
 });
 
 Route::apiResource('users', UserController::class);
+
+Route::apiResource('borrows',BorrowController::class);
+// Device Api
+Route::get('devices',[DeviceController::class,'getDevices']);
+
+// History api
+Route::get('histories/{id}',[Historycontroller::class,'getHistories']);
+
 

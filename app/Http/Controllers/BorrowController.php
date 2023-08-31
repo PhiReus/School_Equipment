@@ -127,7 +127,7 @@ class BorrowController extends Controller
         try {
             $borrow = $this->borrowService->find($id);
 
-            // Delete the record and related devices
+            
             $this->borrowService->destroy($id);
 
             return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
@@ -170,7 +170,9 @@ class BorrowController extends Controller
     {
 
         try {
-            $items = $this->borrowService->forceDelete($id);
+            // Delete the record and related devices
+           
+            $this->borrowService->forceDelete($id);
             return redirect()->route('borrows.trash')->with('success', 'Xóa thành công');
         } catch (\exception $e) {
             Log::error($e->getMessage());

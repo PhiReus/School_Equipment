@@ -74,8 +74,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Borrow::class);
     }
+
     public function nest()
     {
         return $this->belongsTo(Nest::class, 'nest_id', 'id');
     }
+
 }

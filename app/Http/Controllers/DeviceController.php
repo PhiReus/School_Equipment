@@ -7,6 +7,8 @@ use App\Services\Interfaces\DeviceServiceInterface;
 use App\Http\Requests\StoreDeviceRequest;
 use App\Http\Requests\UpdateDeviceRequest;
 use App\Models\DeviceType;
+use App\Models\BorrowDevice;
+
 use App\Services\Interfaces\DeviceTypeServiceInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -89,10 +91,19 @@ class DeviceController extends Controller
      */
     public function destroy(string $id)
     {
-        try{
-        $this->deviceService->destroy($id);
+        try {
+            // Lấy danh sách các device_id từ bảng borrow_devices
+            $borrowedDeviceIds = BorrowDevice::pluck('device_id')->toArray();
+            
+            // Kiểm tra xem ID của thiết bị có trong danh sách borrow_devices hay không
+            if (in_array($id, $borrowedDeviceIds)) {
+                return redirect()->back()->with('error', 'Không thể xóa thiết bị vì đã có trong danh sách phiếu mượn!');
+            }
+            
+            // Nếu không có liên kết, thực hiện việc xóa thiết bị
+            $this->deviceService->destroy($id);
             return redirect()->route('devices.index')->with('success', 'Xóa thiết bị thành công');
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
     }
