@@ -142,7 +142,7 @@
                 <tbody>
                     @foreach ($borrowDevices as $key => $borrowDevice)
                         <tr height="9%">
-                            <td align="center">{{ $borrowDevice->id }}</td>
+                            <td align="center">{{ $number += 1 }}</td>
                             <td align="center">{{ $user->name }}</td>
                             <td align="center">{{ $borrowDevice->device->name }}</td>
                             <td align="center">{{ $borrowDevice->lesson_name }}</td>

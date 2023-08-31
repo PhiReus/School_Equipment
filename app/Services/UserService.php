@@ -71,4 +71,8 @@ class UserService implements UserServiceInterface {
     public function isUserBorrow($userId){
         return $this->userRepository->isUserBorrow($userId);
     }
+    public function history($id){
+        return $this->userRepository->history($id);
+    }
+
 }
