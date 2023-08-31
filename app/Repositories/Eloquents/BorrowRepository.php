@@ -63,7 +63,7 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
    
     public function store($data)
     {
-        
+        // dd($data);
         $userData = [
             'user_id' => $data['user_id'],
             'borrow_date' => $data['borrow_date'],

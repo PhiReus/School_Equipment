@@ -2,8 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\api\DeviceController;
-use App\Http\Controllers\api\Historycontroller;
+use App\Http\Controllers\Api\BorrowController;
+use App\Http\Controllers\Api\DeviceController;
+use App\Http\Controllers\Api\Historycontroller;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,13 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::apiResource('borrows',BorrowController::class);
 
 // Device Api
 Route::get('devices',[DeviceController::class,'getDevices']);
 
-
 // History api
 Route::get('histories/{id}',[Historycontroller::class,'getHistories']);
-
-
 
