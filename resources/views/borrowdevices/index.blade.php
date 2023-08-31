@@ -115,8 +115,9 @@
                     <tbody>
                         @foreach ($items as $key => $item)
                             <tr>
-                                <td>{{ ++$key }}</td>
+                                <td>{{ ++$key }}</td>                              
                                 <td>{{ $item->borrow->user->name ?? '(Phiếu mượn đã bị xóa)' }}</td>
+
                                 <td>{{ $item->device->name ?? '(Không xác định)' }}</td>
                                 <td>{{ $item->lesson_name }}</td>
                                 <td>{{ $item->quantity }}</td>
