@@ -143,7 +143,7 @@ class UserController extends Controller
             2 => 'Từ chối',
         ];
         $queryBuilder = $this->userService->history($id);
-        $history = $queryBuilder->paginate(5);
+        $history = $queryBuilder->paginate(20);
         // dd($history);
         return view('users.history', compact('user', 'history', 'changeStatus', 'changeApproved'));
     }

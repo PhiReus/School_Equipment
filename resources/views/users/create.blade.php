@@ -118,7 +118,7 @@
                     </div>
                     <div class="col-md-6 mb-4">
                         <label for="tf1">Tổ<abbr name="Trường bắt buộc">*</abbr></label>
-                        <select name="group_id" id="" class="form-control">
+                        <select name="nest_id" id="" class="form-control">
                             <option value="">--Vui lòng chọn--</option>
                             @foreach ($nests as $nest)
                                 <option value="{{ $nest->id }}">{{ $nest->name }}</option>
