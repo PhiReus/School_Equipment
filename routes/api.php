@@ -40,8 +40,7 @@ Route::group([
 ], function () {
     Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
     Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout']);
-    Route::post('/forgot_password', [App\Http\Controllers\Api\AuthController::class, 'forgot_password']);
-    Route::post('/reset-password', [App\Http\Controllers\Api\AuthController::class, 'resetPassword']);
+    Route::post('/forgot_password', [App\Http\Controllers\Api\ForgotPassword::class, 'sendResetLinkEmail']);
 
 });
 
