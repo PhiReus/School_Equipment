@@ -27,7 +27,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
 
     public function all($request = null)
     {
-        $query = $this->model->select('*');
+        $query = $this->model->select('*')->with('group', 'nest');
 
         if ($request->searchname) {
             $query->where('name', 'like', '%' . $request->searchname . '%');

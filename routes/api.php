@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BorrowController;
 use App\Http\Controllers\Api\DeviceController;
+use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\Historycontroller;
-
+use App\Http\Controllers\Api\NestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,8 @@ Route::group([
 });
 
 Route::apiResource('users', UserController::class);
+Route::apiResource('groups', GroupController::class);
+Route::apiResource('nests', NestController::class);
 
 Route::apiResource('borrows',BorrowController::class);
 // Device Api

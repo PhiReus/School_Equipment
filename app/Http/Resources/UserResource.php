@@ -25,8 +25,8 @@ class UserResource extends JsonResource
 
         //đoạn dưới thì chắc các bạn đã hiểu rồi (thay vì trả về dử liệu thô thì nó sẻ trả về tên của foreign key)
         $data['password'] = bcrypt($this->password);
-        $data['group_id'] = $this->group->name ?? "";
-        $data['nest_id'] = $this->nest->name ?? "";
+        // $data['group_id'] = $this->group->name ?? "";
+        // $data['nest_id'] = $this->nest->name ?? "";
         return $data;
     }
     //sư dụng UserResource :  Bạn có thể thêm, loại bỏ hoặc biến đổi thông tin trước khi gửi dữ liệu về cho người dùng.
