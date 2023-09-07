@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Services\Interfaces\UserServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -55,13 +57,39 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->except(['_token', '_method']);
-        $this->userService->update($id, $data);
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->password = bcrypt($request->password);
+        $user->phone = $request->phone;
+        $user->birthday = $request->birthday;
+        $user->gender = $request->gender;
+        $user->group_id = intval($request->group_id);
+        $user->nest_id = intval($request->nest_id);
+
+        // Kiểm tra xem có hình ảnh mới được gửi lên không
+        if ($request->hasFile('image')) {
+            // Xóa hình ảnh cũ nếu có
+            if ($user->image !== 'storage/default/image.jpg') {
+                Storage::delete('public/users/' . basename($user->image));
+            }
+
+            // Lưu hình ảnh mới
+            $path = $request->file('image')->store('public/users');
+            $url = Storage::url($path);
+            $user->image = $url;
+        }
+
+        $user->save();
+
         return response()->json([
             "success" => true,
             "message" => "Cập nhật thành công",
-        ],200);
+            "request" => $user
+        ], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
