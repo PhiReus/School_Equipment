@@ -63,14 +63,13 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
    
     public function store($data)
     {
-        // dd($data);
         $userData = [
             'user_id' => $data['user_id'],
             'borrow_date' => $data['borrow_date'],
             'borrow_note' => $data['borrow_note'],
-            'status' => $data['status'],
-            'approved' => $data['approved'],
-            'created_at' => $data['created_at']
+            'status' => isset($data['status']) ? $data['status'] :0,
+            'approved' => isset($data['approved']) ? $data['approved'] :0,
+            'created_at' => isset($data['created_at']) ? $data['created_at'] : date('Y-m-d H:i:s')
 
         ];
     
@@ -85,9 +84,10 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
                 'lecture_name' => $data['devices']['lecture_name'][$key],
                 'lecture_number' => $data['devices']['lecture_number'][$key],
                 'return_date' => $data['devices']['return_date'][$key],
-                'borrow_date'  => $data['borrow_date'],
-                'status' => $data['status'],
-                'created_at' => $data['created_at']
+                // 'borrow_date'  => $data['borrow_date'],
+                'status' => isset($data['status']) ? $data['status'] :0,
+                'created_at' => isset($data['created_at']) ? $data['created_at'] : date('Y-m-d H:i:s')
+
             ];
         }
     
@@ -98,7 +98,7 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         $borrow->the_devices()->createMany($deviceData);
     
          // Khi xét duyệt, trừ số lượng
-        if($data['approved'] == 1){
+        if(isset($data['approved']) && $data['approved'] == 1){
             // Cập nhật số lượng trong bảng devices
             foreach ($deviceData as $device) {
                $this->updateDeviceQuantity($device['device_id'], -$device['quantity']);
@@ -310,8 +310,9 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     public function all($request = null)
     {
         $query = $this->model->select('*');
-        return $query->orderBy('id', 'DESC')->paginate(21);
+        return $query->orderBy('id', 'DESC')->paginate(100);
     }
+  
     public function updateBorrow($id, $data)
     {
         // Tìm phiếu mượn theo ID

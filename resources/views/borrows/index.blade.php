@@ -31,7 +31,7 @@
                     <a class="nav-link active " href="{{ route('borrows.index') }}">Tất Cả</a>
 
                 </li>
-            @if (Auth::user()->hasPermission('Borrow_trash'))
+                @if (Auth::user()->hasPermission('Borrow_trash'))
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('borrows.trash') }}">Thùng Rác</a>
                 </li>
@@ -146,7 +146,12 @@
                         </td>
 
                         <td>
-
+                            @if (Auth::user()->hasPermission('Borrow_view'))
+                            <a class="btn btn-sm btn-icon btn-secondary" href="{{ route('borrows.show', $item->id) }}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            @endif
+                            
                             <span class="sr-only">Edit</span>
                             @if (Auth::user()->hasPermission('Borrow_update'))
                             @if ($item->approved != 1)
@@ -156,11 +161,7 @@
                             </a>
                             @endif
                             @endif
-                            @if (Auth::user()->hasPermission('Borrow_view'))
-                            <a class="btn btn-sm btn-icon btn-secondary" href="{{ route('borrows.show', $item->id) }}">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                            @endif
+
                             </a>
                             @if (Auth::user()->hasPermission('Borrow_delete'))
                             @if ($item->approved != 1)

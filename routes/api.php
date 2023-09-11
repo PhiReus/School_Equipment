@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +10,8 @@ use App\Http\Controllers\Api\DeviceController;
 use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\Historycontroller;
 use App\Http\Controllers\Api\NestController;
+use App\Http\Controllers\Api\RoomController;
+use App\Http\Controllers\Api\DeviceTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +53,8 @@ Route::apiResource('groups', GroupController::class);
 Route::apiResource('nests', NestController::class);
 
 Route::apiResource('borrows',BorrowController::class);
+Route::apiResource('rooms',RoomController::class);
+Route::apiResource('device_types',DeviceTypeController::class);
 // Device Api
 Route::get('devices',[DeviceController::class,'getDevices']);
 
