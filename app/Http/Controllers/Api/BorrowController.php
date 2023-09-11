@@ -27,20 +27,28 @@ class BorrowController extends Controller
      */
     public function index(Request $request)
     {
-     
         $items = $this->borrowService->all($request);
-        return response()->json($items,200);
-
+    
+        // Thêm tính toán tong_muon và tong_tra cho mỗi $item
+        foreach ($items as $key => $item) {
+            $tong_muon = $item->the_devices()->count();
+            $tong_tra = $item->the_devices()->where('status', 1)->count();
+    
+            // Thêm vào dữ liệu của mỗi $item
+            $items[$key]->tong_muon = $tong_muon;
+            $items[$key]->tong_tra = $tong_tra;
+        }
+    
+        return response()->json($items, 200);
     }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        
         $data = $request->except(['_token', '_method']);
+        // dd($data);
         $createdBorrow = $this->borrowService->store($data);
-    
         return response()->json($createdBorrow,200);
     }
     
