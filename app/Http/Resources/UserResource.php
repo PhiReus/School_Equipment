@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class UserResource extends JsonResource
 {
@@ -27,6 +28,7 @@ class UserResource extends JsonResource
         // $data['password'] = bcrypt($this->password);
         // $data['group_id'] = $this->group->name ?? "";
         // $data['nest_id'] = $this->nest->name ?? "";
+        $data['url_image'] = 'http://127.0.0.1:8000' . $this->image;
         return $data;
     }
     //sư dụng UserResource :  Bạn có thể thêm, loại bỏ hoặc biến đổi thông tin trước khi gửi dữ liệu về cho người dùng.
