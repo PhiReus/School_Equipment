@@ -26,7 +26,6 @@ class UserController extends Controller
         $items = $this->userService->all($request);
         //định dạng danh sách người dùng dưới dạng JSON
         return UserResource::collection($items);
-
     }
 
     /**
@@ -39,7 +38,7 @@ class UserController extends Controller
         return response()->json([
             "success" => true,
             "message" => "Thêm thành công",
-        ],201);
+        ], 201);
     }
 
     /**
@@ -56,39 +55,54 @@ class UserController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {
-        $user = User::find($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->address = $request->address;
+{
+    $user = User::find($id);
+    if (!$user) {
+        return response()->json([
+            "success" => false,
+            "message" => "Không tìm thấy người dùng",
+        ], 404);
+    }
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->address = $request->address;
+    $user->phone = $request->phone;
+    $user->birthday = $request->birthday;
+    $user->gender = $request->gender;
+    $user->group_id = intval($request->group_id);
+    $user->nest_id = intval($request->nest_id);
+
+    // Kiểm tra xem người dùng đã nhập mật khẩu mới hay không
+    if ($request->has('password') && !empty($request->password)) {
         $user->password = bcrypt($request->password);
-        $user->phone = $request->phone;
-        $user->birthday = $request->birthday;
-        $user->gender = $request->gender;
-        $user->group_id = intval($request->group_id);
-        $user->nest_id = intval($request->nest_id);
+    }
 
-        // Kiểm tra xem có hình ảnh mới được gửi lên không
-        if ($request->hasFile('image')) {
-            // Xóa hình ảnh cũ nếu có
-            if ($user->image !== 'storage/default/image.jpg') {
-                Storage::delete('public/users/' . basename($user->image));
-            }
-
-            // Lưu hình ảnh mới
-            $path = $request->file('image')->store('public/users');
-            $url = Storage::url($path);
-            $user->image = $url;
+    if ($request->hasFile('image')) {
+        // Xóa hình ảnh cũ nếu có
+        if ($user->image !== 'storage/default/image.jpg') {
+            Storage::delete('public/users/' . basename($user->image)); // Thêm dấu / sau 'users'
         }
 
-        $user->save();
+        // Lưu hình ảnh mới vào thư mục storage/users
+        $path = $request->file('image')->store('public/users');
 
-        return response()->json([
-            "success" => true,
-            "message" => "Cập nhật thành công",
-            "request" => $user
-        ], 200);
+        // Lấy URL của hình ảnh mới
+        $url = Storage::url($path);
+        $user->image = $url;
     }
+
+    $user->save();
+
+    return response()->json([
+        "success" => true,
+        "message" => "Cập nhật thành công",
+        "user" => $user
+    ], 200);
+}
+
+
+
 
 
     /**
