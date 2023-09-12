@@ -310,7 +310,7 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     public function all($request = null)
     {
         $query = $this->model->select('*');
-        return $query->orderBy('id', 'DESC')->paginate(100);
+        return $query->orderBy('id', 'DESC')->paginate(1111);
     }
   
     public function updateBorrow($id, $data)

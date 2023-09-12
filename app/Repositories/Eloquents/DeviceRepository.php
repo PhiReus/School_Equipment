@@ -31,7 +31,11 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
         $device->quantity += $quantityChange;
         $device->save();
     }
-
+    public function all($request = null)
+    {
+        $query = $this->model->select('*')->with('devicetype');
+        return $query->orderBy('id', 'DESC')->paginate(100);
+    }
 
     public function paginate($limit,$request=null)
     {
