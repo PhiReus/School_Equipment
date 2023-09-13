@@ -15,7 +15,7 @@ class BorrowSeeder extends Seeder
     public function run(): void
     {
         DB::table('borrows')->insert([
-            'user_id' => 2,
+            'user_id' => 1,
             'borrow_date' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

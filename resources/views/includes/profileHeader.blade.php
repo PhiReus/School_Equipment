@@ -7,8 +7,8 @@
         <div class="dropdown-menu">
             <div class="dropdown-arrow d-lg-none" x-arrow=""></div>
             <div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
-            <h6 class="dropdown-header d-none d-md-block d-lg-none"> Beni Arisandi </h6><a class="dropdown-item"
-                href="user-profile.html"><span class="dropdown-icon oi oi-person"></span> Trang Cá Nhân</a> <a
+            <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ $profile->name }} </h6><a class="dropdown-item"
+                href="{{ route('users.show',$profile->id) }}"><span class="dropdown-icon oi oi-person"></span> Trang Cá Nhân</a> <a
                 class="dropdown-item" href="{{ route('logout') }}"><span
                     class="dropdown-icon oi oi-account-logout"></span> Đăng Xuất</a>
         </div>
