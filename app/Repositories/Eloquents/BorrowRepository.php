@@ -196,14 +196,14 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
             'user_id' => $data['user_id'],
             'borrow_date' => $data['borrow_date'],
             'borrow_note' => $data['borrow_note'],
-            'status' => $data['status'],
-            'approved' => $data['approved']
+            'status' => isset($data['status']) ? $data['status'] :0,
+            'approved' => isset($data['approved']) ? $data['approved'] :0,
         ];
 
         if(isset($data['created_at']) && $data['created_at']){
             $userData['created_at'] = $data['created_at'];
         }
-    
+        
         $borrow = $this->model->findOrFail($id);
         $borrow->update($userData);
     
