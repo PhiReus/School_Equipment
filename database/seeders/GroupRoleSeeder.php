@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class RoleSeeder extends Seeder
+class GroupRoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -23,10 +23,11 @@ class RoleSeeder extends Seeder
                 $check = DB::table('roles')->where('group_name',$group_name)
                 ->where('name',$name)->limit(1)->first();
 
-                if(!$check){
-                    DB::table('roles')->insert([
-                        'name' => $group . '_' . $action,
-                        'group_name' => $group,
+                if($check){
+                    $role_id = $check->id;
+                    DB::table('groups_roles')->insert([
+                        'group_id' => 1,
+                        'role_id' => $role_id,
                     ]);
                 }
             }

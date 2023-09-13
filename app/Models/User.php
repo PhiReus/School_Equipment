@@ -80,4 +80,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Nest::class, 'nest_id', 'id');
     }
 
+    // Fix lỗi hình ảnh
+    public function getImageAttribute($value)
+    {
+        if ($value == '') {
+            return asset('uploads/default_image.png'); // Đường dẫn đến hình ảnh mặc định
+        }
+        return $value;
+    }
 }
