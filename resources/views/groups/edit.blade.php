@@ -11,7 +11,6 @@
         </nav>
         <h1 class="page-title">Chỉnh Sửa Quyền</h1>
     </header>
-
     <div class="page-section">
         <form method="post" action="{{ route('groups.update', $item->id) }}">
             @csrf
