@@ -68,7 +68,7 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
             $data['image'] = $url;
         }
         else {
-            $data['image'] = 'storage/default/image.jpg';
+            $data['image'] = 'asset/default/image.jpg';
         }
         return $this->model->create($data);
     }
