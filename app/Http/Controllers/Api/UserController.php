@@ -78,20 +78,6 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
     }
 
-    if ($request->hasFile('image')) {
-        // Xóa hình ảnh cũ nếu có
-        if ($user->image !== 'storage/default/image.jpg') {
-            Storage::delete('public/users/' . basename($user->image)); // Thêm dấu / sau 'users'
-        }
-
-        // Lưu hình ảnh mới vào thư mục storage/users
-        $path = $request->file('image')->store('public/users');
-
-        // Lấy URL của hình ảnh mới
-        $url = Storage::url($path);
-        $user->image = $url;
-    }
-
     $user->save();
 
     return response()->json([

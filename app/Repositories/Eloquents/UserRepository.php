@@ -27,6 +27,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
 
     public function all($request = null)
     {
+        //quan hệ để lấy tên ở frontend
         $query = $this->model->select('*')->with('group', 'nest');
 
         if ($request->searchname) {
@@ -57,7 +58,7 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
             $url = Storage::url($path);
             $data['image'] = $url;
         } else {
-            $data['image'] = 'storage/default/image.jpg';
+            $data['image'] = 'asset/default/image.jpg';
         }
 
         if (isset($data['password'])) {
