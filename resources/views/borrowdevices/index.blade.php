@@ -44,13 +44,15 @@
                                         type="text" placeholder="Tìm theo tên thiết bị..." />
                                 </div>
                                 <div class="col">
-                                    <input name="searchSession" value="{{ request('searchSession') }}" class="form-control"
-                                        type="text" placeholder="Tìm theo buổi..." />
+                                        <select name="searchSession" class="form-control">
+                                            <option value="">Tìm theo buổi...</option>
+                                            <option value="Sáng" {{ request('searchSession') == 'Sáng' ? 'selected' : '' }}>Sáng
+                                            </option>
+                                            <option value="Chiều" {{ request('searchSession') == 'Chiều' ? 'selected' : '' }}>Chiều
+                                                </option>
+                                        </select>
                                 </div>
-                                <div class="col">
-                                    <input name="searchQuantity" value="{{ request('searchQuantity') }}"
-                                        class="form-control" type="text" placeholder="Tìm theo số lượng..." />
-                                </div>
+                                
                                 <div class="col">
                                     <input name="searchBorrow_date" value="{{ request('searchBorrow_date') }}"
                                         class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
@@ -115,7 +117,7 @@
                     <tbody>
                         @foreach ($items as $key => $item)
                             <tr>
-                                <td>{{ ++$key }}</td>                              
+                                <td>{{ ++$key }}</td>
                                 <td>{{ $item->borrow->user->name ?? '(Phiếu mượn đã bị xóa)' }}</td>
 
                                 <td>{{ $item->device->name ?? '(Không xác định)' }}</td>
