@@ -19,7 +19,7 @@
                     <legend>Thông tin cơ bản</legend>
                     <div class="form-group">
                         <label for="tf1">Tên thiết bị <abbr name="Trường bắt buộc">*</abbr></label> <input
-                            name="name" type="text" class="form-control" id=""
+                            name="name" type="text" value="{{ old('name') }}" class="form-control" id=""
                             placeholder="Nhập tên thiết bị">
                         <small id="" class="form-text text-muted"></small>
                         @if ($errors->any())
@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label for="tf1">Số lượng<abbr name="Trường bắt buộc">*</abbr></label> <input name="quantity"
-                            type="number" class="form-control" id="" placeholder="Nhập số lượng">
+                            type="number" value="{{ old('quantity') }}" class="form-control" id="" placeholder="Nhập số lượng">
                         <small id="" class="form-text text-muted"></small>
                         @if ($errors->any())
                             <p style="color:red">{{ $errors->first('quantity') }}</p>
@@ -47,10 +47,12 @@
                     </div>
                     <div class="form-group">
                         <label for="tf1">Loại thiết bị<abbr name="Trường bắt buộc">*</abbr></label>
-                        <select name="device_type_id" id="" class="form-control">
+                        <select name="device_type_id" class="form-control">
                             <option value="">--Vui lòng chọn--</option>
                             @foreach ($devicetypes as $devicetype)
-                                <option value="{{ $devicetype->id }}">{{ $devicetype->name }}</option>
+                                <option value="{{ $devicetype->id }}" {{ old('device_type_id') == $devicetype->id ? 'selected' : '' }}>
+                                    {{ $devicetype->name }}
+                                </option>
                             @endforeach
                         </select>
                         <small id="" class="form-text text-muted"></small>
