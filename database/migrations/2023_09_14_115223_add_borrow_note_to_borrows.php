@@ -14,7 +14,7 @@ class AddBorrowNoteToBorrows extends Migration
     public function up()
     {
         Schema::table('borrows', function (Blueprint $table) {
-            $table->text('borrow_note')->nullable()->after('other_column'); // Thay 'other_column' bằng tên cột nằm trước cột mới
+            $table->text('borrow_note')->nullable(); // Thay 'other_column' bằng tên cột nằm trước cột mới
         });
     }
 
