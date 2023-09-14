@@ -29,7 +29,11 @@
             <div class="btn-toolbar">
                     <a href="{{ route('exportBook',$user->id) }}" class="btn btn-primary mr-2">
                         <i class="fa-solid fa fa-plus"></i>
-                        <span class="ml-1">Xuất Sổ</span>
+                        <span class="ml-1">Xuất Sổ PDF</span>
+                    </a>
+                    <a href="{{ route('export_history_book',$user->id) }}" class="btn btn-primary mr-2">
+                        <i class="fa-solid fa fa-plus"></i>
+                        <span class="ml-1">Xuất Sổ Excel</span>
                     </a>
             </div>
         </div>
