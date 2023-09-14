@@ -15,7 +15,6 @@
         <div class="btn-toolbar">
             @if (Auth::user()->hasPermission('Borrow_create'))
             <a href="{{ route('borrows.create') }}" class="btn btn-primary mr-2">
-
                 <i class="fa-solid fa fa-plus"></i>
                 <span class="ml-1">Thêm Mới</span>
             </a>
@@ -50,13 +49,13 @@
                                     type="text" placeholder="Tìm theo tên..." />
                             </div>
                             <div class="col">
-                            <label>Ngày mươn từ</label>
+                            <label>Ngày mượn từ</label>
                                 <input name="searchBorrow_date_from" value="{{request('searchBorrow_date_from')}}"
                                     class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
                             </div>
 
                             <div class="col">
-                            <label>Ngày mươn đến</label>
+                            <label>Ngày mượn đến</label>
                                 <input name="searchBorrow_date_to" value="{{request('searchBorrow_date_to')}}"
                                     class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
                             </div>
@@ -89,7 +88,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-lg-2">
+                            <div class="col-auto" style="margin-top: 1.8rem;">
                                 <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                             </div>
                         </div>

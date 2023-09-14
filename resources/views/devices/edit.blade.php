@@ -30,7 +30,7 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        <label for="tf1"> Số lượng </label> <input type="text" name="quantity"
+                        <label for="tf1"> Số lượng </label> <input type="number" name="quantity"
                             value="{{ old('quantity',$item->quantity) }}" class="form-control" placeholder="Nhập địa chỉ">
                         <small class="form-text text-muted"></small>
                         @if ($errors->any())
@@ -56,7 +56,7 @@
                         </select>
                         <small id="" class="form-text text-muted"></small>
                         @if ($errors->any())
-                            <p style="color:red">{{ $errors->first('devicetype_id') }}</p>
+                            <p style="color:red">{{ $errors->first('device_type_id') }}</p>
                         @endif
                     </div>
                     <div class="form-actions">

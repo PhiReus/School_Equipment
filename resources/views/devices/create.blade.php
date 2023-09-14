@@ -36,7 +36,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">Ảnh</label>
-                        <input type="file" class="form-control" id="image" name="image"
+                        <input type="file"  class="form-control" id="image" name="image"
                             onchange="previewImage(event)">
                         <div class="image-container mt-3">
                             <img id="preview" src="#" alt="Ảnh" style="max-width: 100px; display: none;">
