@@ -91,6 +91,7 @@ Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 //Export PDF
 Route::get('/export-pdf/{id}', [\App\Http\Controllers\PDFController::class, 'exportPDF'])->name('export_PDF');
 Route::get('/exportBook/{id}', [\App\Http\Controllers\ExportBookController::class, 'export'])->name('exportBook');
+Route::get('/exportExcelBook/{id}', [\App\Http\Controllers\ExportUserHistoryBook::class, 'export_history_book'])->name('export_history_book');
 
 // BorrowDevice
 Route::prefix('borrowdevices')->group(function () {
