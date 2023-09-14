@@ -190,7 +190,6 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         }
     }
     
-
     public function update($data, $id)
     {
         $userData = [
