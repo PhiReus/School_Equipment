@@ -10,6 +10,7 @@ use App\Repositories\Eloquents\EloquentRepository;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
+
 class BorrowRepository extends EloquentRepository implements BorrowRepositoryInterface
 {
     public function getModel()
@@ -310,9 +311,25 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
     // Lấy borrow
     public function all($request = null)
     {
-        $limit = $request->limit ? $request->limit : 20;
-
         $query = $this->model->orderBy('id', 'DESC');
+
+        $filter = (object)$request->filter;
+        $limit = !empty($filter->limit) ? $filter->limit : 20;
+        if (!empty($filter->searchBorrowDate)) {
+            $query->where('borrow_date', '>=', $filter->searchBorrowDate);
+        }
+        if (!empty($filter->searchBorrowDate_to)) {
+            $query->where('borrow_date', '<=', $filter->searchBorrowDate_to);
+        }
+        if(isset($filter->searchStatus) && $filter->searchStatus !== null){
+            $query->where('status',$filter->searchStatus);
+        }
+        if(isset($filter->searchApproved) && $filter->searchApproved !== null){
+            $query->where('approved',$filter->searchApproved);
+        }
+        if (!empty($filter->user_id)) {
+            $query->where('user_id',$filter->user_id);
+        }
         $items = $query->paginate($limit);
         return $items;
     }

@@ -30,7 +30,9 @@ class BorrowController extends Controller
     public function index(Request $request)
     {
         $items = $this->borrowService->all($request);
-
+        return BorrowResource::collection($items);
+        // Sau return các đoạn mã phía dưới sẽ không chạy
+        
         // Thêm tính toán tong_muon và tong_tra cho mỗi $item
         foreach ($items as $key => $item) {
             $tong_muon = $item->the_devices()->count();
