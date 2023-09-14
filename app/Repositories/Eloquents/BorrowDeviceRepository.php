@@ -43,9 +43,9 @@ class BorrowDeviceRepository extends EloquentRepository implements  BorrowDevice
                 $query->where('name', 'LIKE', '%' . $request->searchTeacher . '%');
             });
         }
-        if ($request->searchBorrow_date_from) {
+        if ($request->searchBorrow_date) {
             $query->whereHas('borrow', function ($query) use ($request) {
-                $query->where('borrow_date', '>=', $request->searchBorrow_date_from );
+                $query->where('borrow_date', '=', $request->searchBorrow_date );
             });
         }
 
