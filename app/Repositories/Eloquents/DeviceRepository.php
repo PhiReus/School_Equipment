@@ -33,9 +33,14 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
     }
     public function all($request = null)
     {
-        $query = $this->model->select('*')->with('devicetype');
-        return $query->orderBy('id', 'DESC')->paginate(100);
+        $limit = $request->limit ? $request->limit : 20;
+    
+        $query = $this->model->orderBy('id', 'DESC')->with('devicetype');
+        $items = $query->paginate($limit);
+    
+        return $items;
     }
+    
 
     public function paginate($limit,$request=null)
     {
