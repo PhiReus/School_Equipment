@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Borrow;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -26,7 +27,7 @@ class ExportUserHistoryBook extends Controller
         $templatePath = public_path('uploads/so-muon-v2.xlsx');
 
 
-         // Tạo một Spreadsheet từ mẫu
+        // Tạo một Spreadsheet từ mẫu
         $reader = IOFactory::createReader("Xlsx");
         $spreadsheet = $reader->load($templatePath);
 
@@ -44,10 +45,10 @@ class ExportUserHistoryBook extends Controller
             // dd($borrow->the_devices);
             foreach ($borrow->the_devices as $device) {
                 //cột ngày mượn
-                $sheet->setCellValue('A' . $index, $borrow->borrow_date);
-                $sheet->setCellValue('B' . $index, $device->return_date);
-                $sheet->setCellValue('C' . $index, '');
-                $sheet->setCellValue('D' . $index, '');
+                $sheet->setCellValue('A' . $index, Carbon::parse($borrow->borrow_date)->format('d/m/Y'));
+                $sheet->setCellValue('B' . $index, Carbon::parse($device->return_date)->format('d/m/Y'));
+                $sheet->setCellValue('C' . $index, $device->id);
+                $sheet->setCellValue('D' . $index, Carbon::parse($device->created_at)->format('d/m/Y'));
                 $sheet->setCellValue('E' . $index, $device->device->name);
                 $sheet->setCellValue('F' . $index, $device->quantity);
                 $sheet->setCellValue('G' . $index, $device->lecture_name);
@@ -60,7 +61,7 @@ class ExportUserHistoryBook extends Controller
         }
 
         $spreadsheet->setActiveSheetIndex(0);
-        $newFilePath = public_path('storage/uploads/so-muon-'.time().'.xlsx');
+        $newFilePath = public_path('storage/uploads/so-muon-' . time() . '.xlsx');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save($newFilePath);
@@ -69,6 +70,5 @@ class ExportUserHistoryBook extends Controller
         $writer = IOFactory::createWriter($spreadsheet, "Xlsx");
         $writer->save($newFilePath);
         return response()->download($newFilePath)->deleteFileAfterSend(true);
-
     }
 }
