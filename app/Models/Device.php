@@ -21,4 +21,12 @@ class Device extends Model
     {
         return $this->belongsTo(DeviceType::class,'device_type_id','id');
     }
+    // Fix lỗi hình ảnh
+    public function getImageAttribute($value)
+    {
+        if ($value == '') {
+            return asset('uploads/default_image.png'); // Đường dẫn đến hình ảnh mặc định
+        }
+        return $value;
+    }
 }

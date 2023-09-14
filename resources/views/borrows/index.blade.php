@@ -45,20 +45,24 @@
 
                         <div class="row">
                             <div class="col">
+                            <label>Tìm theo tên</label>
                                 <input name="searchName" value="{{request('searchName')}}" class="form-control"
                                     type="text" placeholder="Tìm theo tên..." />
                             </div>
                             <div class="col">
+                            <label>Ngày mươn từ</label>
                                 <input name="searchBorrow_date_from" value="{{request('searchBorrow_date_from')}}"
                                     class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
                             </div>
 
                             <div class="col">
+                            <label>Ngày mươn đến</label>
                                 <input name="searchBorrow_date_to" value="{{request('searchBorrow_date_to')}}"
                                     class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
                             </div>
 
                             <div class="col">
+                            <label>Tình trạng trả</label>
                                 <select name="searchStatus" class="form-control">
                                     <option value="">Tìm theo tình trạng...</option>
                                     <option value="1" {{ $request->input('searchStatus') === '1' ? 'selected' : '' }}>Đã
@@ -71,6 +75,7 @@
                             </div>
 
                             <div class="col">
+                            <label>Trạng thái duyệt</label>
                                 <select name="searchApproved" class="form-control">
                                     <option value="">Tìm theo trạng thái...</option>
                                     <option value="0" {{ $request->input('searchApproved') === '0' ? 'selected' : '' }}>

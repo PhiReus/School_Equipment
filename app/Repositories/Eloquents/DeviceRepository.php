@@ -33,9 +33,20 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
     }
     public function all($request = null)
     {
-        $limit = $request->limit ? $request->limit : 20;
-    
+        $filter = (object)$request->filter;
+        $limit = !empty($filter->limit) ? $filter->limit : 20;
+
         $query = $this->model->orderBy('id', 'DESC')->with('devicetype');
+        if(isset($filter->searchQuantity) && $filter->searchQuantity !== null){
+            if($filter->searchQuantity  == 1){
+                $query->where('quantity','>',0);
+            }else {
+                $query->where('quantity','=',0);
+            }
+        }
+        if (!empty($filter->device_type_id)) {
+            $query->where('device_type_id',$filter->device_type_id);
+        }
         $items = $query->paginate($limit);
     
         return $items;
