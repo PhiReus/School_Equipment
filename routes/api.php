@@ -52,11 +52,13 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('groups', GroupController::class);
 Route::apiResource('nests', NestController::class);
 
+Route::post('borrows/checkBorrow',[BorrowController::class,'checkBorrow']);
 Route::apiResource('borrows',BorrowController::class);
 Route::apiResource('rooms',RoomController::class);
 Route::apiResource('device_types',DeviceTypeController::class);
 // Device Api
 Route::get('devices',[DeviceController::class,'getDevices']);
+Route::get('device-calendar/{id}',[DeviceController::class,'getDeviceCalendar']);
 
 // History api
 Route::get('histories/{id}',[Historycontroller::class,'getHistories']);
