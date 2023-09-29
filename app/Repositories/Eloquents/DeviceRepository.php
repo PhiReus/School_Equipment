@@ -47,6 +47,7 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
         if (!empty($filter->device_type_id)) {
             $query->where('device_type_id',$filter->device_type_id);
         }
+        
         $items = $query->paginate($limit);
     
         return $items;
@@ -62,6 +63,10 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
         }
         if($request->searchDevicetype){
             $query->where('device_type_id', 'LIKE', '%' . $request->searchDevicetype . '%');
+        }
+
+        if($request->searchDepartment){
+            $query->where('department_id', 'LIKE', '%' . $request->searchDepartment . '%');
         }
 
         if($request->searchQuantity == 1){

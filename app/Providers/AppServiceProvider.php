@@ -60,6 +60,11 @@ use App\Services\NestService;
 use App\Repositories\Interfaces\NestRepositoryInterface;
 use App\Repositories\Eloquents\NestRepository;
 
+  // Department
+use App\Services\Interfaces\DepartmentServiceInterface;
+use App\Services\DepartmentService;
+use App\Repositories\Interfaces\DepartmentRepositoryInterface;
+use App\Repositories\Eloquents\DepartmentRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -108,6 +113,11 @@ class AppServiceProvider extends ServiceProvider
          // Nest
          $this->app->singleton(NestServiceInterface::class, NestService::class);
          $this->app->singleton(NestRepositoryInterface::class, NestRepository::class);
+
+         // Department
+         $this->app->bind(DepartmentServiceInterface::class, DepartmentService::class);
+         $this->app->bind(DepartmentRepositoryInterface::class, DepartmentRepository::class);
+
     }
 
     /**
