@@ -118,7 +118,13 @@ Route::prefix('nests')->group(function () {
     Route::get('/restore/{id}', [\App\Http\Controllers\NestController::class, 'restore'])->name('nests.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\NestController::class, 'forceDelete'])->name('nests.forceDelete');
 });
+
 Route::resource('nests',\App\Http\Controllers\NestController::class);
+
+Route::prefix('options')->group(function () {
+    Route::get('/', [\App\Http\Controllers\OptionController::class, 'index'])->name('options.index');
+    Route::post('/options', [\App\Http\Controllers\OptionController::class, 'update'])->name('options.update'); 
+});
 
 // Departments
 Route::prefix('departments')->group(function () {
@@ -129,6 +135,7 @@ Route::prefix('departments')->group(function () {
 Route::group(['middleware' => 'auth'], function () {
 Route::resource('departments',\App\Http\Controllers\DepartmentController::class);
 });
+
 
 
 

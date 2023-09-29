@@ -111,7 +111,7 @@
                             <button id="addToDanhSach" class="btn btn-primary" type="button">Thêm vào danh sách</button>
                         </div>
                     </div>
-                    <div class="row">
+           <div class="row">
                         <div class="col-lg-12">
                             @if ($errors->any())
                                 <p style="color:red">{{ $errors->first('devices') }}</p>
@@ -130,7 +130,7 @@
                                             <th>Tiết PCTT</th>
                                             <th>Lớp</th>
                                             <th>Tiết TKB</th>
-                                            <th>Ngày trả</th>
+                                            <th>Ngày dạy</th>
                                             <!-- <th>Ngày trả</th> -->
                                             <th></th>
                                         </tr>

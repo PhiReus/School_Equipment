@@ -136,7 +136,7 @@
                         <th scope="col">Tiết TKB</th>
                         <th scope="col">Trạng thái</th>
                         <th scope="col">Ngày mượn</th>
-                        <th scope="col">Ngày trả</th>
+                        <th scope="col">Ngày dạy</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -178,7 +178,7 @@
                         <th scope="col">Tiết TKB</th>
                         <th scope="col">Trạng thái</th>
                         <th scope="col">Ngày mượn</th>
-                        <th scope="col">Ngày trả</th>
+                        <th scope="col">Ngày dạy</th>
                     </tr>
                 </thead>
                 <tbody>
