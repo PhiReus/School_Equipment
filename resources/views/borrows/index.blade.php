@@ -45,26 +45,53 @@
 
                         <div class="row">
                             <div class="col">
-                            <label>Tìm theo tên</label>
-                                <input name="searchName" value="{{request('searchName')}}" class="form-control"
-                                    type="text" placeholder="Tìm theo tên..." />
+                            <label>tTên</label>
+                            <select name="searchName" class="form-control">
+                                <option value="">Chọn giáo viên</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}" {{ (request('searchName') == $user->id) ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                             </div>
                             <div class="col">
                             <label>Ngày mươn từ</label>
                                 <input name="searchBorrow_date_from" value="{{request('searchBorrow_date_from')}}"
-                                    class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
+                                    class="form-control" type="date" placeholder="Ngày mượn..." />
                             </div>
 
                             <div class="col">
                             <label>Ngày mươn đến</label>
                                 <input name="searchBorrow_date_to" value="{{request('searchBorrow_date_to')}}"
-                                    class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
+                                    class="form-control" type="date" placeholder="Ngày mượn..." />
                             </div>
+                            <div class="col">
+                                <label>Năm học</label>
+                                <select name="searchSchoolYear" class="form-control">
+                                    <option value="">Năm học</option>
+                                    @php
+                                    $currentYear = 2022;
+                                    $selectedYear = request('searchSchoolYear'); // Lấy giá trị từ request
+
+                                    for ($year = $currentYear; $year <= 2050; $year++) {
+                                        $nextYear = $year + 1;
+                                        $schoolYear = "$year - $nextYear";
+
+                                        // Kiểm tra nếu giá trị của tùy chọn khớp với giá trị từ request
+                                        $selected = ($schoolYear == $selectedYear) ? 'selected' : '';
+
+                                        echo "<option value=\"$schoolYear\" $selected>$schoolYear</option>";
+                                    }
+                                    @endphp
+                                </select>
+                            </div>
+
 
                             <div class="col">
                             <label>Tình trạng trả</label>
                                 <select name="searchStatus" class="form-control">
-                                    <option value="">Tìm theo tình trạng...</option>
+                                    <option value="">Tình trạng...</option>
                                     <option value="1" {{ $request->input('searchStatus') === '1' ? 'selected' : '' }}>Đã
                                         trả
                                     </option>
@@ -77,7 +104,7 @@
                             <div class="col">
                             <label>Trạng thái duyệt</label>
                                 <select name="searchApproved" class="form-control">
-                                    <option value="">Tìm theo trạng thái...</option>
+                                    <option value="">Trạng thái...</option>
                                     <option value="0" {{ $request->input('searchApproved') === '0' ? 'selected' : '' }}>
                                         Chưa xét duyệt</option>
                                     <option value="1" {{ $request->input('searchApproved') === '1' ? 'selected' : '' }}>
@@ -89,7 +116,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-lg-2">
+                            <div class="col-auto" style="margin-top: 1.8rem;">
                                 <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                             </div>
                         </div>
@@ -156,7 +183,7 @@
                                 <i class="fa-solid fa-eye"></i>
                             </a>
                             @endif
-                            
+
                             <span class="sr-only">Edit</span>
                             @if (Auth::user()->hasPermission('Borrow_update'))
                             @if ($item->approved != 1)

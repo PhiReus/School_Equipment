@@ -32,15 +32,15 @@ class BorrowDevicesController extends Controller
     {
         $items = $this->borrowdeviceService->paginate(20,$request);
         $nests = Nest::all();
+        $users = User::orderBy('name')->get();
         // Load thông tin người mượn thông qua bảng borrows
         $items->load('borrow.user');
         $changeStatus = [
             0 => 'Chưa trả',
             1=> 'Đã trả'
-
-
         ];
-        return view('borrowdevices.index', compact('items','request','changeStatus','nests'));
+        $current_url = http_build_query($request->query());
+        return view('borrowdevices.index', compact('items','changeStatus','nests','users','current_url'));
     }
 
     public function create()
