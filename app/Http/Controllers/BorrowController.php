@@ -46,8 +46,9 @@ class BorrowController extends Controller
             abort(403);
         }
         $items = $this->borrowService->paginate(20,$request);
+        $users = User::orderBy('name')->get();
         // $users = $this->userService->all($request);
-        return view('borrows.index', compact('items','request'));
+        return view('borrows.index', compact('items','request','users'));
     }
 
     /**
@@ -132,7 +133,7 @@ class BorrowController extends Controller
         try {
             $borrow = $this->borrowService->find($id);
 
-            
+
             $this->borrowService->destroy($id);
 
             return redirect()->route('borrows.index')->with('success', 'Xóa thành công!');
@@ -176,7 +177,7 @@ class BorrowController extends Controller
 
         try {
             // Delete the record and related devices
-           
+
             $this->borrowService->forceDelete($id);
             return redirect()->route('borrows.trash')->with('success', 'Xóa thành công');
         } catch (\exception $e) {
