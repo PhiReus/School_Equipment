@@ -111,7 +111,7 @@
                 <th scope="col">Tiết PCCT</th>
                 <th scope="col">Lớp</th>
                 <th scope="col">Tiết TKB</th>
-                <th scope="col">Ngày trả</th>
+                <th scope="col">Ngày dạy</th>
                 <th scope="col">Trạng thái</th>
             </tr>
         </thead>

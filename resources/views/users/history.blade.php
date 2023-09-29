@@ -88,7 +88,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>STT</th>
-                                                        <th>Ngày trả</th>
+                                                        <th>Ngày dạy</th>
                                                         <th>Tên thiết bị</th>
                                                         <th>Lớp học</th>
                                                         <th>Trạng thái</th>

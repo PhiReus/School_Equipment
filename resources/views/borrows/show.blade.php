@@ -139,7 +139,7 @@
                                         <th>Tiết PCCT</th>
                                         <th>Lớp</th>
                                         <th>Tiết TKB</th>
-                                        <th>Ngày trả</th>
+                                        <th>Ngày dạy</th>
                                         @if ($item->approved == 1)
                                         <th>Trạng thái</th>
                                         @endif

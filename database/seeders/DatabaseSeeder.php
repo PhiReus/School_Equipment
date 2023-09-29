@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             GroupRoleSeeder::class,
             BorrowDevicesSeeder::class,
+            OptionSeeder::class,
         ]);
     }
 }

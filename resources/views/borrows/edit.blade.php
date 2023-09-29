@@ -135,8 +135,7 @@
                                         <th>Tiết PCTT</th>
                                         <th>Lớp</th>
                                         <th>Tiết TKB</th>
-                                        <th>Ngày trả</th>
-                                        <!-- <th>Ngày trả</th> -->
+                                        <th>Ngày dạy</th>
                                         <th></th>
                                     </tr>
                                 </thead>

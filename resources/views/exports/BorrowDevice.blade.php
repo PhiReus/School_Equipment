@@ -39,7 +39,7 @@
         <th align="center" style="font-weight: bold;" width="80px">Trạng thái</th>
         <th align="center" style="font-weight: bold;" width="200px">Ngày tạo phiếu</th>
         <th align="center" style="font-weight: bold;" width="200px">Ngày mượn</th>
-        <th align="center" style="font-weight: bold;" width="200px">Ngày trả</th>
+        <th align="center" style="font-weight: bold;" width="200px">Ngày dạy</th>
     </tr>
     @foreach ($BorrowDevices as $key => $item)
         <tr>

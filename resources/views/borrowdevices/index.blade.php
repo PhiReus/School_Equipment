@@ -111,7 +111,7 @@
                             <th>Trạng thái</th>
                             <th>Ngày tạo phiếu</th>
                             <th>Ngày mượn</th>
-                            <th>Ngày trả</th>
+                            <th>Ngày dạy</th>
                         </tr>
                     </thead>
                     <tbody>
