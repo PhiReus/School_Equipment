@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Historycontroller;
 use App\Http\Controllers\Api\NestController;
 use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\DeviceTypeController;
+use App\Http\Controllers\Api\DepartmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,7 @@ Route::group([
 Route::apiResource('users', UserController::class);
 Route::apiResource('groups', GroupController::class);
 Route::apiResource('nests', NestController::class);
+Route::apiResource('departments', DepartmentController::class);
 
 Route::post('borrows/checkBorrow',[BorrowController::class,'checkBorrow']);
 Route::apiResource('borrows',BorrowController::class);
@@ -62,5 +64,5 @@ Route::get('device-calendar/{id}',[DeviceController::class,'getDeviceCalendar'])
 
 // History api
 Route::get('histories/{id}',[Historycontroller::class,'getHistories']);
-
+// Departments
 
