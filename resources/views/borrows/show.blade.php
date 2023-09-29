@@ -30,23 +30,6 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <table class="table table-bordered">
-                                <thead class="thead-">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tên thiết bị</th>
-                                        <th>Tên bài dạy</th>
-                                        <th>Số lượng</th>
-                                        <th>Buổi</th>
-                                        <th>Tiết PCCT</th>
-                                        <th>Lớp</th>
-                                        <th>Tiết TKB</th>
-                                        <th>Ngày dạy</th>
-                                        @if ($item->approved == 1)
-                                        <th>Trạng thái</th>
-                                        @endif
-                                        <th colspan="2">Thông tin phiếu mượn</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr>
                                         <td> Mã </td>
