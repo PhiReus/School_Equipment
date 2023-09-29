@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Borrow;
 use App\Models\Device;
+use App\Models\BorrowDevice;
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
 use App\Http\Resources\BorrowResource;
@@ -147,4 +148,66 @@ class BorrowController extends Controller
         ]);
     }
 
+    public function checkBorrow(Request $request)
+    {
+        $data = $request->except(['_token', '_method']);
+        $device_ids = $request->devices['id'];
+        $sessions = $request->devices['session'];
+        $lecture_numbers = $request->devices['lecture_number'];
+        $borrow_date = $request->borrow_date;
+        $errors = [];
+        foreach ($device_ids as $key => $device_id){
+            $session = $sessions[$key];
+            $lecture_number = $lecture_numbers[$key];
+            
+            $device = Device::find($device_id);
+            if($device->quantity <= 0){
+                $borrow_device = BorrowDevice::where('device_id', $device_id)
+                ->where('session',$session)
+                ->where('lecture_number',$lecture_number)
+                ->where('borrow_date',$borrow_date)
+                ->first();
+    
+                if($borrow_device){
+                    $errors[] = [
+                        'title'=> $borrow_device->device->name,
+                        'session' => $borrow_device->session,
+                        'lecture_number' => $lecture_number,
+                        'room'=> $borrow_device->room->name,
+                        'quantity'=> $borrow_device->quantity,
+                        'username'=> $borrow_device->borrow->user->name,
+                        'date'=> $borrow_device->borrow_date,
+                    ];
+                }
+            }
+            
+
+        }
+
+        $error_html = '<table class="table table-bordered">';
+            $error_html .= '<tr>';
+                $error_html .= '<td>Tên thiết bị</td>';
+                $error_html .= '<td>Ngày mượn</td>';
+                $error_html .= '<td>Buổi</td>';
+                $error_html .= '<td>Tiết</td>';
+                $error_html .= '<td>SL</td>';
+                $error_html .= '<td>Người mượn</td>';
+            $error_html .= '</tr>';
+        foreach($errors as $error){
+            $error_html .= '<tr>';
+                $error_html .= '<td>'.$error['title'].'</td>';
+                $error_html .= '<td>'.$error['date'].'</td>';
+                $error_html .= '<td>'.$error['session'].'</td>';
+                $error_html .= '<td>'.$error['lecture_number'].'</td>';
+                $error_html .= '<td>'.$error['quantity'].'</td>';
+                $error_html .= '<td>'.$error['username'].'</td>';
+            $error_html .= '</tr>';
+        }
+        $error_html .= '</table>';
+        return response()->json([
+            "success" => count($errors) ? false : true,
+            "errors" => $errors,
+            "error_html" => $error_html,
+        ]);
+    }
 }

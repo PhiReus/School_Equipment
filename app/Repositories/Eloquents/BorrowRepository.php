@@ -115,24 +115,6 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         return $borrow;
     }
 
-
-    // public function destroy($id)
-    // {
-    //     $borrow = $this->model->findOrFail($id);
-
-    //     // Xóa tất cả các bản ghi con (thiết bị đã mượn)
-    //     foreach ($borrow->the_devices as $device) {
-    //         $device->forceDelete();
-    //     }
-
-    //     // Đưa phiếu mượn vào thùng rác
-    //     $borrow->delete();
-
-    //     return true;
-    // }
-
-
-
     public function trash($request = null)
     {
         $query = $this->model->onlyTrashed()->with(['user:id,name']);
@@ -163,15 +145,6 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
         return $result;
     }
 
-    // public function forceDelete($id)
-    // {
-
-    //     $borrow = $this->model->withTrashed()->find($id);
-    //     // $borrow->onlyTrashed()->the_devices;
-    //     $borrow->forceDelete();
-    //     return $borrow;
-    // }
-
     public function forceDelete($id)
     {
         // Tìm bản ghi trong bảng "borrow" kèm theo cả bản ghi đã bị xóa (soft deleted)
@@ -195,8 +168,6 @@ class BorrowRepository extends EloquentRepository implements BorrowRepositoryInt
             // Ví dụ: throw exception hoặc trả về thông báo lỗi
         }
     }
-
-
     public function update($data, $id)
     {
         $userData = [
