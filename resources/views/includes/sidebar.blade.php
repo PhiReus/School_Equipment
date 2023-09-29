@@ -75,6 +75,16 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
+                        <li class="menu-item has-child">
+                            <a href="#" class="menu-link"><span class="menu-icon oi oi-browser"></span> <span
+                                    class="menu-text">Bộ Môn</span> </a>
+                            <!-- child menu -->
+                            <ul class="menu">
+                                <li class="menu-item">
+                                    <a href="{{ route('departments.index') }}" class="menu-link">Danh Sách</a>
+                                </li>
+                            </ul><!-- /child menu -->
+                        </li><!-- /.menu-item -->
                     <li class="menu-item has-child">
                         <a href="#" class="menu-link"> <span class="menu-icon"><i class="fas fa-balance-scale"></i></span>
                             <span class="menu-text">Loại Thiết Bị</span></a> <!-- child menu -->

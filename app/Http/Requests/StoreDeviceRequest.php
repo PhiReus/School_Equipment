@@ -15,6 +15,7 @@ class StoreDeviceRequest extends FormRequest
                     'name' => 'required|unique:devices',
                     'quantity' => 'required',
                     'device_type_id' => 'required',
+                    'department_id' => 'required',
             ];
         }
         public function messages()
@@ -25,6 +26,7 @@ class StoreDeviceRequest extends FormRequest
                 'quantity.required' => 'Bạn không được để trống !',
                 'name.unique' => 'Tên thiết bị đã tồn tại !',
                 'device_type_id.required' => 'Bạn không được để trống !',
+                'department_id.required' => 'Bạn không được để trống !',
             ];
         }
 }

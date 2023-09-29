@@ -25,6 +25,7 @@ class UpdateDeviceRequest extends FormRequest
                 'name' => 'required',
                 'quantity' => 'required',
                 'device_type_id' => 'required',
+                'department_id' => 'required',
         ];
     }
     public function messages()
@@ -33,6 +34,7 @@ class UpdateDeviceRequest extends FormRequest
             'name.required' => 'Bạn không được để trống !',
             'quantity.required' => 'Bạn không được để trống !',
             'device_type_id.required' => 'Bạn không được để trống !',
+            'department_id.required' => 'Bạn không được để trống !',
         ];
     }
 }

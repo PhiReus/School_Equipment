@@ -60,6 +60,21 @@
                             <p style="color:red">{{ $errors->first('device_type_id') }}</p>
                         @endif
                     </div>
+                    <div class="form-group">
+                        <label for="tf1">Bộ môn<abbr name="Trường bắt buộc">*</abbr></label>
+                        <select name="department_id" class="form-control">
+                            <option value="">--Vui lòng chọn--</option>
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->id }}" {{ old('device_type_id') == $department->id ? 'selected' : '' }}>
+                                    {{ $department->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small id="" class="form-text text-muted"></small>
+                        @if ($errors->any())
+                            <p style="color:red">{{ $errors->first('department_id') }}</p>
+                        @endif
+                    </div>
                     <div class="form-actions">
                         <a class="btn btn-secondary float-right" href="{{ route('devices.index') }}">Hủy</a>
                         <button class="btn btn-primary ml-auto" type="submit">Lưu</button>

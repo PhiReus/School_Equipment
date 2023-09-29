@@ -23,7 +23,7 @@
 
                     <div class="form-group">
                         <label for="tf1">Tên thiết bị</label> <input type="text" name="name"
-                            value="{{ old('name',$item->name) }}" class="form-control" placeholder="Nhập tên kách hàng">
+                            value="{{ old('name',$item->name) }}" class="form-control" placeholder="Nhập tên thiết bị">
                         <small class="form-text text-muted"></small>
                         @if ($errors->any())
                             <p style="color:red">{{ $errors->first('name') }}</p>
@@ -57,6 +57,22 @@
                         <small id="" class="form-text text-muted"></small>
                         @if ($errors->any())
                             <p style="color:red">{{ $errors->first('device_type_id') }}</p>
+                        @endif
+                    </div>
+                    <div class="form-group">
+                        <label for="tf1">Bộ môn<abbr name="Trường bắt buộc"></abbr></label>
+                        <select name="department_id" class="form-control">
+                            <option value="">--Vui lòng chọn--</option>
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->id }}"
+                                    {{ $department->id == $item->department_id ? 'selected' : '' }}>
+                                    {{ $department->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small id="" class="form-text text-muted"></small>
+                        @if ($errors->any())
+                            <p style="color:red">{{ $errors->first('department_id') }}</p>
                         @endif
                     </div>
                     <div class="form-actions">
