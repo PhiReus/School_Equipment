@@ -36,7 +36,7 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
         $filter = (object)$request->filter;
         $limit = !empty($filter->limit) ? $filter->limit : 20;
 
-        $query = $this->model->orderBy('id', 'DESC')->with('devicetype');
+        $query = $this->model->orderBy('id', 'DESC')->with(['devicetype','department']);
         if(isset($filter->searchQuantity) && $filter->searchQuantity !== null){
             if($filter->searchQuantity  == 1){
                 $query->where('quantity','>',0);
@@ -46,6 +46,9 @@ class DeviceRepository extends EloquentRepository implements DeviceRepositoryInt
         }
         if (!empty($filter->device_type_id)) {
             $query->where('device_type_id',$filter->device_type_id);
+        }
+        if (!empty($filter->department_id)) {
+            $query->where('department_id',$filter->department_id);
         }
         
         $items = $query->paginate($limit);
