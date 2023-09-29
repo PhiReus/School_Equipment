@@ -136,7 +136,11 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
-
+                    <li class="menu-item">
+                        <a href="{{ route('options.index') }}" class="menu-link"><span
+                                class="menu-icon fas fa-gear"></span>
+                            <span class="menu-text">Cấu Hình</span></a>
+                    </li>
 
                 </ul><!-- /.menu -->
             </nav><!-- /.stacked-menu -->
