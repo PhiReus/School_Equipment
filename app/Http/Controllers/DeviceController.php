@@ -8,6 +8,7 @@ use App\Http\Requests\StoreDeviceRequest;
 use App\Http\Requests\UpdateDeviceRequest;
 use App\Models\DeviceType;
 use App\Models\BorrowDevice;
+use App\Models\Department;
 
 use App\Services\Interfaces\DeviceTypeServiceInterface;
 use Illuminate\Support\Facades\Log;
@@ -36,13 +37,15 @@ class DeviceController extends Controller
         $items = $this->deviceService->paginate(20,$request);
         // $devicetypes = $this->deviceTypeService->all($request);
         $devicetypes = DeviceType::get();
-        return view('devices.index', compact('items','request','devicetypes'));
+        $departments = Department::get();
+        return view('devices.index', compact('items','request','devicetypes','departments'));
 
     }
     public function create()
     {
         $devicetypes = DeviceType::get();
-        return view('devices.create',compact('devicetypes'));
+        $departments = Department::get();
+        return view('devices.create',compact(['devicetypes','departments']));
     }
 
     /**
@@ -71,9 +74,9 @@ class DeviceController extends Controller
     {
         $item = $this->deviceService->find($id);
         $devicetypes = DeviceType::get();
-
+        $departments = Department::get();
         // dd($item);
-        return view('devices.edit', compact('item','devicetypes'));
+        return view('devices.edit', compact('item','devicetypes','departments'));
     }
 
     /**

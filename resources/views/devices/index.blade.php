@@ -60,6 +60,14 @@
                                             thiết bị</option>
                                     </select>
                                 </div>
+                                <div class="col">
+                                    <select name="searchDepartment" class="form-control">
+                                        <option value="">Tìm theo bộ môn...</option>
+                                        @foreach ($departments as $department)
+                                            <option value="{{ $department->id }}" {{ $request->searchDepartment == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                                 </div>
@@ -85,6 +93,7 @@
                                 <th>Tên thiết bị</th>
                                 <th>Số lượng</th>
                                 <th>Loại thiết bị</th>
+                                <th>Bộ môn</th>
                                 <th>Chức năng</th>
                             </tr>
                         </thead>
@@ -104,7 +113,7 @@
                                     </td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ $item->devicetype->name }}</td>
-
+                                    <td>{{ $item->department ? $item->department->name : null; }}</td>
                                     <td>
                                         <form action="{{ route('devices.destroy', $item->id) }}" style="display:inline"
                                             method="post">

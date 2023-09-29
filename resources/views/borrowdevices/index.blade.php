@@ -1,5 +1,9 @@
 @extends('layouts.master')
 @section('content')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
     <header class="page-title-bar">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -14,10 +18,11 @@
             <div class="btn-toolbar">
                 {{-- borrowdevices.testHTML --}}
                 {{-- export.single.page --}}
-                <a href="{{ route('export.single.page') }}" class="btn btn-primary mr-2">
+                <a href="{{ route('export.single.page') }}?{{ $current_url }}" id="exportExcel" class="btn btn-primary mr-2">
                     <i class="fa-solid fa fa-plus"></i>
                     <span class="ml-1">Xuất Excel</span>
                 </a>
+
             </div>
         </div>
     </header>
@@ -26,7 +31,7 @@
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active " href="{{ route('borrowdevices.index') }}">Tất Cả</a>
+                        <a class="nav-link active" href="{{ route('borrowdevices.index') }}">Tất Cả</a>
                     </li>
                 </ul>
             </div>
@@ -36,39 +41,77 @@
                         <form action="{{ route('borrowdevices.index') }}" method="GET" id="form-search">
                             <div class="row">
                                 <div class="col">
-                                    <input name="searchTeacher" value="{{ request('searchTeacher') }}" class="form-control"
-                                        type="text" placeholder="Tìm theo tên giáo viên..." />
-                                </div>
-                                <div class="col">
-                                    <input name="searchName" value="{{ request('searchName') }}" class="form-control"
-                                        type="text" placeholder="Tìm theo tên thiết bị..." />
-                                </div>
-                                <div class="col">
-                                        <select name="searchSession" class="form-control">
-                                            <option value="">Tìm theo buổi...</option>
-                                            <option value="Sáng" {{ request('searchSession') == 'Sáng' ? 'selected' : '' }}>Sáng
+                                    <label>Tên giáo viên</label>
+                                    <select name="searchTeacher" class="form-control">
+                                        <option value="">Chọn giáo viên</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                {{ request('searchTeacher') == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }}
                                             </option>
-                                            <option value="Chiều" {{ request('searchSession') == 'Chiều' ? 'selected' : '' }}>Chiều
-                                                </option>
-                                        </select>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                
+
                                 <div class="col">
+                                    <label>Tên thiết bị</label>
+                                    <input name="searchName" value="{{ request('searchName') }}" class="form-control"
+                                        type="text" placeholder="Tên thiết bị..." />
+                                </div>
+                                <div class="col">
+                                    <label>Buổi</label>
+                                    <select name="searchSession" class="form-control">
+                                        <option value="">Buổi...</option>
+                                        <option value="Sáng" {{ request('searchSession') == 'Sáng' ? 'selected' : '' }}>
+                                            Sáng
+                                        </option>
+                                        <option value="Chiều" {{ request('searchSession') == 'Chiều' ? 'selected' : '' }}>
+                                            Chiều
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label>Năm học</label>
+                                    <select name="searchSchoolYear" class="form-control">
+                                        <option value="">Năm học</option>
+                                        @php
+                                            $currentYear = 2022;
+                                            $selectedYear = request('searchSchoolYear'); // Lấy giá trị từ request
+
+                                            for ($year = $currentYear; $year <= 2050; $year++) {
+                                                $nextYear = $year + 1;
+                                                $schoolYear = "$year - $nextYear";
+
+                                                // Kiểm tra nếu giá trị của tùy chọn khớp với giá trị từ request
+                                                $selected = $schoolYear == $selectedYear ? 'selected' : '';
+
+                                                echo "<option value=\"$schoolYear\" $selected>$schoolYear</option>";
+                                            }
+                                        @endphp
+                                    </select>
+                                </div>
+
+
+                                <div class="col">
+                                    <label>Ngày mượn</label>
                                     <input name="searchBorrow_date" value="{{ request('searchBorrow_date') }}"
-                                        class="form-control" type="date" placeholder="Tìm theo ngày mượn..." />
+                                        class="form-control" type="date" placeholder="Ngày mượn..." />
                                 </div>
                                 <div class="col">
+                                    <label>Trạng thái</label>
                                     <select name="searchStatus" class="form-control">
-                                        <option value="">Tìm theo trạng thái...</option>
-                                        <option value="1" {{ request('searchStatus') == '1' ? 'selected' : '' }}>Đã trả
+                                        <option value="">Trạng thái...</option>
+                                        <option value="1" {{ request('searchStatus') == '1' ? 'selected' : '' }}>Đã
+                                            trả
                                         </option>
                                         <option value="0" {{ request('searchStatus') == '0' ? 'selected' : '' }}>Chưa
                                             trả</option>
                                     </select>
                                 </div>
                                 <div class="col">
+                                    <label>Tổ</label>
                                     <select name="searchNest" class="form-control">
-                                        <option value="">Tìm theo tổ...</option>
+                                        <option value="">Tổ...</option>
                                         @foreach ($nests as $nest)
                                             <option value="{{ $nest->id }}"
                                                 {{ request('searchNest') == $nest->id ? 'selected' : '' }}>
@@ -77,7 +120,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-auto" style="margin-top: 1.8rem;">
                                     <button class="btn btn-secondary" type="submit">Tìm Kiếm</button>
                                 </div>
                             </div>
@@ -134,7 +177,7 @@
                                 <td>
                                     {{ optional($item->borrow)->borrow_date ? date('d/m/Y', strtotime($item->borrow->borrow_date)) : '(Không xác định)' }}
                                 </td>
-                                <td>{{ $item->return_date ? date('d-m-Y', strtotime($item->return_date)) : '' }}</td>
+                                <td>{{ $item->return_date ? date('d/m/Y', strtotime($item->return_date)) : '' }}</td>
                             </tr>
                         @endforeach
                     </tbody>

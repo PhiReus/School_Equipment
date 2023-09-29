@@ -41,27 +41,32 @@ class ExportUserHistoryBook extends Controller
 
         // dd($borrows);
         $index = 6;
-        foreach ($borrows as $key => $borrow) {
-            // dd($borrow->the_devices);
+        $stt = 1; // Khởi tạo biến STT bên ngoài vòng lặp
+
+        foreach ($borrows as $borrow) {
             foreach ($borrow->the_devices as $device) {
                 //cột ngày mượn
-                $sheet->setCellValue('A' . $index, Carbon::parse($borrow->borrow_date)->format('d/m/Y'));
-                $sheet->setCellValue('B' . $index, Carbon::parse($device->return_date)->format('d/m/Y'));
-                $sheet->setCellValue('C' . $index, $device->id);
-                $sheet->setCellValue('D' . $index, Carbon::parse($device->created_at)->format('d/m/Y'));
-                $sheet->setCellValue('E' . $index, $device->device->name);
-                $sheet->setCellValue('F' . $index, $device->quantity);
-                $sheet->setCellValue('G' . $index, $device->lecture_name);
-                $sheet->setCellValue('H' . $index, $device->lesson_name);
-                $sheet->setCellValue('I' . $index, $device->room->name);
-                $sheet->setCellValue('J' . $index, '');
+                $sheet->setCellValueExplicit('A' . $index, $stt, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->getStyle('A' . $index)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_GENERAL);
+                $sheet->setCellValue('B' . $index, Carbon::parse($borrow->borrow_date)->format('d/m/Y'));
+                $sheet->setCellValue('C' . $index, Carbon::parse($device->return_date)->format('d/m/Y'));
+                $sheet->setCellValue('D' . $index, $device->id);
+                $sheet->setCellValue('E' . $index, Carbon::parse($device->created_at)->format('d/m/Y'));
+                $sheet->setCellValue('F' . $index, $device->device->name);
+                $sheet->setCellValue('G' . $index, $device->quantity);
+                $sheet->setCellValue('H' . $index, $device->lecture_name);
+                $sheet->setCellValue('I' . $index, $device->lesson_name);
+                $sheet->setCellValue('J' . $index, $device->room->name);
                 $sheet->setCellValue('K' . $index, '');
+                $sheet->setCellValue('L' . $index, '');
                 $index++;
+                $stt++; // Tăng giá trị STT sau mỗi lần lặp
             }
         }
 
+
         $spreadsheet->setActiveSheetIndex(0);
-        $newFilePath = public_path('storage/uploads/so-muon-' . time() . '.xlsx');
+        $newFilePath = public_path('storage/uploads/so-muon-v2' . time() . '.xlsx');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save($newFilePath);
