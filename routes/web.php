@@ -133,7 +133,7 @@ Route::prefix('departments')->group(function () {
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DepartmentController::class, 'force_destroy'])->name('departments.force_destroy');
 });
 Route::group(['middleware' => 'auth'], function () {
-Route::resource('departments',\App\Http\Controllers\DepartmentController::class);
+    Route::resource('departments',\App\Http\Controllers\DepartmentController::class);
 });
 
 

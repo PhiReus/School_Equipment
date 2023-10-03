@@ -44,7 +44,7 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <label>tTên</label>
+                                    <label>Tên</label>
                                     <select name="searchName" class="form-control">
                                         <option value="">Chọn giáo viên</option>
                                         @foreach ($users as $user)

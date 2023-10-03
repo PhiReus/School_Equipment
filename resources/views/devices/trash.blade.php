@@ -34,11 +34,11 @@
                             <div class="row">
                                 <div class="col">
                                     <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
-                                        placeholder="Tìm theo tên..." />
+                                        placeholder=" tên..." />
                                 </div>
                                 <div class="col">
                                     <select name="searchDevicetype"  class="form-control">
-                                        <option value="">Tìm theo Loại Thiết Bị...</option>
+                                        <option value=""> Loại Thiết Bị...</option>
                                         @foreach ($devicetypes as $key => $devicetype)
                                         <option value="{{ $devicetype->id }}" {{ $request->searchDevicetype == $devicetype->id ? 'selected' : '' }}> {{ $devicetype->name }} </option>
                                         @endforeach

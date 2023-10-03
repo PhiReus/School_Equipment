@@ -6,22 +6,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
     <!-- Begin SEO tag -->
-    <title> Starter Template | Looper - Bootstrap 4 Admin Theme </title>
-    <meta property="og:title" content="Starter Template">
-    <meta name="author" content="Beni Arisandi">
-    <meta property="og:locale" content="en_US">
-    <meta name="description" content="Responsive admin theme build on top of Bootstrap 4">
-    <meta property="og:description" content="Responsive admin theme build on top of Bootstrap 4">
-    <link rel="canonical" href="https://uselooper.com">
-    <meta property="og:url" content="https://uselooper.com">
-    <meta property="og:site_name" content="Looper - Bootstrap 4 Admin Theme">
+    <title> Quản Lý Thiết Bị </title>
     
     <!-- Select2 - ajax. -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     
 
     <!-- FAVICONS -->
-    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('asset/apple-touch-icon.png') }}">
     <link rel="shortcut icon" href="{{ asset('asset/favicon.ico') }}">
     <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
     <!-- GOOGLE FONT -->
@@ -34,15 +25,6 @@
     <link rel="stylesheet" href="{{ asset('asset/stylesheets/theme.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/stylesheets/theme-dark.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/stylesheets/custom.css') }}">
-    <script>
-        // var skin = localStorage.getItem('skin') || 'default';
-        // var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
-        // // Disable unused skin immediately
-        // disabledSkinStylesheet.setAttribute('rel', '');
-        // disabledSkinStylesheet.setAttribute('disabled', true);
-        // // add loading class to html immediately
-        // document.querySelector('html').classList.add('loading');
-    </script><!-- END THEME STYLES -->
      @yield('header_scripts')
 </head>
 

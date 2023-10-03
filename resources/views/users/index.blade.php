@@ -39,19 +39,19 @@
                             <div class="row">
                                 <div class="col">
                                     <input name="searchname" class="form-control" type="text"
-                                        placeholder="Tìm theo tên..." value="{{ request('searchname') }}" />
+                                        placeholder=" tên..." value="{{ request('searchname') }}" />
                                 </div>
                                 <div class="col">
                                     <input name="searchemail" class="form-control" type="text"
-                                        placeholder="Tìm theo E-mail..." value="{{ request('searchemail') }}" />
+                                        placeholder=" E-mail..." value="{{ request('searchemail') }}" />
                                 </div>
                                 <div class="col">
                                     <input name="searchphone" class="form-control" type="text"
-                                        placeholder="Tìm theo số điện thoại..." value="{{ request('searchphone') }}" />
+                                        placeholder=" số điện thoại..." value="{{ request('searchphone') }}" />
                                 </div>
                                 <div class="col">
                                     <select name="searchGroup" class="form-control">
-                                        <option value="">Tìm theo chức vụ...</option>
+                                        <option value=""> chức vụ...</option>
                                         @foreach ($groups as $key => $group)
                                             <option value="{{ $group->id }}"
                                                 {{ $request->searchGroup == $group->id ? 'selected' : '' }}>
@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="col">
                                     <select name="searchNest" class="form-control">
-                                        <option value="">Tìm theo tổ...</option>
+                                        <option value=""> tổ...</option>
                                         @foreach ($nests as $key => $nest)
                                             <option value="{{ $nest->id }}"
                                                 {{ $request->searchNest == $nest->id ? 'selected' : '' }}>

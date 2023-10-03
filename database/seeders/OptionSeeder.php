@@ -50,6 +50,13 @@ class OptionSeeder extends Seeder
                 'option_group_name' => 'Gửi email',
             ],
             [
+                'option_name' 	=> 'mail_encryption',
+                'option_label' 	=> 'Encryption',
+                'option_value' 	=> 'tls',
+                'option_group' 	=> 'mail',
+                'option_group_name' => 'Gửi email',
+            ],
+            [
                 'option_name' 	=> 'mail_port',
                 'option_label' 	=> 'Port',
                 'option_value' 	=> '587',

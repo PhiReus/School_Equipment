@@ -34,17 +34,17 @@
 
                         <div class="row">
                             <div class="col">
-                                <input name="searchName" class="form-control" type="text" placeholder="Tìm theo tên..."
+                                <input name="searchName" class="form-control" type="text" placeholder=" tên..."
                                     value="{{ $request->input('searchName') }}" />
                             </div>
                             <div class="col">
                                 <input name="searchBorrow_date" class="form-control" type="date"
-                                    placeholder="Tìm theo ngày mượn..."
+                                    placeholder=" ngày mượn..."
                                     value="{{ $request->input('searchBorrow_date') }}" />
                             </div>
                             <div class="col">
                                 <select name="searchStatus" class="form-control">
-                                    <option value="">Tìm theo tình trạng...</option>
+                                    <option value=""> tình trạng...</option>
                                     <option value="1" {{ $request->input('searchStatus') === '1' ? 'selected' : '' }}>Đã
                                         trả
                                     </option>
@@ -56,7 +56,7 @@
 
                             <div class="col">
                                 <select name="searchApproved" class="form-control">
-                                    <option value="">Tìm theo trạng thái...</option>
+                                    <option value=""> trạng thái...</option>
                                     <option value="0" {{ $request->input('searchApproved') === '0' ? 'selected' : '' }}>
                                         Chưa xét duyệt</option>
                                     <option value="1" {{ $request->input('searchApproved') === '1' ? 'selected' : '' }}>

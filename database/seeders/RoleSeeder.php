@@ -31,5 +31,34 @@ class RoleSeeder extends Seeder
                 }
             }
         }
+
+        $add_roles = [
+            [
+                'name' => 'Option_update',
+                'group_name' => 'Option',
+            ],
+            [
+                'name' => 'Borrow_update_status',
+                'group_name' => 'Borrow',
+            ],
+            [
+                'name' => 'Borrow_update_approved',
+                'group_name' => 'Borrow',
+            ]
+        ];
+
+        foreach( $add_roles as $add_role ){
+            $name       = $add_role['name'];
+            $group_name = $add_role['group_name'];
+            $check = DB::table('roles')->where('group_name',$group_name)
+                ->where('name',$name)->limit(1)->first();
+
+            if(!$check){
+                DB::table('roles')->insert([
+                    'name' => $name,
+                    'group_name' => $group_name,
+                ]);
+            }
+        }
     }
 }

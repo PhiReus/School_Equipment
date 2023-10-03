@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Option;
+use Illuminate\Support\Facades\Auth;
+
 
 use Illuminate\Http\Request;
 
@@ -12,6 +14,9 @@ class OptionController extends Controller
      */
     public function index()
     {
+        if (!Auth::user()->hasPermission('Option_update')) {
+            abort(403);
+        }
         $group_labels=[
             'general'=>'Cấu hình chung',
             'mail'=>'Cấu hình mail',

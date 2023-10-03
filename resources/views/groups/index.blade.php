@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="col">
                                     <input name="search" value="{{request('search')}}" class="form-control" type="text"
-                                        placeholder="Tìm theo tên..." />
+                                        placeholder=" tên..." />
                                 </div>
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
