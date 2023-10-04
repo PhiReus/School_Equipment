@@ -13,7 +13,7 @@ class BorrowDevicePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->hasPermission('BorrowDevice_viewAny');
     }
 
     /**
@@ -21,7 +21,7 @@ class BorrowDevicePolicy
      */
     public function view(User $user, BorrowDevice $borrowDevice): bool
     {
-        //
+        return $user->hasPermission('BorrowDevice_view');
     }
 
     /**
@@ -29,7 +29,7 @@ class BorrowDevicePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->hasPermission('BorrowDevice_create');
     }
 
     /**
@@ -37,7 +37,7 @@ class BorrowDevicePolicy
      */
     public function update(User $user, BorrowDevice $borrowDevice): bool
     {
-        //
+        return $user->hasPermission('BorrowDevice_update');
     }
 
     /**
@@ -45,7 +45,7 @@ class BorrowDevicePolicy
      */
     public function delete(User $user, BorrowDevice $borrowDevice): bool
     {
-        //
+        return $user->hasPermission('BorrowDevice_delete');
     }
 
     /**

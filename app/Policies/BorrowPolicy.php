@@ -13,7 +13,7 @@ class BorrowPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->hasPermission('Borrow_viewAny');
     }
 
     /**
@@ -21,7 +21,7 @@ class BorrowPolicy
      */
     public function view(User $user, Borrow $borrow): bool
     {
-        //
+        return $user->hasPermission('Borrow_view');
     }
 
     /**
@@ -29,7 +29,7 @@ class BorrowPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->hasPermission('Borrow_create');
     }
 
     /**
@@ -37,7 +37,7 @@ class BorrowPolicy
      */
     public function update(User $user, Borrow $borrow): bool
     {
-        //
+        return $user->hasPermission('Borrow_update');
     }
 
     /**
@@ -45,7 +45,7 @@ class BorrowPolicy
      */
     public function delete(User $user, Borrow $borrow): bool
     {
-        //
+        return $user->hasPermission('Borrow_delete');
     }
 
     /**

@@ -14,9 +14,9 @@ class OptionController extends Controller
      */
     public function index()
     {
-        if (!Auth::user()->hasPermission('Option_update')) {
-            abort(403);
-        }
+        // if (!Auth::user()->hasPermission('Option_update')) {
+        //     abort(403);
+        // }
         $group_labels=[
             'general'=>'Cấu hình chung',
             'mail'=>'Cấu hình mail',
