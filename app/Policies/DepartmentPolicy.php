@@ -1,27 +1,27 @@
 <?php
 
 namespace App\Policies;
-
-use App\Models\Borrow;
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Auth\Access\Response;
 
-class BorrowPolicy
+class DepartmentPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermission('Borrow_viewAny');
+        return $user->hasPermission('Department_viewAny');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user): bool
+    public function view(User $user, Department $department): bool
     {
-        return $user->hasPermission('Borrow_view');
+        return $user->hasPermission('Department_view');
+        
     }
 
     /**
@@ -29,7 +29,7 @@ class BorrowPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermission('Borrow_create');
+        return $user->hasPermission('Department_create');
     }
 
     /**
@@ -37,7 +37,7 @@ class BorrowPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasPermission('Borrow_update');
+        return $user->hasPermission('Department_update');
     }
 
     /**
@@ -45,7 +45,7 @@ class BorrowPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->hasPermission('Borrow_delete');
+        return $user->hasPermission('Department_delete');
     }
 
     /**
@@ -53,8 +53,8 @@ class BorrowPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->hasPermission('Borrow_restore');
-
+        return $user->hasPermission('Department_restore');
+        
     }
 
     /**
@@ -62,7 +62,6 @@ class BorrowPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->hasPermission('Borrow_forceDelete');
-
+        return $user->hasPermission('Department_forceDelete');
     }
 }

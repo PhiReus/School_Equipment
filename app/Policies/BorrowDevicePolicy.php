@@ -19,7 +19,7 @@ class BorrowDevicePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, BorrowDevice $borrowDevice): bool
+    public function view(User $user): bool
     {
         return $user->hasPermission('BorrowDevice_view');
     }
@@ -35,7 +35,7 @@ class BorrowDevicePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, BorrowDevice $borrowDevice): bool
+    public function update(User $user): bool
     {
         return $user->hasPermission('BorrowDevice_update');
     }
@@ -43,7 +43,7 @@ class BorrowDevicePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, BorrowDevice $borrowDevice): bool
+    public function delete(User $user): bool
     {
         return $user->hasPermission('BorrowDevice_delete');
     }
@@ -51,16 +51,17 @@ class BorrowDevicePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, BorrowDevice $borrowDevice): bool
+    public function restore(User $user): bool
     {
-        //
+        return $user->hasPermission('BorrowDevice_restore');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, BorrowDevice $borrowDevice): bool
+    public function forceDelete(User $user): bool
     {
-        //
+        return $user->hasPermission('BorrowDevice_forceDelete');
+
     }
 }
