@@ -33,6 +33,7 @@ class DeviceTypeController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', DeviceType::class);
         return view('devicetypes.create');
     }
 
@@ -59,6 +60,8 @@ class DeviceTypeController extends Controller
      */
     public function edit(DeviceType $deviceType, $id)
     {
+        $devicetype = DeviceType::find($id);
+        $this->authorize('update', $devicetype);
         $devicetype = $this->deviceTypeService->find($id);
         return view('devicetypes.edit', compact('devicetype'));
     }
@@ -78,6 +81,8 @@ class DeviceTypeController extends Controller
      */
     public function destroy($id)
     {
+        $devicetype = DeviceType::find($id);
+        $this->authorize('delete', $devicetype);
         try {
             if ($this->deviceTypeService->isDevice_deviceType($id)) {
                 return redirect()->back()->with('error', 'Trong loại thiết bị đang có thiết bị, không thể xóa!');
@@ -89,13 +94,15 @@ class DeviceTypeController extends Controller
         }
     }
     public function trash(Request $request){
+        $this->authorize('trash', DeviceType::class);
         $devicetypes = $this->deviceTypeService->trash($request);
         return view('devicetypes.trash',compact('devicetypes'));
 
     }
 
     public function restore($id){
-
+        $devicetypes = DeviceType::find($id);
+        $this->authorize('restore', $devicetypes);
         try {
             $room = $this->deviceTypeService->restore($id);
             return redirect()->route('devicetypes.trash')->with('success', 'Khôi phục thành công!');
@@ -105,6 +112,8 @@ class DeviceTypeController extends Controller
     }
 
     public function force_destroy($id){
+        $devicetype = DeviceType::find($id);
+        $this->authorize('forceDelete', $devicetype);
         try {
             $room = $this->deviceTypeService->forceDelete($id);
             return redirect()->route('devicetypes.trash')->with('success', 'Xóa thành công!');

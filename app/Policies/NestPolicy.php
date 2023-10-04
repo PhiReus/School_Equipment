@@ -66,6 +66,6 @@ class NestPolicy
     }
     public function trash(User $user)
     {
-        return $user->hasPermission('User_trash');
+        return $user->hasPermission('Nest_trash');
     }
 }

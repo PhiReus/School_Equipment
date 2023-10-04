@@ -35,6 +35,7 @@ class RoomController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Room::class);
         return view('rooms/create');
     }
 
@@ -60,6 +61,8 @@ class RoomController extends Controller
      */
     public function edit($id)
     {
+        $room = Room::find($id);
+        $this->authorize('update', $room);
         $room = $this->postSevice->find($id);
         return view('rooms/edit', compact('room'));
     }
@@ -79,6 +82,8 @@ class RoomController extends Controller
      */
     public function destroy($id)
     {
+        $room = Room::find($id);
+        $this->authorize('delete', $room);
         try {
             if ($this->postSevice->isRoomBorrow($id)) {
                 return redirect()->back()->with('error', 'Trong phiếu mượn đang có lớp, không thể xóa!');
@@ -93,13 +98,15 @@ class RoomController extends Controller
 
     public function trash(Request $request)
     {
+        $this->authorize('trash', Room::class);
         $rooms = $this->postSevice->trash($request);
         return view('rooms.trash', compact('rooms', 'request'));
     }
 
     public function restore($id)
     {
-
+        $room = Room::find($id);
+        $this->authorize('restore', $room);
         try {
             $room = $this->postSevice->restore($id);
             return redirect()->route('rooms.trash')->with('success', 'Khôi phục thành công!');
@@ -110,6 +117,8 @@ class RoomController extends Controller
 
     public function force_destroy($id)
     {
+        $room = Room::find($id);
+        $this->authorize('forceDelete', $room);
         try {
             $room = $this->postSevice->forceDelete($id);
             return redirect()->route('rooms.trash')->with('success', 'Xóa thành công!');
