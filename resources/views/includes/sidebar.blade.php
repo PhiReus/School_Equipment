@@ -142,7 +142,7 @@
                                 class="menu-icon fas fa-gear"></span>
                             <span class="menu-text">Cấu Hình</span></a>
                     </li>
-                    @endif --}}
+                    {{-- @endif --}}
                 </ul><!-- /.menu -->
             </nav><!-- /.stacked-menu -->
         </div><!-- /.aside-menu -->

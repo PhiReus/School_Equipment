@@ -23,6 +23,9 @@ use App\Services\Interfaces\UserServiceInterface;
 use App\Http\Requests\StoreBorrowRequest;
 use App\Http\Requests\UpdateBorrowRequest;
 
+use Illuminate\Support\Facades\Gate;
+
+
 class BorrowController extends Controller
 {
     protected $borrowService;
@@ -42,13 +45,11 @@ class BorrowController extends Controller
      */
     public function index(Request $request)
     {
-        if(!Auth::user()->hasPermission('Borrow_viewAny')){
-            abort(403);
-        }
-        $items = $this->borrowService->paginate(20,$request);
-        $users = User::orderBy('name')->get();
-        // $users = $this->userService->all($request);
-        return view('borrows.index', compact('items','request','users'));
+            $this->authorize('viewAny', Borrow::class);
+            $items = $this->borrowService->paginate(20,$request);
+            $users = User::orderBy('name')->get();
+            // $users = $this->userService->all($request);
+            return view('borrows.index', compact('items','request','users'));
     }
 
     /**
@@ -56,6 +57,8 @@ class BorrowController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('create', Borrow::class);
+
         // dd($this->userService->get());
         $users = $this->userService->all($request);
         $rooms = $this->roomService->all($request);
@@ -84,6 +87,8 @@ class BorrowController extends Controller
     // dd($id);
 
         $item = $this->borrowService->find($id);
+        $this->authorize('view', $item);
+
         $user = $item->user;
         $devices = $item->devices;
         $the_devices = $item->the_devices;
@@ -98,6 +103,9 @@ class BorrowController extends Controller
     {
         // dd(1);
         $item = $this->borrowService->find($id);
+        $this->authorize('update', $item);
+
+        
         // $device_ids = [];
         // foreach ($item->the_devices as $device) {
         //     array_push($device_ids, $device->device_id);
@@ -132,6 +140,7 @@ class BorrowController extends Controller
     {
         try {
             $borrow = $this->borrowService->find($id);
+            $this->authorize('delete', $borrow);
 
 
             $this->borrowService->destroy($id);

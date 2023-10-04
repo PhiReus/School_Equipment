@@ -16,6 +16,7 @@ use App\Http\Requests\UpdateBorrow_devicesRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BorrowDeviceExport;
 use App\Models\Nest;
+use Illuminate\Support\Facades\Gate;
 
 class BorrowDevicesController extends Controller
 {
@@ -30,17 +31,19 @@ class BorrowDevicesController extends Controller
      */
     public function index(Request $request)
     {
-        $items = $this->borrowdeviceService->paginate(20,$request);
-        $nests = Nest::all();
-        $users = User::orderBy('name')->get();
-        // Load thông tin người mượn thông qua bảng borrows
-        $items->load('borrow.user');
-        $changeStatus = [
-            0 => 'Chưa trả',
-            1=> 'Đã trả'
-        ];
-        $current_url = http_build_query($request->query());
-        return view('borrowdevices.index', compact('items','changeStatus','nests','users','current_url'));
+            $this->authorize('viewAny', BorrowDevice::class);
+            $items = $this->borrowdeviceService->paginate(20,$request);
+            $nests = Nest::all();
+            $users = User::orderBy('name')->get();
+            // Load thông tin người mượn thông qua bảng borrows
+            $items->load('borrow.user');
+            $changeStatus = [
+                0 => 'Chưa trả',
+                1=> 'Đã trả'
+            ];
+            $current_url = http_build_query($request->query());
+            return view('borrowdevices.index', compact('items','changeStatus','nests','users','current_url'));
+        
     }
 
     public function create()
@@ -78,6 +81,8 @@ class BorrowDevicesController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->except(['_token', '_method']);
+        $this->authorize('update', $data);
+
         // dd($data);
         $this->borrowdeviceService->update($data,$id);
         return redirect()->route('borrowdevices.index')->with('success', 'Cập nhật thành công');

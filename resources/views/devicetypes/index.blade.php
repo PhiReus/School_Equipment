@@ -10,12 +10,14 @@
         </nav>
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Quản Lý Loại Thiết Bị</h1>
-            <div class="btn-toolbar">
-                <a href="{{ route('devicetypes.create') }}" class="btn btn-primary mr-2">
-                    <i class="fa-solid fa fa-plus"></i>
-                    <span class="ml-1">Thêm Mới</span>
-                </a>
-            </div>
+            @if (Auth::user()->hasPermission('Devicetype_create'))
+                <div class="btn-toolbar">
+                    <a href="{{ route('devicetypes.create') }}" class="btn btn-primary mr-2">
+                        <i class="fa-solid fa fa-plus"></i>
+                        <span class="ml-1">Thêm Mới</span>
+                    </a>
+                </div>
+            @endif
         </div>
     </header>
     <div class="page-section">

@@ -13,7 +13,7 @@ class BorrowDevicesPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->hasPermission('BorrowDevice_viewAny');
     }
 
     /**

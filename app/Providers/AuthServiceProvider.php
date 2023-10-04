@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Providers;
+
+use App\Models\BorrowDevice;
+use App\Policies\BorrowDevicePolicy;
+
 use App\Models\Device;
 use App\Models\DeviceType;
 use App\Models\Room;
@@ -11,6 +15,7 @@ use App\Policies\RoomPolicy;
 
 use App\Models\User;
 use App\Policies\UserPolicy;
+
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
+        BorrowDevice::class => BorrowDevicePolicy::class,
+        Borrow::class => BorrowPolicy::class,
         Device::class => DevicePolicy::class,
         DeviceType::class => DeviceTypePolicy::class,
         Room::class => RoomPolicy::class,
@@ -32,6 +39,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
+        $this->registerPolicies();
     }
 }
