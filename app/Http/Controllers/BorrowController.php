@@ -23,7 +23,6 @@ use App\Services\Interfaces\UserServiceInterface;
 use App\Http\Requests\StoreBorrowRequest;
 use App\Http\Requests\UpdateBorrowRequest;
 
-use Illuminate\Support\Facades\Gate;
 
 
 class BorrowController extends Controller
@@ -138,9 +137,10 @@ class BorrowController extends Controller
      */
     public function destroy(string $id)
     {
+        $borrow = $this->borrowService->find($id);
+        $this->authorize('delete', $borrow);
         try {
             $borrow = $this->borrowService->find($id);
-            $this->authorize('delete', $borrow);
 
 
             $this->borrowService->destroy($id);
@@ -164,6 +164,8 @@ class BorrowController extends Controller
 
     public function restore($id)
     {
+        $borrow = $this->borrowService->find($id);
+        $this->authorize('restore', $borrow);
         try {
             // Khôi phục bản ghi mượn
             $this->borrowService->restore($id);
@@ -183,7 +185,8 @@ class BorrowController extends Controller
 
     public function forceDelete($id)
     {
-
+        $borrow = $this->borrowService->find($id);
+        $this->authorize('forceDelete', $borrow);
         try {
             // Delete the record and related devices
 

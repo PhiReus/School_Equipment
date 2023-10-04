@@ -8,9 +8,11 @@ use App\Policies\BorrowDevicePolicy;
 use App\Models\Device;
 use App\Models\DeviceType;
 use App\Models\Room;
+use App\Models\Department;
 use App\Policies\DevicePolicy;
 use App\Policies\DeviceTypePolicy;
 use App\Policies\RoomPolicy;
+use App\Policies\DepartmentPolicy;
 // use Illuminate\Support\Facades\Gate;
 
 use App\Models\User;
@@ -32,6 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         DeviceType::class => DeviceTypePolicy::class,
         Room::class => RoomPolicy::class,
         User::class => UserPolicy::class,
+        Department::class => DepartmentPolicy::class,
     ];
 
 
