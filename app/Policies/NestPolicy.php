@@ -36,7 +36,7 @@ class NestPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Nest $nest)
+    public function update(User $user)
     {
         return $user->hasPermission('Nest_update');
     }
@@ -44,7 +44,7 @@ class NestPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Nest $nest)
+    public function delete(User $user)
     {
         return $user->hasPermission('Nest_delete');
     }
@@ -52,7 +52,7 @@ class NestPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Nest $nest)
+    public function restore(User $user)
     {
         return $user->hasPermission('Nest_restore');
     }
@@ -60,8 +60,12 @@ class NestPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Nest $nest)
+    public function forceDelete(User $user)
     {
         return $user->hasPermission('Nest_forceDelete');
+    }
+    public function trash(User $user)
+    {
+        return $user->hasPermission('User_trash');
     }
 }

@@ -27,9 +27,11 @@
                     <li class="nav-item">
                         <a class="nav-link active " href="{{ route('users.index') }}">Tất Cả</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('users.trash') }}">Thùng Rác</a>
-                    </li>
+                    @if (Auth::user()->hasPermission('User_trash'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.trash') }}">Thùng Rác</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
             <div class="card-body">
@@ -38,12 +40,12 @@
                         <form action="{{ route('users.index') }}" method="GET" id="form-search">
                             <div class="row">
                                 <div class="col">
-                                    <input name="searchname" class="form-control" type="text"
-                                        placeholder=" tên..." value="{{ request('searchname') }}" />
+                                    <input name="searchname" class="form-control" type="text" placeholder=" tên..."
+                                        value="{{ request('searchname') }}" />
                                 </div>
                                 <div class="col">
-                                    <input name="searchemail" class="form-control" type="text"
-                                        placeholder=" E-mail..." value="{{ request('searchemail') }}" />
+                                    <input name="searchemail" class="form-control" type="text" placeholder=" E-mail..."
+                                        value="{{ request('searchemail') }}" />
                                 </div>
                                 <div class="col">
                                     <input name="searchphone" class="form-control" type="text"
