@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\DepartmentServiceInterface;
 use Illuminate\Support\Facades\Auth;
@@ -18,16 +19,14 @@ class DepartmentController extends Controller
 
     public function index(Request $request)
     {   
-        if (!Auth::user()->hasPermission('Room_viewAny')) {
-            abort(403);
-        }
+        $this->authorize('viewAny', Department::class);
         $departments = $this->departmentService->paginate(20, $request);
-        
         return view('departments.index', compact('departments'));
     }
 
     public function create()
     {
+        $this->authorize('create', Department::class);
         return view('departments.create');
     }
 
@@ -42,6 +41,7 @@ class DepartmentController extends Controller
     public function edit($id)
     {
         $department = $this->departmentService->find($id);
+        $this->authorize('update', $department);
         return view('departments.edit', compact('department'));
     }
 
@@ -57,7 +57,9 @@ class DepartmentController extends Controller
 
 
     public function destroy($id)
-    {
+    {   
+        $department = $this->departmentService->find($id);
+        $this->authorize('restore', $department);
         try {
             if ($this->departmentService->isDepartmentDevice($id)) {
                 return redirect()->back()->with('error', 'Trong Thiết Bị đang có Bộ Môn này, không thể xóa!');
@@ -78,7 +80,8 @@ class DepartmentController extends Controller
 
     public function restore($id)
     {
-
+        $department = $this->departmentService->find($id);
+        $this->authorize('restore', $department);
         try {
             $department = $this->departmentService->restore($id);
             return redirect()->route('departments.trash')->with('success', 'Khôi phục thành công!');
@@ -89,6 +92,8 @@ class DepartmentController extends Controller
 
     public function force_destroy($id)
     {
+        $department = $this->departmentService->find($id);
+        $this->authorize('forceDelete', $department);
         try {
             $department = $this->departmentService->forceDelete($id);
             return redirect()->route('departments.trash')->with('success', 'Xóa thành công!');

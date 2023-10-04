@@ -16,7 +16,6 @@ use App\Http\Requests\UpdateBorrow_devicesRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BorrowDeviceExport;
 use App\Models\Nest;
-use Illuminate\Support\Facades\Gate;
 
 class BorrowDevicesController extends Controller
 {
