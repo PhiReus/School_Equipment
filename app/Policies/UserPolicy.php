@@ -53,7 +53,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        //
+        return $user->hasPermission('User_delete');
     }
 
     /**
@@ -61,6 +61,11 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        //
+        return $user->hasPermission('User_forceDelete');
+    }
+
+    public function trash(User $user, User $model)
+    {
+        return $user->hasPermission('User_trash');
     }
 }

@@ -37,9 +37,7 @@ class UserController extends Controller
     }
     public function index(Request $request)
     {
-        if (!Auth::user()->hasPermission('User_viewAny')) {
-            abort(403);
-        }
+        $this->authorize('viewAny', User::class);
         $items = $this->userService->all($request);
         $groups = Group::get();
         $nests = Nest::get();
@@ -54,6 +52,8 @@ class UserController extends Controller
     }
     public function create()
     {
+        $this->authorize('create', User::class);
+
         $groups = Group::get();
         $nests = Nest::get();
         $params =
@@ -71,6 +71,9 @@ class UserController extends Controller
     }
     public function edit($id)
     {
+        $user = User::find($id);
+        $this->authorize('update', $user);
+
         $groups = Group::get();
         $nests = Nest::get();
         $item = $this->userService->find($id);
@@ -90,6 +93,8 @@ class UserController extends Controller
     }
     public function destroy($id)
     {
+        $user = User::find($id);
+        $this->authorize('delete', $user);
         try {
             if ($this->userService->isUserBorrow($id)) {
                 return redirect()->back()->with('error', 'Người dùng đang mượn thiết bị, không thể xóa!');
@@ -104,16 +109,21 @@ class UserController extends Controller
 
     public function show($id)
     {
+        $user = User::find($id);
+        $this->authorize('view', $user);
         $item = $this->userService->find($id);
         return view('users.show', compact('item'));
     }
     public function trash(Request $request)
     {
+        $this->authorize('trash', User::class);
         $users = $this->userService->trash($request);
         return view('users.trash', compact('users', 'request'));
     }
     public function restore($id)
     {
+        $user = User::find($id);
+        $this->authorize('restore', $user);
         try {
             $user = $this->userService->restore($id);
             return redirect()->route('users.trash')->with('success', 'Khôi phục thành công!');
@@ -123,6 +133,8 @@ class UserController extends Controller
     }
     public function force_destroy($id)
     {
+        $user = User::find($id);
+        $this->authorize('forceDelete', $user);
         try {
             $user = $this->userService->forceDelete($id);
             return redirect()->route('users.trash')->with('success', 'Xóa thành công!');

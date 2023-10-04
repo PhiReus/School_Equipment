@@ -8,6 +8,9 @@ use App\Policies\DevicePolicy;
 use App\Policies\DeviceTypePolicy;
 use App\Policies\RoomPolicy;
 // use Illuminate\Support\Facades\Gate;
+
+use App\Models\User;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -23,12 +26,12 @@ class AuthServiceProvider extends ServiceProvider
         Room::class => RoomPolicy::class,
     ];
 
+
     /**
      * Register any authentication / authorization services.
      */
     public function boot(): void
     {
-        $this->registerPolicies();
 
     }
 }

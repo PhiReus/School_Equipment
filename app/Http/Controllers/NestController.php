@@ -23,9 +23,8 @@ class NestController extends Controller
      */
     public function index(Request $request)
     {
-        if(!Auth::user()->hasPermission('Nest_viewAny')){
-            abort(403);
-        }
+        $this->authorize('viewAny', Nest::class);
+
         $items = $this->nestService->all($request);
         return view('nests.index', compact('items'));
     }
@@ -35,6 +34,7 @@ class NestController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Nest::class);
         return view('nests.create');
     }
 
@@ -61,6 +61,8 @@ class NestController extends Controller
      */
     public function edit($id)
     {
+        $nest = Nest::find($id);
+        $this->authorize('update', $nest);
         $nest = $this->nestService->find($id);
         return view('nests.edit', compact('nest'));
     }
@@ -80,6 +82,8 @@ class NestController extends Controller
      */
     public function destroy($id)
     {
+        $nest = Nest::find($id);
+        $this->authorize('delete', $nest);
         try {
             if ($this->nestService->isUserNest($id)) {
                 return redirect()->back()->with('error', 'Trong tổ đang có giáo viên, không thể xóa!');
