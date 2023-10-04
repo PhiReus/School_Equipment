@@ -30,7 +30,7 @@ class OptionController extends Controller
         return view('options.index', compact('all_options','group_labels'));
     }
 
-   
+
     public function update(Request $request)
     {
         $data = $request->except(['_token', '_method']);
