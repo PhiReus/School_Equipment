@@ -23,9 +23,7 @@ class DeviceTypeController extends Controller
     public function index(Request $request)
     {
      
-        if(!Auth::user()->hasPermission('DeviceType_viewAny')){
-            abort(403);
-        }
+        $this->authorize('viewAny', DeviceType::class);
         $items = $this->deviceTypeService->all($request);
         return view('devicetypes.index', compact('items'));
     }
