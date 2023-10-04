@@ -91,5 +91,7 @@
    "Department_restore": "[Bộ môn]  Khôi phục",
    "Department_trash": "[Bộ môn]  Xem Thùng Rác",
    "Department_forceDelete": "[Bộ môn]  Xóa Vĩnh Viễn",
+   "Option": "Cấu hình",
+   "Option_update": "[Cấu hình]  Cập nhật",
    "CheckAll": "Chọn Tất Cả"
 }
