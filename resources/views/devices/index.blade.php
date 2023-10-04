@@ -12,10 +12,12 @@
         <div class="d-md-flex align-items-md-start">
             <h1 class="page-title mr-sm-auto">Quản Lý Thiết Bị</h1>
             <div class="btn-toolbar">
-                <a href="{{ route('devices.create') }}" class="btn btn-primary mr-2">
-                    <i class="fa-solid fa fa-plus"></i>
-                    <span class="ml-1">Thêm Mới</span>
-                </a>
+                @if (Auth::user()->hasPermission('Device_create'))
+                    <a href="{{ route('devices.create') }}" class="btn btn-primary mr-2">
+                        <i class="fa-solid fa fa-plus"></i>
+                        <span class="ml-1">Thêm Mới</span>
+                    </a>
+                @endif
             </div>
         </div>
     </header>
@@ -26,9 +28,11 @@
                     <li class="nav-item">
                         <a class="nav-link active " href="{{ route('devices.index') }}">Tất Cả</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('devices.trash') }}">Thùng Rác</a>
-                    </li>
+                    @if (Auth::user()->hasPermission('Device_trash'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('devices.trash') }}">Thùng Rác</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
             <div class="card-body">
@@ -64,7 +68,9 @@
                                     <select name="searchDepartment" class="form-control">
                                         <option value=""> bộ môn...</option>
                                         @foreach ($departments as $department)
-                                            <option value="{{ $department->id }}" {{ $request->searchDepartment == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                                            <option value="{{ $department->id }}"
+                                                {{ $request->searchDepartment == $department->id ? 'selected' : '' }}>
+                                                {{ $department->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -113,20 +119,24 @@
                                     </td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ $item->devicetype->name }}</td>
-                                    <td>{{ $item->department ? $item->department->name : null; }}</td>
+                                    <td>{{ $item->department ? $item->department->name : null }}</td>
                                     <td>
-                                        <form action="{{ route('devices.destroy', $item->id) }}" style="display:inline"
-                                            method="post">
-                                            <button onclick="return confirm('Xóa {{ $item->name }} ?')"
-                                                class="btn btn-sm btn-icon btn-secondary"><i
-                                                    class="far fa-trash-alt"></i></button>
-                                            @csrf
-                                            @method('delete')
-                                        </form>
-                                        <span class="sr-only">Edit</span></a> <a
-                                            href="{{ route('devices.edit', $item->id) }}"
-                                            class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span
-                                                class="sr-only">Remove</span></a>
+                                        @if (Auth::user()->hasPermission('Device_delete'))
+                                            <form action="{{ route('devices.destroy', $item->id) }}" style="display:inline"
+                                                method="post">
+                                                <button onclick="return confirm('Xóa {{ $item->name }} ?')"
+                                                    class="btn btn-sm btn-icon btn-secondary"><i
+                                                        class="far fa-trash-alt"></i></button>
+                                                @csrf
+                                                @method('delete')
+                                            </form>
+                                        @endif
+                                        @if (Auth::user()->hasPermission('Device_update'))
+                                            <span class="sr-only">Edit</span></a> <a
+                                                href="{{ route('devices.edit', $item->id) }}"
+                                                class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i>
+                                                <span class="sr-only">Remove</span></a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
