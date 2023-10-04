@@ -95,13 +95,15 @@ class NestController extends Controller
         }
     }
     public function trash(Request $request){
+        $this->authorize('trash', Nest::class);
         $nests = $this->nestService->trash($request);
         return view('nests.trash',compact('nests'));
 
     }
 
     public function restore($id){
-
+        $nest = Nest::find($id);
+        $this->authorize('restore', $nest);
         try {
             $room = $this->nestService->restore($id);
             return redirect()->route('nests.trash')->with('success', 'Khôi phục thành công!');
@@ -111,6 +113,8 @@ class NestController extends Controller
     }
 
     public function force_destroy($id){
+        $nest = Nest::find($id);
+        $this->authorize('forceDelete', $nest);
         try {
             $room = $this->nestService->forceDelete($id);
             return redirect()->route('nests.trash')->with('success', 'Xóa thành công!');

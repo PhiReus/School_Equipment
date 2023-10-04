@@ -31,6 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         Device::class => DevicePolicy::class,
         DeviceType::class => DeviceTypePolicy::class,
         Room::class => RoomPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
 

@@ -41,6 +41,7 @@ class DeviceController extends Controller
     }
     public function create()
     {
+        $this->authorize('create', Device::class);
         $devicetypes = DeviceType::get();
         $departments = Department::get();
         return view('devices.create',compact(['devicetypes','departments']));
@@ -70,6 +71,8 @@ class DeviceController extends Controller
      */
     public function edit(string $id)
     {
+        $item = Device::find($id);
+        $this->authorize('update', $item);
         $item = $this->deviceService->find($id);
         $devicetypes = DeviceType::get();
         $departments = Department::get();
@@ -92,6 +95,8 @@ class DeviceController extends Controller
      */
     public function destroy(string $id)
     {
+        $item = Device::find($id);
+        $this->authorize('delete', $item);
         try {
             // Lấy danh sách các device_id từ bảng borrow_devices
             $borrowedDeviceIds = BorrowDevice::pluck('device_id')->toArray();
@@ -112,12 +117,15 @@ class DeviceController extends Controller
 
     public function trash(Request $request)
     {
+        $this->authorize('trash', Device::class);
         $devicetypes = DeviceType::get();
         $items = $this->deviceService->trash(20,$request);
         return view('devices.trash', compact('items','devicetypes','request'));
     }
     public function restore($id)
     {
+        $device = Device::find($id);
+        $this->authorize('restore', $device);
         try {
             $this->deviceService->restore($id);
             return redirect()->route('devices.trash')->with('success', 'Khôi phục thiết bị thành công');
@@ -128,7 +136,8 @@ class DeviceController extends Controller
     }
     public function forceDelete($id)
     {
-
+        $device = Device::find($id);
+        $this->authorize('forceDelete', $device);
         try {
             $this->deviceService->forceDelete($id);
             return redirect()->route('devices.trash')->with('success', 'Xóa vĩnh viễn thành công');
