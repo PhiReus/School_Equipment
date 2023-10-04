@@ -13,7 +13,8 @@ class NestPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->hasPermission('Nest_viewAny');
+
     }
 
     /**
@@ -21,7 +22,7 @@ class NestPolicy
      */
     public function view(User $user, Nest $nest)
     {
-        //
+        return $user->hasPermission('view');
     }
 
     /**
@@ -29,7 +30,7 @@ class NestPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasPermission('Nest_create');
     }
 
     /**
@@ -37,7 +38,7 @@ class NestPolicy
      */
     public function update(User $user, Nest $nest)
     {
-        //
+        return $user->hasPermission('Nest_update');
     }
 
     /**
@@ -45,7 +46,7 @@ class NestPolicy
      */
     public function delete(User $user, Nest $nest)
     {
-        //
+        return $user->hasPermission('Nest_delete');
     }
 
     /**
@@ -53,7 +54,7 @@ class NestPolicy
      */
     public function restore(User $user, Nest $nest)
     {
-        //
+        return $user->hasPermission('Nest_restore');
     }
 
     /**
@@ -61,6 +62,6 @@ class NestPolicy
      */
     public function forceDelete(User $user, Nest $nest)
     {
-        //
+        return $user->hasPermission('Nest_forceDelete');
     }
 }

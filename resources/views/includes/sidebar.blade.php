@@ -136,7 +136,7 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
-                    {{-- @if (Auth::user()->hasPermission('Option_update')) --}}
+                    {{-- @if (Auth::user()->hasPermission('Option_update'))
                     <li class="menu-item">
                         <a href="{{ route('options.index') }}" class="menu-link"><span
                                 class="menu-icon fas fa-gear"></span>

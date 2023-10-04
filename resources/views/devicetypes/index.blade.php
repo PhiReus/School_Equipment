@@ -75,6 +75,7 @@
                                     <td class="align-middle"> {{ $item->name }} </td>
 
                                     <td>
+                                    @if (Auth::user()->hasPermission('Device_types_delete'))
                                         <form action="{{ route('devicetypes.destroy', $item->id) }}" style="display:inline"
                                             method="post">
                                             <button onclick="return confirm('Xóa {{ $item->name }} ?')"
@@ -82,10 +83,16 @@
                                                     class="far fa-trash-alt"></i></button>
                                             @csrf
                                             @method('delete')
+                                          
                                         </form>
-                                        <span class="sr-only">Edit</span></a> <a href="{{ route('devicetypes.edit', $item->id) }}"
+                                        @endif
+                            
+                                        <span class="sr-only">Edit</span>
+                                        @if (Auth::user()->hasPermission('Device_types_update'))
+                                    </a> <a href="{{ route('devicetypes.edit', $item->id) }}"
                                             class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span
                                                 class="sr-only">Remove</span></a>
+                                                @endif
                                     </td>
                                 </tr>
                             @endforeach

@@ -34,9 +34,7 @@ class GroupController extends Controller
      */
     public function index(Request $request)
     {
-        if(!Auth::user()->hasPermission('Group_viewAny')){
-            abort(403);
-        }
+        $this->authorize('viewAny', Group::class);
         $users = User::get();
         $items = $this->groupService->all($request);
         $params =
@@ -54,6 +52,7 @@ class GroupController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Group::class);
         return view('groups.create');
     }
 
@@ -76,6 +75,8 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
+        $group = Group::find($id);
+        $this->authorize('update', $group);
         $item = $this->groupService->find($id);
         return view('groups.edit', compact('item'));
     }
@@ -95,6 +96,8 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
+        $group = Group::find($id);
+        $this->authorize('delete', $group);
         try {
             if ($this->groupService->isUserGroup($id)) {
                 return redirect()->back()->with('error', 'Đang có giáo viên trong nhóm quyền, không thể xóa!');
