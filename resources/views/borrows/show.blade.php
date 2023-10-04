@@ -46,6 +46,7 @@
                                     </tr>
                                     <!-- Trạng thái -->
                                     <tr>
+                                        @if (Auth::user()->hasPermission('Borrow_update_status'))
                                         <td> Tình trạng </td>
                                         <td>
                                             <select name="status" class="form-control">
@@ -56,11 +57,12 @@
                                                     trả
                                                 </option>
                                             </select>
-
                                         </td>
+                                        @endif
                                     </tr>
                                     <!-- Trạng thái duyệt -->
                                     <tr>
+                                        @if (Auth::user()->hasPermission('Borrow_update_approved'))
                                         <td> Trạng thái duyệt </td>
                                         <td>
                                             <select name="approved" class="form-control">
@@ -73,8 +75,8 @@
                                                     chối
                                                 </option>
                                             </select>
-
                                         </td>
+                                        @endif
                                     </tr>
                                 </tbody>
                             </table>
@@ -152,7 +154,7 @@
                                                 <td>{{ $the_device->lecture_number }}</td>
                                                 <td>{{ $the_device->return_date ? date('d-m-Y', strtotime($the_device->return_date)) : '' }}
                                                 </td>
-
+                                                @if (Auth::user()->hasPermission('Borrow_update_approved'))
                                                 @if ($item->approved == 1)
                                                     <td>
                                                         <select name="the_device_status[{{ $the_device->id }}]"
@@ -168,6 +170,7 @@
                                                         </select>
 
                                                     </td>
+                                                @endif
                                                 @endif
                                             </tr>
                                         @endforeach
