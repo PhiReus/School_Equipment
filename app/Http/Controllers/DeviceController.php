@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateDeviceRequest;
 use App\Models\DeviceType;
 use App\Models\BorrowDevice;
 use App\Models\Department;
+use App\Models\Device;
 
 use App\Services\Interfaces\DeviceTypeServiceInterface;
 use Illuminate\Support\Facades\Log;
@@ -30,10 +31,7 @@ class DeviceController extends Controller
      */
     public function index(Request $request)
     {
-        if(!Auth::user()->hasPermission('Device_viewAny')){
-            abort(403);
-        }
-
+        $this->authorize('viewAny', Device::class);
         $items = $this->deviceService->paginate(20,$request);
         // $devicetypes = $this->deviceTypeService->all($request);
         $devicetypes = DeviceType::get();

@@ -25,9 +25,7 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
-        if (!Auth::user()->hasPermission('Room_viewAny')) {
-            abort(403);
-        }
+        $this->authorize('viewAny', Room::class);
         $rooms = $this->postSevice->paginate(20, $request);
         return view('rooms.index', compact('rooms'));
     }
