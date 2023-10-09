@@ -54,6 +54,17 @@ use App\Services\DeviceTypeService;
 use App\Repositories\Interfaces\DeviceTypeRepositoryInterface;
 use App\Repositories\Eloquents\DeviceTypeRepository;
 
+// Nest
+use App\Services\Interfaces\NestServiceInterface;
+use App\Services\NestService;
+use App\Repositories\Interfaces\NestRepositoryInterface;
+use App\Repositories\Eloquents\NestRepository;
+
+  // Department
+use App\Services\Interfaces\DepartmentServiceInterface;
+use App\Services\DepartmentService;
+use App\Repositories\Interfaces\DepartmentRepositoryInterface;
+use App\Repositories\Eloquents\DepartmentRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -85,7 +96,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(RoomServiceInterface::class, RoomService::class);
         $this->app->singleton(RoomRepositoryInterface::class, RoomRepository::class);
 
-        
+
         // Borrows
         $this->app->singleton(BorrowServiceInterface::class, BorrowService::class);
         $this->app->singleton(BorrowRepositoryInterface::class, BorrowRepository::class);
@@ -98,6 +109,15 @@ class AppServiceProvider extends ServiceProvider
          // DeviceType
          $this->app->singleton(DeviceTypeServiceInterface::class, DeviceTypeService::class);
          $this->app->singleton(DeviceTypeRepositoryInterface::class, DeviceTypeRepository::class);
+
+         // Nest
+         $this->app->singleton(NestServiceInterface::class, NestService::class);
+         $this->app->singleton(NestRepositoryInterface::class, NestRepository::class);
+
+         // Department
+         $this->app->bind(DepartmentServiceInterface::class, DepartmentService::class);
+         $this->app->bind(DepartmentRepositoryInterface::class, DepartmentRepository::class);
+
     }
 
     /**

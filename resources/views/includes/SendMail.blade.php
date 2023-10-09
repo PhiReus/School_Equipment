@@ -4,5 +4,5 @@
     <p>Bạn vừa yêu cầu đặt lại mật khẩu.</p>
     <b>Email của bạn: {{ $data['email'] }}<br></b>
     <b>Mật khẩu mới của bạn là: {{ $data['pass'] }}</b>
-    <p><br>Nếu có vấn đề gì thắc mắc <br> bạn hãy liên hệ qua email này :<a href="gmail.com"> hoangvanlong.vn1999@gmail.com</a></p>
+    <p><br>Nếu có vấn đề gì thắc mắc <br> Vui lòng liên hệ quản trị viên!</p>
 </div>

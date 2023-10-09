@@ -9,7 +9,7 @@
             </li>
         </ol>
     </nav>
-    <h1 class="page-title">Thêm Thiết Bị</h1>
+    <h1 class="page-title">Thêm Phiếu Mượn</h1>
 </header>
 <div class="page-section">
     <form method="post" action="{{route('borrows.store')}}" enctype="multipart/form-data">
@@ -18,44 +18,95 @@
             <div class="card-body">
                 <legend>Thông tin cơ bản</legend>
 
-                <div class="form-group">
-                    <label for="exampleSelectGender">Người mượn<abbr name="Trường bắt buộc">*</abbr></label>
-                    <select class="form-control" id="user_id" name="user_id">
-                        <option value="">--Vui lòng chọn--</option>
-                        @foreach ($users as $user)
-                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }}</option>
-                        @endforeach
-                    </select>
-                    @if ($errors->any())
-                    <p style="color:red">{{ $errors->first('user_id') }}</p>
-                    @endif
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="exampleSelectGender">Người mượn<abbr name="Trường bắt buộc">*</abbr></label>
+                            <select class="form-control" id="user_id" name="user_id">
+                                <option value="">--Vui lòng chọn--</option>
+                                @foreach ($users as $user)
+                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->any())
+                            <p style="color:red">{{ $errors->first('user_id') }}</p>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="tf1">Ngày tạo phiếu<abbr name="Trường bắt buộc">*</abbr></label>
+                            <input name="created_at" type="text" class="form-control" id="" placeholder="Nhập ngày"
+                                value="{{ old('created_at', date('Y-m-d H:i:s')) }}">
+                            <small id="" class="form-text text-muted"></small>
+                            @if ($errors->any())
+                            <p style="color:red">{{ $errors->first('created_at') }}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+
+                        <div class="form-group">
+                            <label for="tf1">Ngày mượn<abbr name="Trường bắt buộc">*</abbr></label> <input
+                                name="borrow_date" type="date" class="form-control" id="" placeholder="Nhập ngày mượn"
+                                value="{{ old('borrow_date') }}">
+                            <small id="" class="form-text text-muted"></small>
+                            @if ($errors->any())
+                            <p style="color:red">{{ $errors->first('borrow_date') }}</p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
 
-                <div class="form-group">
-                    <label for="tf1">Ngày mượn<abbr name="Trường bắt buộc">*</abbr></label> <input name="borrow_date"
-                        type="date" class="form-control" id="" placeholder="Nhập ngày mượn"
-                        value="{{ old('borrow_date') }}">
-                    <small id="" class="form-text text-muted"></small>
-                    @if ($errors->any())
-                    <p style="color:red">{{ $errors->first('borrow_date') }}</p>
-                    @endif
-                </div>
 
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="tf1">Tình trạng<abbr name="Trường bắt buộc">*</abbr></label>
+                            <select name="status" class="form-control">
+                                <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Chưa trả
+                                </option>
+                                <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Đã trả</option>
+                            </select>
+                            <small id="" class="form-text text-muted"></small>
+                            @if ($errors->any())
+                            <p style="color:red">{{ $errors->first('status') }}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="tf1">Xét duyệt<abbr name="Trường bắt buộc">*</abbr></label>
+                            <select name="approved" class="form-control">
+                                <option value="0" {{ old('approved') == '0' ? 'selected' : '' }}>Chưa
+                                    xét duyệt</option>
+                                <option value="1" {{ old('approved') == '1' ? 'selected' : '' }}>
+                                    Đã xét
+                                    duyệt</option>
+                                <option value="2" {{ old('approved') == '2' ? 'selected' : '' }}>Từ chối
+                                </option>
+                            </select>
+                            <small id="" class="form-text text-muted"></small>
+                            @if ($errors->any())
+                            <p style="color:red">{{ $errors->first('approved') }}</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="tf1">Ghi chú</label>
-                    <input name="borrow_note" type="text" class="form-control" id="" placeholder="Nhập ghi chú"
-                        value="{{ old('borrow_note') }}">
+                    <textarea name="borrow_note" class="form-control" id="" rows="3"
+                        placeholder="Nhập ghi chú">{{ old('borrow_note') }}</textarea>
                     <small id="" class="form-text text-muted"></small>
                     @if ($errors->has('borrow_note'))
                     <p style="color:red">{{ $errors->first('borrow_note') }}</p>
                     @endif
                 </div>
-
             </div>
         </div>
-
         <div class="card">
             <div class="card-body">
                 <legend>Chi tiết phiếu mượn</legend>
@@ -68,9 +119,13 @@
                         <button id="addToDanhSach" class="btn btn-primary" type="button">Thêm vào danh sách</button>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col">
+                    <div class="col-lg-12">
+                        @if ($errors->any())
+                        <p style="color:red">{{ $errors->first('devices') }}</p>
+                        @endif
+                    </div>
+                    <div class="col-lg-12">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -80,11 +135,10 @@
                                         <th>Tên bài dạy</th>
                                         <th>Số lượng</th>
                                         <th>Buổi</th>
-                                        <th>Tiết PCTT</th>
+                                        <th>Tiết PCCT</th>
                                         <th>Lớp</th>
                                         <th>Tiết TKB</th>
-                                        <th>Ngày trả</th>
-                                        <!-- <th>Ngày trả</th> -->
+                                        <th>Ngày dạy</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -160,7 +214,7 @@ $(document).ready(function() {
                 <select name="devices[lecture_number][]" class="form-control">
                     <option value="1">1</option>
                     <option value="2">2</option>
-                    <option value="3">4</option>
+                    <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
@@ -187,13 +241,10 @@ $(document).ready(function() {
             device_item = device_item.replaceAll('DEVICE_ID', device_id);
             device_item = device_item.replace('DEVICE_NAME', device_name);
 
-            // Appending the device_item to the device_list tbody
             $('#device_list').append(device_item);
 
-            // Pushing device_id to the device_ids array
             device_ids.push(device_id);
 
-            // Resetting the devices select2
             $('#devices').val('').trigger('change');
         } else {
             alert('Vui lòng lựa chọn thiết bị');

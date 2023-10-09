@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('borrows', function (Blueprint $table) {
-            $table->string('borrow_note')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('nest_id')->change();
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
-        Schema::table('borrows', function (Blueprint $table) {
-            $table->dropColumn('borrow_note');
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('nest_id')->change();
         });
     }
 };

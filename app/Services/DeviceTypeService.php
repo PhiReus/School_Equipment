@@ -48,8 +48,12 @@ class DeviceTypeService implements DeviceTypeServiceInterface {
     {
         return $this->deviceTypeRepository->restore($id);
     }
-    public function trash()
+    public function trash($request)
     {
-        return $this->deviceTypeRepository->trash();
+        return $this->deviceTypeRepository->trash($request);
+    }
+    public function isDevice_deviceType($id)
+    {
+        return $this->deviceTypeRepository->isDevice_deviceType($id);
     }
 }

@@ -53,6 +53,15 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
+                    <li class="menu-item has-child">
+                        <a href="#" class="menu-link"><span class="menu-icon"><i class="fa-solid fa-restroom"></i></span>
+                            <span class="menu-text">Tổ</span></a> <!-- child menu -->
+                        <ul class="menu">
+                            <li class="menu-item">
+                                <a href="{{ route('nests.index') }}" class="menu-link">Danh Sách</a>
+                            </li>
+                        </ul><!-- /child menu -->
+                    </li><!-- /.menu-item -->
                     <!-- .menu-item -->
                     @if (Auth::user()->hasPermission('Device_viewAny'))
                         <li class="menu-item has-child">
@@ -66,6 +75,16 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
+                        <li class="menu-item has-child">
+                            <a href="#" class="menu-link"><span class="menu-icon oi oi-browser"></span> <span
+                                    class="menu-text">Bộ Môn</span> </a>
+                            <!-- child menu -->
+                            <ul class="menu">
+                                <li class="menu-item">
+                                    <a href="{{ route('departments.index') }}" class="menu-link">Danh Sách</a>
+                                </li>
+                            </ul><!-- /child menu -->
+                        </li><!-- /.menu-item -->
                     <li class="menu-item has-child">
                         <a href="#" class="menu-link"> <span class="menu-icon"><i class="fas fa-balance-scale"></i></span>
                             <span class="menu-text">Loại Thiết Bị</span></a> <!-- child menu -->
@@ -97,6 +116,15 @@
                             </li>
                         </ul><!-- /child menu -->
                     </li>
+                    <li class="menu-item has-child">
+                        <a href="#" class="menu-link"> <span class="menu-icon"><i class="fas fa-book"></i></span>
+                            <span class="menu-text">Quản Lý Thiết Bị Mượn</span></a> <!-- child menu -->
+                        <ul class="menu">
+                            <li class="menu-item">
+                                <a href="{{ route('borrowdevices.index') }}" class="menu-link">Danh Sách</a>
+                            </li>
+                        </ul><!-- /child menu -->
+                    </li>
                     @if (Auth::user()->hasPermission('Group_viewAny'))
                         <li class="menu-item has-child">
                             <a href="#" class="menu-link"><span class="menu-icon oi oi-person"></span>
@@ -108,8 +136,13 @@
                             </ul><!-- /child menu -->
                         </li><!-- /.menu-item -->
                     @endif
-                    
-                    
+                    @if (Auth::user()->hasPermission('Option_update'))
+                    <li class="menu-item">
+                        <a href="{{ route('options.index') }}" class="menu-link"><span
+                                class="menu-icon fas fa-gear"></span>
+                            <span class="menu-text">Cấu Hình</span></a>
+                    </li>
+                    @endif
                 </ul><!-- /.menu -->
             </nav><!-- /.stacked-menu -->
         </div><!-- /.aside-menu -->

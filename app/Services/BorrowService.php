@@ -35,8 +35,8 @@ class BorrowService implements BorrowServiceInterface
     public function destroy($id){
         return $this->borrowRepository->destroy($id);
     }
-    public function trash(){
-        return $this->borrowRepository->trash();
+    public function trash($request){
+        return $this->borrowRepository->trash($request);
     }
     public function restore($id){
         return $this->borrowRepository->restore($id);
@@ -47,5 +47,8 @@ class BorrowService implements BorrowServiceInterface
 
     public function search($request=[]){
         return $this->borrowRepository->search($request);
+    }
+    public function updateBorrow($id, $data){
+        return $this->borrowRepository->updateBorrow($id, $data);
     }
 }

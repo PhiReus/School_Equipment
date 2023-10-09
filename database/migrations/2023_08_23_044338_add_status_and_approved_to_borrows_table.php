@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('borrow_devices', function (Blueprint $table) {
-            $table->softDeletes();
-
+        Schema::table('borrows', function (Blueprint $table) {
+            $table->string('status')->nullable()->default(null);
+            $table->string('approved')->nullable()->default(null);
         });
     }
 
@@ -22,9 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('borrow_devices', function (Blueprint $table) {
-            Schema::dropIfExists('borrow_devices');
-
+        Schema::table('borrows', function (Blueprint $table) {
+            $table->dropColumn(['status', 'approved']);
         });
     }
 };

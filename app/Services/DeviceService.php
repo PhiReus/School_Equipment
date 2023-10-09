@@ -39,8 +39,8 @@ class DeviceService implements DeviceServiceInterface
     public function destroy($id){
         return $this->deviceRepository->destroy($id);
     }
-    public function trash(){
-        return $this->deviceRepository->trash();
+    public function trash($limit,$request){
+        return $this->deviceRepository->trash($limit,$request);
     }
     public function restore($id){
         return $this->deviceRepository->restore($id);
@@ -52,4 +52,6 @@ class DeviceService implements DeviceServiceInterface
     public function search($request=[]){
         return $this->deviceRepository->search($request);
     }
+
+
 }

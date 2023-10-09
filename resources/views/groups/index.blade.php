@@ -25,12 +25,11 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-
                         <form action="{{ route('groups.index') }}" method="GET" id="form-search">
                             <div class="row">
                                 <div class="col">
-                                    <input name="search" class="form-control" type="text"
-                                        placeholder="Tìm theo tên..." />
+                                    <input name="search" value="{{request('search')}}" class="form-control" type="text"
+                                        placeholder=" tên..." />
                                 </div>
                                 <div class="col-lg-2">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
@@ -99,7 +98,7 @@
             </table><!-- /.table -->
 
             <div style="float:right">
-                {{ $items->links() }}
+                {{ $items->appends(request()->query())->links() }}
             </div>
 
         </div>

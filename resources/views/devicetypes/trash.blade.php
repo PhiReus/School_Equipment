@@ -30,12 +30,11 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col">
-                        <form action="{{ route('devicetypes.index') }}" method="GET" id="form-search">
-                            @csrf
+                        <form action="{{ route('devicetypes.trash') }}" method="GET" id="form-search">
                             <div class="row">
                                 <div class="col">
-                                    <input name="searchName" class="form-control" type="text"
-                                        placeholder="Tìm theo tên..." />
+                                    <input name="searchName" value="{{request('searchName')}}" class="form-control" type="text"
+                                        placeholder=" tên..." />
                                 </div>
                                 <div class="col-lg-1">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
@@ -88,6 +87,9 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div style="float:right">
+                {{ $devicetypes->appends(request()->query())->links() }}
             </div>
         </div>
     </div>

@@ -31,8 +31,7 @@
                     <div class="card-body">
                         <div class="media mb-3">
                             <div class="user-avatar user-avatar-xl fileinput-button">
-                                <div class="fileinput-button-label"> Thay đổi hình ảnh </div><img src="{{ $item->image }}"
-                                    alt=""> <input id="fileupload-avatar" type="file" name="avatar">
+                                    <img src="{{ asset($item->image) }}" alt="">
                             </div>
                             <div class="media-body pl-3">
                                 <div id="progress-avatar" class="progress progress-xs fade">
@@ -78,7 +77,8 @@
                             <div class="form-row">
                                 <label for="input04" class="col-md-3">Ngày sinh :</label>
                                 <div class="col-md-9 mb-3">
-                                    <p>{{ $item->birthday }}</p>
+                                    <p>{{ date('d/m/Y', strtotime($item->birthday)) }}</p>
+
                                 </div>
                             </div>
                             <div class="form-row">
@@ -87,9 +87,14 @@
                                     <p>{{ $item->group->name }}</p>
                                 </div>
                             </div>
+                            <div class="form-row">
+                                <label for="input04" class="col-md-3">Tổ :</label>
+                                <div class="col-md-9 mb-3">
+                                    <p>{{ $item->nest->name }}</p>
+                                </div>
+                            </div>
                             <hr>
                             <div class="form-actions">
-
                                 <a class="btn btn-dark" href="{{ route('users.index') }}">
                                     <i class="fa fa-arrow-left mr-2"></i> Quay lại
                                 </a>

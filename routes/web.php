@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('groups',\App\Http\Controllers\GroupController::class);
 });
 
+Route::get('/export-pdf/{id}', [\App\Http\Controllers\PDFController::class, 'exportPDF'])->name('export_PDF');
+
 
 //User
 Route::prefix('users')->group(function () {
@@ -82,18 +84,24 @@ Route::prefix('borrows')->group(function () {
     Route::get('/restore/{id}', [\App\Http\Controllers\BorrowController::class, 'restore'])->name('borrows.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowController::class, 'forceDelete'])->name('borrows.forceDelete');
     Route::get('/devices', [\App\Http\Controllers\BorrowController::class, 'devices'])->name('borrows.devices');
+    Route::put('/{id}/updateBorrow', [\App\Http\Controllers\BorrowController::class, 'updateBorrow'])->name('borrows.updateBorrow');
 });
 Route::resource('borrows',\App\Http\Controllers\BorrowController::class);
 
-
+//Export PDF
+Route::get('/export-pdf/{id}', [\App\Http\Controllers\PDFController::class, 'exportPDF'])->name('export_PDF');
+Route::get('/exportBook/{id}', [\App\Http\Controllers\ExportBookController::class, 'export'])->name('exportBook');
+Route::get('/exportExcelBook/{id}', [\App\Http\Controllers\ExportUserHistoryBook::class, 'export_history_book'])->name('export_history_book');
 
 // BorrowDevice
 Route::prefix('borrowdevices')->group(function () {
     Route::get('/trash', [\App\Http\Controllers\BorrowDevicesController::class, 'trash'])->name('borrowdevices.trash');
     Route::get('/restore/{id}', [\App\Http\Controllers\BorrowDevicesController::class, 'restore'])->name('borrowdevices.restore');
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\BorrowDevicesController::class, 'forceDelete'])->name('borrowdevices.forceDelete');
+    Route::get('/export-single-page', [\App\Http\Controllers\BorrowDevicesController::class, 'exportSinglePage'])->name('export.single.page');
 });
 Route::resource('borrowdevices',\App\Http\Controllers\BorrowDevicesController::class);
+Route::get('test',[\App\Http\Controllers\BorrowDevicesController::class,'testHTML'])->name('borrowdevices.testHTML');
 
 // DeviceType
 Route::prefix('devicetypes')->group(function () {
@@ -102,5 +110,32 @@ Route::prefix('devicetypes')->group(function () {
     Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DeviceTypeController::class, 'forceDelete'])->name('devicetypes.forceDelete');
 });
 Route::resource('devicetypes',\App\Http\Controllers\DeviceTypeController::class);
+// Thêm route sau vào web.php
+
+// Nest
+Route::prefix('nests')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\NestController::class, 'trash'])->name('nests.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\NestController::class, 'restore'])->name('nests.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\NestController::class, 'forceDelete'])->name('nests.forceDelete');
+});
+
+Route::resource('nests',\App\Http\Controllers\NestController::class);
+
+Route::prefix('options')->group(function () {
+    Route::get('/', [\App\Http\Controllers\OptionController::class, 'index'])->name('options.index');
+    Route::post('/options', [\App\Http\Controllers\OptionController::class, 'update'])->name('options.update'); 
+});
+
+// Departments
+Route::prefix('departments')->group(function () {
+    Route::get('/trash', [\App\Http\Controllers\DepartmentController::class, 'trash'])->name('departments.trash');
+    Route::get('/restore/{id}', [\App\Http\Controllers\DepartmentController::class, 'restore'])->name('departments.restore');
+    Route::delete('/force_destroy/{id}', [\App\Http\Controllers\DepartmentController::class, 'force_destroy'])->name('departments.force_destroy');
+});
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('departments',\App\Http\Controllers\DepartmentController::class);
+});
+
+
 
 

@@ -34,7 +34,7 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model)
+    public function update(User $user)
     {
         return $user->hasPermission('User_update');
 
@@ -43,7 +43,7 @@ class UserPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, User $model)
+    public function delete(User $user)
     {
         return $user->hasPermission('User_delete');
     }
@@ -51,16 +51,21 @@ class UserPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, User $model)
+    public function restore(User $user)
     {
-        //
+        return $user->hasPermission('User_delete');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, User $model)
+    public function forceDelete(User $user)
     {
-        //
+        return $user->hasPermission('User_forceDelete');
+    }
+
+    public function trash(User $user)
+    {
+        return $user->hasPermission('User_trash');
     }
 }

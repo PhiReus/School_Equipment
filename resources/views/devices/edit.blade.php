@@ -23,15 +23,15 @@
 
                     <div class="form-group">
                         <label for="tf1">Tên thiết bị</label> <input type="text" name="name"
-                            value="{{ $item->name }}" class="form-control" placeholder="Nhập tên kách hàng">
+                            value="{{ old('name',$item->name) }}" class="form-control" placeholder="Nhập tên thiết bị">
                         <small class="form-text text-muted"></small>
                         @if ($errors->any())
                             <p style="color:red">{{ $errors->first('name') }}</p>
                         @endif
                     </div>
                     <div class="form-group">
-                        <label for="tf1"> Số lượng </label> <input type="text" name="quantity"
-                            value="{{ $item->quantity }}" class="form-control" placeholder="Nhập địa chỉ">
+                        <label for="tf1"> Số lượng </label> <input type="number" name="quantity"
+                            value="{{ old('quantity',$item->quantity) }}" class="form-control" placeholder="Nhập địa chỉ">
                         <small class="form-text text-muted"></small>
                         @if ($errors->any())
                             <p style="color:red">{{ $errors->first('quantity') }}</p>
@@ -45,25 +45,42 @@
                     </div>
                     <div class="form-group">
                         <label for="tf1">Loại thiết bị<abbr name="Trường bắt buộc"></abbr></label>
-                        <select name="device_type_id" id="" class="form-control">
+                        <select name="device_type_id" class="form-control">
                             <option value="">--Vui lòng chọn--</option>
                             @foreach ($devicetypes as $devicetype)
                                 <option value="{{ $devicetype->id }}"
                                     {{ $devicetype->id == $item->device_type_id ? 'selected' : '' }}>
-                                    {{ $devicetype->name }}</option>
+                                    {{ $devicetype->name }}
+                                </option>
                             @endforeach
                         </select>
                         <small id="" class="form-text text-muted"></small>
                         @if ($errors->any())
-                            <p style="color:red">{{ $errors->first('devicetype_id') }}</p>
+                            <p style="color:red">{{ $errors->first('device_type_id') }}</p>
                         @endif
                     </div>
-                </div>
-                <div class="form-actions">
-                    <a class="btn btn-secondary float-right" href="{{route('devices.index')}}">Hủy</a>
-                    @if(Auth::check())
-                        <button class="btn btn-primary ml-auto" type="submit">Cập nhật</button>
-                    @endif
+                    <div class="form-group">
+                        <label for="tf1">Bộ môn<abbr name="Trường bắt buộc"></abbr></label>
+                        <select name="department_id" class="form-control">
+                            <option value="">--Vui lòng chọn--</option>
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->id }}"
+                                    {{ $department->id == $item->department_id ? 'selected' : '' }}>
+                                    {{ $department->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small id="" class="form-text text-muted"></small>
+                        @if ($errors->any())
+                            <p style="color:red">{{ $errors->first('department_id') }}</p>
+                        @endif
+                    </div>
+                    <div class="form-actions">
+                        <a class="btn btn-secondary float-right" href="{{ route('devices.index') }}">Hủy</a>
+                        @if (Auth::check())
+                            <button class="btn btn-primary ml-auto" type="submit">Cập nhật</button>
+                        @endif
+                    </div>
                 </div>
             </div>
     </div>

@@ -37,11 +37,11 @@
                 <div class="row mb-2">
                     <div class="col">
                         <form action="{{ route('rooms.index') }}" method="GET" id="form-search">
-
                             <div class="row">
                                 <div class="col">
-                                    <input name="search" class="form-control" type="text"
-                                        placeholder="Tìm theo tên..." />
+
+                                    <input name="search" value="{{request('search')}}" class="form-control" type="text"
+                                        placeholder=" tên..." />
                                 </div>
                                 <div class="col-lg-1">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalSaveSearch"
@@ -65,7 +65,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th> # </th>
+                                <th> STT </th>
                                 <th> Tên lớp học </th>
                                 @if (Auth::check())
                                     <th> Chức năng </th>
@@ -103,9 +103,8 @@
                             @endforeach
                         </tbody><!-- /tbody -->
                     </table><!-- /.table -->
-
                     <div style="float:right">
-                        {{ $rooms->links() }}
+                        {{ $rooms->appends(request()->query())->links() }}
                     </div>
                 </div>
                 <!-- /.table-responsive -->

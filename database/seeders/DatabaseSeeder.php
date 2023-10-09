@@ -21,11 +21,15 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            // GroupSeeder::class,
-            // UserSeeder::class,
-            // BorrowSeeder::class,
-            // RoomSeeder::class,
+            GroupSeeder::class,
+            NestSeeder::class,
+            UserSeeder::class,
+            BorrowSeeder::class,
+            RoomSeeder::class,
+            RoleSeeder::class,
+            GroupRoleSeeder::class,
             BorrowDevicesSeeder::class,
+            OptionSeeder::class,
         ]);
     }
 }

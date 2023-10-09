@@ -13,7 +13,8 @@ class DeviceTypePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->hasPermission('DeviceType_viewAny');
+
     }
 
     /**
@@ -21,7 +22,8 @@ class DeviceTypePolicy
      */
     public function view(User $user, DeviceType $deviceType)
     {
-        //
+        return $user->hasPermission('DeviceType_view');
+
     }
 
     /**
@@ -29,7 +31,8 @@ class DeviceTypePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasPermission('DeviceType_create');
+
     }
 
     /**
@@ -37,7 +40,8 @@ class DeviceTypePolicy
      */
     public function update(User $user, DeviceType $deviceType)
     {
-        //
+        return $user->hasPermission('DeviceType_update');
+
     }
 
     /**
@@ -45,7 +49,8 @@ class DeviceTypePolicy
      */
     public function delete(User $user, DeviceType $deviceType)
     {
-        //
+        return $user->hasPermission('DeviceType_delete');
+
     }
 
     /**
@@ -53,7 +58,8 @@ class DeviceTypePolicy
      */
     public function restore(User $user, DeviceType $deviceType)
     {
-        //
+        return $user->hasPermission('DeviceType_restore');
+
     }
 
     /**
@@ -61,6 +67,7 @@ class DeviceTypePolicy
      */
     public function forceDelete(User $user, DeviceType $deviceType)
     {
-        //
+        return $user->hasPermission('DeviceType_forceDelete');
+
     }
 }

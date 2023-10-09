@@ -13,15 +13,15 @@ class BorrowPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->hasPermission('Borrow_viewAny');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Borrow $borrow): bool
+    public function view(User $user): bool
     {
-        //
+        return $user->hasPermission('Borrow_view');
     }
 
     /**
@@ -29,38 +29,40 @@ class BorrowPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->hasPermission('Borrow_create');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Borrow $borrow): bool
+    public function update(User $user): bool
     {
-        //
+        return $user->hasPermission('Borrow_update');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Borrow $borrow): bool
+    public function delete(User $user): bool
     {
-        //
+        return $user->hasPermission('Borrow_delete');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Borrow $borrow): bool
+    public function restore(User $user): bool
     {
-        //
+        return $user->hasPermission('Borrow_restore');
+
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Borrow $borrow): bool
+    public function forceDelete(User $user): bool
     {
-        //
+        return $user->hasPermission('Borrow_forceDelete');
+
     }
 }

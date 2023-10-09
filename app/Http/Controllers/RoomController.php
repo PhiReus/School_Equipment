@@ -16,7 +16,8 @@ class RoomController extends Controller
 {
     protected $postSevice;
 
-    public function __construct(RoomServiceInterface $postSevice){
+    public function __construct(RoomServiceInterface $postSevice)
+    {
         $this->postSevice = $postSevice;
     }
     /**
@@ -24,11 +25,9 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
-        if(!Auth::user()->hasPermission('Room_viewAny')){
-            abort(403);
-        }
-        $rooms = $this->postSevice->paginate(20,$request);
-        return view('rooms.index',compact('rooms'));
+        $this->authorize('viewAny', Room::class);
+        $rooms = $this->postSevice->paginate(20, $request);
+        return view('rooms.index', compact('rooms'));
     }
 
     /**
@@ -36,6 +35,7 @@ class RoomController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Room::class);
         return view('rooms/create');
     }
 
@@ -47,7 +47,6 @@ class RoomController extends Controller
         $data = $request->except(['_token', '_method']);
         $this->postSevice->store($data);
         return redirect()->route('rooms.index')->with('success', 'Thêm mới thành công!');
-
     }
 
     /**
@@ -55,8 +54,6 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        
-
     }
 
     /**
@@ -64,8 +61,10 @@ class RoomController extends Controller
      */
     public function edit($id)
     {
+        $room = Room::find($id);
+        $this->authorize('update', $room);
         $room = $this->postSevice->find($id);
-        return view('rooms/edit',compact('room'));
+        return view('rooms/edit', compact('room'));
     }
 
     /**
@@ -74,9 +73,8 @@ class RoomController extends Controller
     public function update(UpdateRoomRequest $request, string $id)
     {
         $data = $request->except(['_token', '_method']);
-        $room = $this->postSevice->update($data,$id);
+        $room = $this->postSevice->update($data, $id);
         return redirect()->route('rooms.index')->with('success', 'Cập Nhật thành công!');
-
     }
 
     /**
@@ -84,22 +82,31 @@ class RoomController extends Controller
      */
     public function destroy($id)
     {
-        try{
+        $room = Room::find($id);
+        $this->authorize('delete', $room);
+        try {
+            if ($this->postSevice->isRoomBorrow($id)) {
+                return redirect()->back()->with('error', 'Trong phiếu mượn đang có lớp, không thể xóa!');
+            }
             $this->postSevice->destroy($id);
             return redirect()->route('rooms.index')->with('success', 'Xóa thành công!');
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
-        
-    }
-    public function trash(){
-        $rooms = $this->postSevice->trash();
-        return view('rooms.trash',compact('rooms'));
-       
     }
 
-    public function restore($id){
 
+    public function trash(Request $request)
+    {
+        $this->authorize('trash', Room::class);
+        $rooms = $this->postSevice->trash($request);
+        return view('rooms.trash', compact('rooms', 'request'));
+    }
+
+    public function restore($id)
+    {
+        $room = Room::find($id);
+        $this->authorize('restore', $room);
         try {
             $room = $this->postSevice->restore($id);
             return redirect()->route('rooms.trash')->with('success', 'Khôi phục thành công!');
@@ -108,7 +115,10 @@ class RoomController extends Controller
         }
     }
 
-    public function force_destroy($id){
+    public function force_destroy($id)
+    {
+        $room = Room::find($id);
+        $this->authorize('forceDelete', $room);
         try {
             $room = $this->postSevice->forceDelete($id);
             return redirect()->route('rooms.trash')->with('success', 'Xóa thành công!');
@@ -116,5 +126,4 @@ class RoomController extends Controller
             return redirect()->route('rooms.trash')->with('error', 'Xóa không thành công!');
         }
     }
-    
 }

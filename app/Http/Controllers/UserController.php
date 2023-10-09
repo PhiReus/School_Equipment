@@ -6,14 +6,17 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\Group;
+use App\Models\Nest;
 use App\Models\User;
+use App\Models\Borrow
+;
 use App\Services\Interfaces\BorrowServiceInterface;
 use App\Services\Interfaces\DeviceServiceInterface;
 use Illuminate\Support\Facades\DB;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\Interfaces\GroupServiceInterface;
+use App\Services\Interfaces\NestServiceInterface;
 use Illuminate\Support\Facades\Auth;
-use Redirect;
 
 
 class UserController extends Controller
@@ -22,33 +25,41 @@ class UserController extends Controller
     protected $groupService;
     protected $borrowService;
     protected $deviceService;
+    protected $nestService;
 
-    public function __construct(UserServiceInterface $userService, GroupServiceInterface $groupService, BorrowServiceInterface $borrowService, DeviceServiceInterface $deviceService,)
+    public function __construct(UserServiceInterface $userService, NestServiceInterface $nestService, GroupServiceInterface $groupService, BorrowServiceInterface $borrowService, DeviceServiceInterface $deviceService,)
     {
         $this->groupService = $groupService;
         $this->userService = $userService;
         $this->borrowService = $borrowService;
         $this->deviceService = $deviceService;
+        $this->nestService = $nestService;
     }
     public function index(Request $request)
     {
-        if (!Auth::user()->hasPermission('User_viewAny')) {
-            abort(403);
-        }
+        $this->authorize('viewAny', User::class);
         $items = $this->userService->all($request);
+        $groups = Group::get();
+        $nests = Nest::get();
         $param =
             [
-                'items' => $items
+                'items' => $items,
+                'request' => $request,
+                'groups' => $groups,
+                'nests' => $nests,
             ];
         return view('users.index', $param);
     }
     public function create()
     {
+        $this->authorize('create', User::class);
 
         $groups = Group::get();
+        $nests = Nest::get();
         $params =
             [
                 'groups' => $groups,
+                'nests' => $nests,
             ];
         return view('users.create', $params);
     }
@@ -60,11 +71,16 @@ class UserController extends Controller
     }
     public function edit($id)
     {
+        $user = User::find($id);
+        $this->authorize('update', $user);
+
         $groups = Group::get();
+        $nests = Nest::get();
         $item = $this->userService->find($id);
         $params =
             [
                 'groups' => $groups,
+                'nests' => $nests,
                 'item' => $item,
             ];
         return view('users.edit', $params);
@@ -77,25 +93,37 @@ class UserController extends Controller
     }
     public function destroy($id)
     {
+        $user = User::find($id);
+        $this->authorize('delete', $user);
         try {
+            if ($this->userService->isUserBorrow($id)) {
+                return redirect()->back()->with('error', 'Người dùng đang mượn thiết bị, không thể xóa!');
+            }
+
             $this->userService->destroy($id);
-            return redirect()->route('users.index')->with('success', 'Xóa thành công!');
+            return redirect()->route('users.index')->with('success', 'Xóa người dùng thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Xóa thất bại!');
         }
     }
+
     public function show($id)
     {
+        $user = User::find($id);
+        $this->authorize('view', $user);
         $item = $this->userService->find($id);
         return view('users.show', compact('item'));
     }
-    public function trash()
+    public function trash(Request $request)
     {
-        $users = $this->userService->trash();
-        return view('users.trash', compact('users'));
+        $this->authorize('trash', User::class);
+        $users = $this->userService->trash($request);
+        return view('users.trash', compact('users', 'request'));
     }
     public function restore($id)
     {
+        $user = User::find($id);
+        $this->authorize('restore', $user);
         try {
             $user = $this->userService->restore($id);
             return redirect()->route('users.trash')->with('success', 'Khôi phục thành công!');
@@ -105,8 +133,10 @@ class UserController extends Controller
     }
     public function force_destroy($id)
     {
+        $user = User::find($id);
+        $this->authorize('forceDelete', $user);
         try {
-            $user = $this->userService->find($id);
+            $user = $this->userService->forceDelete($id);
             return redirect()->route('users.trash')->with('success', 'Xóa thành công!');
         } catch (err) {
             return redirect()->route('users.trash')->with('success', 'Xóa thất bại!');
@@ -115,31 +145,18 @@ class UserController extends Controller
     public function history(Request $request, $id)
     {
         $user = $this->userService->find($id);
-        $queryBuilder = DB::table('borrows AS b')
-            ->select(
-                'b.id AS borrow_id',
-                'bd.id AS borrow_device_id',
-                'bd.quantity',
-                'bd.return_date',
-                'bd.lecture_name',
-                'bd.lesson_name',
-                'bd.session',
-                'bd.image_first',
-                'bd.image_last',
-                'bd.status',
-                'd.name AS device_name',
-                'r.name AS room_name',
-                'u.name AS user_name',
-                'bd.borrow_date'
-            )
-            ->join('borrow_devices AS bd', 'b.id', '=', 'bd.borrow_id')
-            ->join('devices AS d', 'bd.device_id', '=', 'd.id')
-            ->join('rooms AS r', 'bd.room_id', '=', 'r.id')
-            ->join('users AS u', 'b.user_id', '=', 'u.id')
-            ->where('u.id', $id)
-            ->withTrashed();
-        $history = $queryBuilder->paginate(3);
+        $changeStatus = [
+            0 => 'Chưa trả',
+            1 => 'Đã trả',
+        ];
+        $changeApproved = [
+            0 => 'Chưa xét duyệt',
+            1 => 'Đã xét duyệt',
+            2 => 'Từ chối',
+        ];
+        $queryBuilder = $this->userService->history($id);
+        $history = $queryBuilder->paginate(20);
         // dd($history);
-        return view('users.history', compact('user', 'history'));
+        return view('users.history', compact('user', 'history', 'changeStatus', 'changeApproved'));
     }
 }

@@ -11,7 +11,7 @@ class Device extends Model
     use HasFactory;
     protected $table ='devices';
     use HasFactory,SoftDeletes;
-    protected $fillable = ['id','device_type_id','name', 'quantity','image'];
+    protected $fillable = ['id','device_type_id','name', 'quantity','image','department_id'];
 
     public function borrows()
     {
@@ -20,5 +20,18 @@ class Device extends Model
     public function devicetype()
     {
         return $this->belongsTo(DeviceType::class,'device_type_id','id');
+    }
+    // Fix lỗi hình ảnh
+    public function getImageAttribute($value)
+    {
+        if ($value == '') {
+            return asset('uploads/default_image.png'); // Đường dẫn đến hình ảnh mặc định
+        }
+        return $value;
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
     }
 }

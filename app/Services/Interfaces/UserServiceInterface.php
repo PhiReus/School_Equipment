@@ -2,7 +2,7 @@
 namespace App\Services\Interfaces;
 
 interface UserServiceInterface extends ServiceInterface {
-    public function trash();
+    public function trash($request);
     public function forceDelete($id);
     public function restore($id);
     public function login();
@@ -10,4 +10,6 @@ interface UserServiceInterface extends ServiceInterface {
     public function logout();
     public function getInfoUser();
     public function forgotPassword($request);
+    public function isUserBorrow($userId);
+    public function history($id);
 }
